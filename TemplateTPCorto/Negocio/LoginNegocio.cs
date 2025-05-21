@@ -11,21 +11,25 @@ namespace Negocio
 {
     public class LoginNegocio
     {
-       /* private bool changePass(string credencial)
+        public bool changePassPerfil(Credencial theCredencial)
         {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return changePass(theCredencial, usuarioPersistencia);
+        }
+        private bool changePass(Credencial credencial, UsuarioPersistencia usuarioP)
+        {
+            var response = false;
             var newFormPass = new Formchangepassword(credencial);
-            newFormPass.Show();
+            newFormPass.ShowDialog();
             var newPass = newFormPass.contraseñaNueva;
-            if (newPass == null)
-            {
-                return null;
-            }
-            else
-            {
+            if (newPass != null)
+            { 
                 credencial.Contrasena = newPass;
-                usuarioPersistencia.changeLastLogIn(credencial);
+                usuarioP.changeLastLogIn(credencial);
+                response = true;
             }
-        }*/
+            return response;
+        }
         public Credencial login(String usuario, String password)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
@@ -49,17 +53,11 @@ namespace Negocio
                     bool expired = isExpired(credencial);
                     if (expired)
                     {
-                        var newFormPass = new Formchangepassword(credencial);
-                        newFormPass.Show();
-                        var newPass = newFormPass.contraseñaNueva;
-                        if(newPass == null)
+                        
+                        var resultChange = changePass(credencial, usuarioPersistencia);
+                        if(!resultChange)
                         {
                             return null;
-                        }
-                        else
-                        {
-                            credencial.Contrasena = newPass;
-                            usuarioPersistencia.changeLastLogIn(credencial);
                         }
                         
                     }

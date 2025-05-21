@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Negocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,8 +30,8 @@ namespace TemplateTPCorto
 
         private void btn_changePass_Click(object sender, EventArgs e)
         {
-        /*    Formchangepassword formCambio = new Formchangepassword();
-            formCambio.Show();*/
+            LoginNegocio loginNegocio = new LoginNegocio();
+            var resultChange = loginNegocio.changePassPerfil(laCredencial);
         }
     }
 }
