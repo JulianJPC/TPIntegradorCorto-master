@@ -1,31 +1,44 @@
-﻿using System;
+﻿using Datos;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Persistencia.DataBase
 {
     public class DataBaseUtils
     {
-        string archivoCsv = @"C:\Users\p044755\source\repos\TemplateTPIntegrador\TemplateTPCorto\Persistencia\DataBase\Tablas\";
-        public List<String> BuscarRegistro(String nombreArchivo)
+        private string archivoCsv { get;set ; }
+        public DataBaseUtils()
         {
-            archivoCsv = archivoCsv + nombreArchivo; // Cambia esta ruta al archivo CSV que deseas leer
+            archivoCsv = Directory.GetCurrentDirectory();
+            archivoCsv = Path.GetDirectoryName(archivoCsv);
+            archivoCsv = Path.GetDirectoryName(archivoCsv);
+            archivoCsv = Path.GetDirectoryName(archivoCsv);
+            archivoCsv = Path.Combine( archivoCsv, "Persistencia", "DataBase", "Tablas");
+        }
+        
 
-            String rutaArchivo = Path.GetFullPath(archivoCsv); // Normaliza la ruta
 
-            List<String> listado = new List<String>();
-
+        public List<String> BuscarRegistro(string columnValue, int columnToSearch, string nameTable)
+        {
+            List<String> response = new List<String>();
+            var theFile = Path.Combine(archivoCsv, nameTable); // Cambia esta ruta al archivo CSV que deseas leer
             try
             {
-                using (StreamReader sr = new StreamReader(rutaArchivo))
+                using (StreamReader sr = new StreamReader(theFile))
                 {
                     string linea;
                     while ((linea = sr.ReadLine()) != null)
                     {
-                        listado.Add(linea);
+                        var lineInParts = linea.Split(';').ToList();
+                        if (lineInParts[columnToSearch] == columnValue)
+                        {
+                            response.Add(linea);
+                        }
                     }
                 }
             }
@@ -34,64 +47,123 @@ namespace Persistencia.DataBase
                 Console.WriteLine("No se pudo leer el archivo:");
                 Console.WriteLine(e.Message);
             }
-            return listado;
+            return response;
+        }
+        public void ModificarRegistro(string newRow, String nameTable, int keyColumn, string keyValue)
+        {
+            var theFile = Path.Combine(archivoCsv, nameTable); // Cambia esta ruta al archivo CSV que deseas leer
+            var newText = "";
+            try
+            {
+                using (StreamReader sr = new StreamReader(theFile))
+                {
+                    string linea;
+                    while ((linea = sr.ReadLine()) != null)
+                    {
+                        var newLine = linea;
+                        var lineInParts = linea.Split(';').ToList();
+                        if (lineInParts[keyColumn] == keyValue)
+                        {
+                            newLine = newRow;
+                        }
+                        newText += newLine + "\n";
+                    }
+                }
+                File.Delete(theFile);
+                File.WriteAllText(theFile, newText.ToString());
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine("No se pudo leer el archivo:");
+                Console.WriteLine(e.Message);
+            }
+        }
+        public void BorrarRegistro(string newRow, String nameTable, int keyColumn, string keyValue)
+        {
+            var theFile = Path.Combine(archivoCsv, nameTable); // Cambia esta ruta al archivo CSV que deseas leer
+            var newText = "";
+            try
+            {
+                using (StreamReader sr = new StreamReader(theFile))
+                {
+                    string linea;
+                    while ((linea = sr.ReadLine()) != null)
+                    {
+                        var newLine = linea;
+                        var lineInParts = linea.Split(';').ToList();
+                        if (lineInParts[keyColumn] == keyValue)
+                        {
+                            newLine = "";
+                        }
+                        newText += newLine + "\n";
+                    }
+                }
+                File.Delete(theFile);
+                File.WriteAllText(theFile, newText.ToString());
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine("No se pudo leer el archivo:");
+                Console.WriteLine(e.Message);
+            }
         }
 
         // Método para borrar un registro
-        public void BorrarRegistro(string id, String nombreArchivo)
-        {
-            archivoCsv = archivoCsv + nombreArchivo; // Cambia esta ruta al archivo CSV que deseas leer
+        //public void BorrarRegistro(string id, String nombreArchivo)
+        //{
+        //    archivoCsv = archivoCsv + nombreArchivo; // Cambia esta ruta al archivo CSV que deseas leer
 
-            String rutaArchivo = Path.GetFullPath(archivoCsv); // Normaliza la ruta
+        //    String rutaArchivo = Path.GetFullPath(archivoCsv); // Normaliza la ruta
 
-            try
-            {
-                // Verificar si el archivo existe
-                if (!File.Exists(rutaArchivo))
-                {
-                    Console.WriteLine("El archivo no existe: " + archivoCsv);
-                    return;
-                }
+        //    try
+        //    {
+        //        // Verificar si el archivo existe
+        //        if (!File.Exists(rutaArchivo))
+        //        {
+        //            Console.WriteLine("El archivo no existe: " + archivoCsv);
+        //            return;
+        //        }
 
-                // Leer el archivo y obtener las líneas
-                List<string> listado = BuscarRegistro(nombreArchivo);
+        //        // Leer el archivo y obtener las líneas
+        //        List<string> listado = BuscarRegistro(nombreArchivo);
 
-                // Filtrar las líneas que no coinciden con el ID a borrar (comparar solo la primera columna)
-                var registrosRestantes = listado.Where(linea =>
-                {
-                    var campos = linea.Split(';');
-                    return campos[0] != id; // Verifica solo el ID (primera columna)
-                }).ToList();
+        //        // Filtrar las líneas que no coinciden con el ID a borrar (comparar solo la primera columna)
+        //        var registrosRestantes = listado.Where(linea =>
+        //        {
+        //            var campos = linea.Split(';');
+        //            return campos[0] != id; // Verifica solo el ID (primera columna)
+        //        }).ToList();
 
-                // Sobrescribir el archivo con las líneas restantes
-                File.WriteAllLines(archivoCsv, registrosRestantes);
+        //        // Sobrescribir el archivo con las líneas restantes
+        //        File.WriteAllLines(archivoCsv, registrosRestantes);
 
-                Console.WriteLine($"Registro con ID {id} borrado correctamente.");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error al intentar borrar el registro:");
-                Console.WriteLine($"Mensaje: {e.Message}");
-                Console.WriteLine($"Pila de errores: {e.StackTrace}");
-            }
-        }
+        //        Console.WriteLine($"Registro con ID {id} borrado correctamente.");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine("Error al intentar borrar el registro:");
+        //        Console.WriteLine($"Mensaje: {e.Message}");
+        //        Console.WriteLine($"Pila de errores: {e.StackTrace}");
+        //    }
+        //}
 
         // Método para agregar un registro
-        public void AgregarRegistro(string nombreArchivo, string nuevoRegistro)
+        public void AgregarRegistro(string nameTable, string nuevoRegistro)
         {
-            string archivoCsv = Path.Combine(Directory.GetCurrentDirectory(), "Persistencia", "Datos", nombreArchivo);
-
+            var theFile = Path.Combine(archivoCsv, nameTable);
             try
             {
                 // Verificar si el archivo existe
-                if (!File.Exists(archivoCsv))
+                if (!File.Exists(theFile))
                 {
-                    Console.WriteLine("El archivo no existe: " + archivoCsv);
+                    Console.WriteLine("El archivo no existe: " + theFile);
                     return;
                 }
 
                 // Abrir el archivo y agregar el nuevo registro
-                using (StreamWriter sw = new StreamWriter(archivoCsv, append: true))
+                using (StreamWriter sw = new StreamWriter(theFile, append: true))
                 {
                     sw.WriteLine(nuevoRegistro); // Agregar la nueva línea
                 }

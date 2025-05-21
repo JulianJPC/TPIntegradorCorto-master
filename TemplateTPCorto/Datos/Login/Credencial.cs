@@ -30,9 +30,11 @@ namespace Datos
             this._contrasena = datos[2];
             this._fechaAlta = DateTime.ParseExact(datos[3], "d/M/yyyy", CultureInfo.InvariantCulture);
             this._fechaUltimoLogin = DateTime.ParseExact(datos[4], "d/M/yyyy", CultureInfo.InvariantCulture);
-
-
         }
-
+        public string getRowString()
+        {
+            var response = String.Join(";", _legajo, _nombreUsuario, _contrasena, _fechaAlta.ToString("d/M/yyyy"), _fechaUltimoLogin.ToString("d/M/yyyy"));
+            return response;
+        }
     }
 }

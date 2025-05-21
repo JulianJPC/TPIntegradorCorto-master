@@ -13,10 +13,49 @@ namespace Persistencia
         public Credencial login(String username)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            List<String> registros = dataBaseUtils.BuscarRegistro(username);
-
-            Credencial credencial = new Credencial(registros[0]);
+            List<String> registros = dataBaseUtils.BuscarRegistro(username, 1, "credenciales.csv");
+            Credencial credencial;
+            if(registros.Count > 0)
+            {
+                credencial = new Credencial(registros[0]);
+            }
+            else
+            {
+                credencial = null;
+            }
             return credencial;
+        }
+        public void changeLastLogIn(Credencial theCredencial)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            dataBaseUtils.ModificarRegistro(theCredencial.getRowString(), "credenciales.csv",  0, theCredencial.Legajo);
+        }
+        public void addLogInAttemp(Credencial theCredencial)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            dataBaseUtils.AgregarRegistro("login_intentos.csv", String.Join(";", theCredencial.Legajo, DateTime.Now.ToString("d/M/yyyy")));
+        }
+        public int getLogInAttemps(Credencial theCredencial)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            var resultAttemps = dataBaseUtils.BuscarRegistro(theCredencial.Legajo, 0, "login_intentos.csv");
+            return resultAttemps.Count;
+        }
+        public void addBlockedUser(Credencial theCredencial)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            dataBaseUtils.AgregarRegistro("usuario_bloqueado.csv", theCredencial.Legajo);
+        }
+        public bool isBlockedTheUser(Credencial theCredencial)
+        {
+            var response = false;
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            var resultQuery = dataBaseUtils.BuscarRegistro(theCredencial.Legajo, 0, "usuario_bloqueado.csv");
+            if(resultQuery.Count > 0)
+            {
+                response = true;
+            }
+            return response;
         }
     }
 }

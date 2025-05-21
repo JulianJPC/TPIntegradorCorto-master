@@ -14,9 +14,12 @@ namespace TemplateTPCorto
 {
     public partial class FormLogin : Form
     {
+        private int logInAttemps { get; set; }
         public FormLogin()
         {
             InitializeComponent();
+            MessageBox.Show("Ingresar usuario y contraseña");
+            logInAttemps = 0;
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
@@ -26,7 +29,14 @@ namespace TemplateTPCorto
 
             LoginNegocio loginNegocio = new LoginNegocio();
             Credencial credencial = loginNegocio.login(usuario, password);
-
+            if(credencial != null)
+            {
+                MessageBox.Show("Exito logIn!!");
+            }
+            else if(credencial == null)
+            {
+                MessageBox.Show("Está mal usuario o contraseña");
+            }
         }
     }
 }
