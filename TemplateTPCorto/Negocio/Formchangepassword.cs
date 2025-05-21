@@ -54,5 +54,10 @@ namespace TemplateTPCorto
                 this.Close();
             }
         }
+
+        internal void Show()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

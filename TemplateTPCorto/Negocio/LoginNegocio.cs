@@ -35,7 +35,10 @@ namespace Negocio
                     if (expired)
                     {
                         var newFormPass = new Formchangepassword(credencial);
-
+                        newFormPass.Show();
+                        var newPass = newFormPass.contraseñaNueva;
+                        credencial.Contrasena = newPass;
+                        usuarioPersistencia.changeLastLogIn(credencial);
                     }
                     credencial.FechaUltimoLogin = DateTime.Now;
                     usuarioPersistencia.changeLastLogIn(credencial);
