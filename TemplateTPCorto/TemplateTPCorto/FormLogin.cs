@@ -38,5 +38,10 @@ namespace TemplateTPCorto
                 MessageBox.Show("Está mal usuario o contraseña");
             }
         }
+
+        private void FormLogin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

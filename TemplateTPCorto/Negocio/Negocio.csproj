@@ -41,6 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formchangepassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formchangepassword.Designer.cs">
+      <DependentUpon>Formchangepassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,6 +59,11 @@
       <Project>{34cc7902-a146-4647-92c1-e39ebb515403}</Project>
       <Name>Persistencia</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Formchangepassword.resx">
+      <DependentUpon>Formchangepassword.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

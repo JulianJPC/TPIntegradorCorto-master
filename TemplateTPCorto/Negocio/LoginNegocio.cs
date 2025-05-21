@@ -30,6 +30,12 @@ namespace Negocio
                 }
                 else
                 {
+                    bool expired = isExpired(credencial);
+                    if (expired)
+                    {
+                        var newFormPass = new Negocio.FormChangePassword(credencial);
+
+                    }
                     credencial.FechaUltimoLogin = DateTime.Now;
                     usuarioPersistencia.changeLastLogIn(credencial);
                     return credencial;
@@ -49,6 +55,20 @@ namespace Negocio
                 return null;
             }
             
+        }
+        private bool isExpired(Credencial credencial)
+        {
+            var now = DateTime.Now;
+            var fechaUltimoLogin = credencial.FechaUltimoLogin;
+            
+            var diasDesdeUltimoLogin = (now - fechaUltimoLogin).TotalDays;
+            
+
+            if (diasDesdeUltimoLogin >= 30 )
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
