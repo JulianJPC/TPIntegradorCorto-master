@@ -51,7 +51,7 @@ namespace Negocio
                 else
                 {
                     bool expired = isExpired(credencial);
-                    if (expired)
+                    if (expired || credencial.isFirstLogIn)
                     {
                         
                         var resultChange = changePass(credencial, usuarioPersistencia);
