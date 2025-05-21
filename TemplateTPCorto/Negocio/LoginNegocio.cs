@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TemplateTPCorto;
 
 namespace Negocio
 {
@@ -33,7 +34,7 @@ namespace Negocio
                     bool expired = isExpired(credencial);
                     if (expired)
                     {
-                        //var newFormPass = new FormChangePassword(credencial);
+                        var newFormPass = new Formchangepassword(credencial);
 
                     }
                     credencial.FechaUltimoLogin = DateTime.Now;
