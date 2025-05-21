@@ -33,7 +33,7 @@ namespace Negocio
                     bool expired = isExpired(credencial);
                     if (expired)
                     {
-                        var newFormPass = new Negocio.FormChangePassword(credencial);
+                        //var newFormPass = new FormChangePassword(credencial);
 
                     }
                     credencial.FechaUltimoLogin = DateTime.Now;
