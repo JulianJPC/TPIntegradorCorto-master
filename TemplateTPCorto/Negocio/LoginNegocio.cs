@@ -37,8 +37,16 @@ namespace Negocio
                         var newFormPass = new Formchangepassword(credencial);
                         newFormPass.Show();
                         var newPass = newFormPass.contraseñaNueva;
-                        credencial.Contrasena = newPass;
-                        usuarioPersistencia.changeLastLogIn(credencial);
+                        if(newPass == null)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            credencial.Contrasena = newPass;
+                            usuarioPersistencia.changeLastLogIn(credencial);
+                        }
+                        
                     }
                     credencial.FechaUltimoLogin = DateTime.Now;
                     usuarioPersistencia.changeLastLogIn(credencial);

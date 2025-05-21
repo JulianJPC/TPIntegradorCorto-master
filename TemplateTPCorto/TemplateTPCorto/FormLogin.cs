@@ -32,6 +32,10 @@ namespace TemplateTPCorto
             if(credencial != null)
             {
                 MessageBox.Show("Exito logIn!!");
+                FormPerfil thePerfil = new FormPerfil(credencial);
+                thePerfil.FormClosed += (s, args) => Application.Exit();
+                thePerfil.Show();
+                this.Hide();
             }
             else if(credencial == null)
             {

@@ -23,8 +23,6 @@ namespace TemplateTPCorto
         {
             InitializeComponent();
             this.contraseñaAnterior = credencial.Contrasena;
-            
-
         }
 
 
@@ -58,6 +56,12 @@ namespace TemplateTPCorto
         internal void Show()
         {
             throw new NotImplementedException();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.contraseñaNueva = null;
+            this.Close();
         }
     }
 }
