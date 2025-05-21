@@ -11,6 +11,21 @@ namespace Negocio
 {
     public class LoginNegocio
     {
+       /* private bool changePass(string credencial)
+        {
+            var newFormPass = new Formchangepassword(credencial);
+            newFormPass.Show();
+            var newPass = newFormPass.contraseñaNueva;
+            if (newPass == null)
+            {
+                return null;
+            }
+            else
+            {
+                credencial.Contrasena = newPass;
+                usuarioPersistencia.changeLastLogIn(credencial);
+            }
+        }*/
         public Credencial login(String usuario, String password)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();

@@ -21,5 +21,16 @@ namespace TemplateTPCorto
             laCredencial = unaCredencial;
             lblNombre.Text = laCredencial.NombreUsuario;
         }
+
+        private void FormPerfil_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_changePass_Click(object sender, EventArgs e)
+        {
+        /*    Formchangepassword formCambio = new Formchangepassword();
+            formCambio.Show();*/
+        }
     }
 }

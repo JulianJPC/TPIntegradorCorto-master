@@ -36,10 +36,10 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(72, 86);
+            this.btnAceptar.Location = new System.Drawing.Point(81, 108);
             this.btnAceptar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(67, 23);
+            this.btnAceptar.Size = new System.Drawing.Size(75, 29);
             this.btnAceptar.TabIndex = 0;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
@@ -48,26 +48,26 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(101, 35);
+            this.lblPassword.Location = new System.Drawing.Point(114, 44);
             this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(112, 16);
+            this.lblPassword.Size = new System.Drawing.Size(138, 20);
             this.lblPassword.TabIndex = 2;
-            this.lblPassword.Text = "Nueva contrasnia";
+            this.lblPassword.Text = "Nueva contraseña";
             // 
             // txtpassword
             // 
-            this.txtpassword.Location = new System.Drawing.Point(113, 54);
+            this.txtpassword.Location = new System.Drawing.Point(127, 68);
             this.txtpassword.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtpassword.Name = "txtpassword";
-            this.txtpassword.Size = new System.Drawing.Size(89, 22);
+            this.txtpassword.Size = new System.Drawing.Size(100, 26);
             this.txtpassword.TabIndex = 5;
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(170, 86);
+            this.btnCancelar.Location = new System.Drawing.Point(191, 108);
             this.btnCancelar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(74, 23);
+            this.btnCancelar.Size = new System.Drawing.Size(83, 29);
             this.btnCancelar.TabIndex = 6;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
@@ -75,9 +75,9 @@
             // 
             // Formchangepassword
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(331, 167);
+            this.ClientSize = new System.Drawing.Size(372, 209);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.txtpassword);
             this.Controls.Add(this.lblPassword);
