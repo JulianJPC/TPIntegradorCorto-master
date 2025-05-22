@@ -10,7 +10,18 @@ namespace Persistencia
 {
     public class UsuarioPersistencia
     {
-        
+        public int getPerfilFromLegajo(string legajo)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            var response = 0;
+            List<String> registros = dataBaseUtils.BuscarRegistro(legajo, 0, "usuario_perfil.csv");
+            if (registros.Count > 0)
+            {
+                var idPerfilString = registros[0].Split(';')[1];
+                response = Int32.Parse(idPerfilString);
+            }
+            return response;
+        }
         public Credencial login(String username)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();

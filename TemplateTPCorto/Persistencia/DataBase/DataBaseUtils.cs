@@ -1,6 +1,7 @@
 ﻿using Datos;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,9 +30,12 @@ namespace Persistencia.DataBase
             var theFile = Path.Combine(archivoCsv, nameTable); // Cambia esta ruta al archivo CSV que deseas leer
             try
             {
+                
                 using (StreamReader sr = new StreamReader(theFile))
                 {
                     string linea;
+                    var firstLine = sr.ReadLine();//salta primera linea
+
                     while ((linea = sr.ReadLine()) != null)
                     {
                         var lineInParts = linea.Split(';').ToList();
@@ -55,9 +59,12 @@ namespace Persistencia.DataBase
             var newText = "";
             try
             {
+                
                 using (StreamReader sr = new StreamReader(theFile))
                 {
                     string linea;
+                    var firstLine = sr.ReadLine();//salta primera linea
+                    newText += firstLine + "\n";
                     while ((linea = sr.ReadLine()) != null)
                     {
                         var newLine = linea;
@@ -88,6 +95,8 @@ namespace Persistencia.DataBase
                 using (StreamReader sr = new StreamReader(theFile))
                 {
                     string linea;
+                    var firstLine = sr.ReadLine();//salta primera linea
+                    newText += firstLine;
                     while ((linea = sr.ReadLine()) != null)
                     {
                         var newLine = linea;

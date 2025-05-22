@@ -11,6 +11,13 @@ namespace Negocio
 {
     public class LoginNegocio
     {
+        public int buscarIdPerfil(string legajo)
+        {
+            var response = 0;
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            response = usuarioPersistencia.getPerfilFromLegajo(legajo);
+            return response;
+        }
         public bool changePassPerfil(Credencial theCredencial)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();

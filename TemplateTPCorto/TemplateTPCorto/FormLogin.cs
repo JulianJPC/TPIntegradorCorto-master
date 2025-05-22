@@ -32,10 +32,24 @@ namespace TemplateTPCorto
             if(credencial != null)
             {
                 MessageBox.Show("Exito logIn!!");
-                FormPerfil thePerfil = new FormPerfil(credencial);
-                thePerfil.FormClosed += (s, args) => Application.Exit();
-                thePerfil.Show();
-                this.Hide();
+                var idPerfil = loginNegocio.buscarIdPerfil(credencial.Legajo);
+                if(idPerfil == 2)
+                {
+                    FormPerfilSupervisor newPerfilS = new FormPerfilSupervisor(credencial);
+                    newPerfilS.FormClosed += (s, args) => Application.Exit();
+                    newPerfilS.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    FormPerfil thePerfil = new FormPerfil(credencial);
+                    thePerfil.FormClosed += (s, args) => Application.Exit();
+                    thePerfil.Show();
+                    this.Hide();
+                }
+
+
+                
             }
             else if(credencial == null)
             {

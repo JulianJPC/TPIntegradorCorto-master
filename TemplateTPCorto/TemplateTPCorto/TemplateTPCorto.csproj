@@ -58,6 +58,12 @@
     <Compile Include="FormPerfil.Designer.cs">
       <DependentUpon>FormPerfil.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPerfilSupervisor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPerfilSupervisor.Designer.cs">
+      <DependentUpon>FormPerfilSupervisor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormLogin.resx">
@@ -65,6 +71,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormPerfil.resx">
       <DependentUpon>FormPerfil.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPerfilSupervisor.resx">
+      <DependentUpon>FormPerfilSupervisor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
