@@ -33,17 +33,60 @@ namespace Datos
             this._fechaAlta = DateTime.ParseExact(datos[3], "d/M/yyyy", CultureInfo.InvariantCulture);
             if (datos[4].Length == 0)
             {
-                isFirstLogIn = true;
+                _isFirstLogIn = true;
             }
             else
             {
                 this._fechaUltimoLogin = DateTime.ParseExact(datos[4], "d/M/yyyy", CultureInfo.InvariantCulture);
-                isFirstLogIn = false;
+                _isFirstLogIn = false;
             }
+        }
+        public bool passValueTest()
+        {
+            var response = true;
+            var legajoLimit = 0;
+            if(!Int32.TryParse(_legajo, out legajoLimit))
+            {
+                if(legajoLimit <= 0)
+                {
+                    response = false;
+                }
+            }
+            if(_nombreUsuario.Replace(" ", "") == "")
+            {
+                response = false;
+            }
+            if (_contrasena.Replace(" ", "") == "")
+            {
+                response = false;
+            }
+            if (_fechaAlta <= new DateTime(1900, 1, 1) || _fechaAlta > DateTime.Now)
+            {
+                response = false;
+            }
+            if (_fechaUltimoLogin <= new DateTime(1900, 1, 1) || _fechaUltimoLogin > DateTime.Now)
+            {
+                response = false;
+            }
+            return response;
+        }
+        public Credencial(string legajo, string usuario, string pass, DateTime fechaAlta, DateTime fechaLogIn)
+        {
+            this._legajo = legajo;
+            this._nombreUsuario = usuario;
+            this._contrasena = pass;
+            this._fechaAlta = fechaAlta;
+            this._fechaUltimoLogin = fechaLogIn;
+            this._isFirstLogIn = false;
         }
         public string getRowString()
         {
             var response = String.Join(";", _legajo, _nombreUsuario, _contrasena, _fechaAlta.ToString("d/M/yyyy"), _fechaUltimoLogin.ToString("d/M/yyyy"));
+            return response;
+        }
+        public string getUnblockedRowString()
+        {
+            var response = String.Join(";", _legajo, _nombreUsuario, _contrasena, _fechaAlta.ToString("d/M/yyyy"), ";");
             return response;
         }
     }

@@ -53,6 +53,31 @@ namespace Persistencia.DataBase
             }
             return response;
         }
+        public List<String> getAllRegistro(string nameTable)
+        {
+            List<String> response = new List<String>();
+            var theFile = Path.Combine(archivoCsv, nameTable); // Cambia esta ruta al archivo CSV que deseas leer
+            try
+            {
+                using (StreamReader sr = new StreamReader(theFile))
+                {
+                    string linea;
+                    var firstLine = sr.ReadLine();//salta primera linea
+
+                    while ((linea = sr.ReadLine()) != null)
+                    {
+                        var lineInParts = linea.Split(';').ToList();
+                        response.Add(linea);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("No se pudo leer el archivo:");
+                Console.WriteLine(e.Message);
+            }
+            return response;
+        }
         public void ModificarRegistro(string newRow, String nameTable, int keyColumn, string keyValue)
         {
             var theFile = Path.Combine(archivoCsv, nameTable); // Cambia esta ruta al archivo CSV que deseas leer
@@ -86,7 +111,7 @@ namespace Persistencia.DataBase
                 Console.WriteLine(e.Message);
             }
         }
-        public void BorrarRegistro(string newRow, String nameTable, int keyColumn, string keyValue)
+        public void BorrarRegistro(String nameTable, int keyColumn, string keyValue)
         {
             var theFile = Path.Combine(archivoCsv, nameTable); // Cambia esta ruta al archivo CSV que deseas leer
             var newText = "";

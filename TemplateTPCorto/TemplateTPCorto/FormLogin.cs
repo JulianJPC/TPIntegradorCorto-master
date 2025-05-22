@@ -14,12 +14,9 @@ namespace TemplateTPCorto
 {
     public partial class FormLogin : Form
     {
-        private int logInAttemps { get; set; }
         public FormLogin()
         {
             InitializeComponent();
-            MessageBox.Show("Ingresar usuario y contraseña");
-            logInAttemps = 0;
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
@@ -40,6 +37,13 @@ namespace TemplateTPCorto
                     newPerfilS.Show();
                     this.Hide();
                 }
+                else if (idPerfil == 3)
+                {
+                    FormPerfilAdministrador newPerfilA = new FormPerfilAdministrador(credencial);
+                    newPerfilA.FormClosed += (s, args) => Application.Exit();
+                    newPerfilA.Show();
+                    this.Hide();
+                }
                 else
                 {
                     FormPerfil thePerfil = new FormPerfil(credencial);
@@ -58,6 +62,11 @@ namespace TemplateTPCorto
         }
 
         private void FormLogin_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }

@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Negocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,28 @@ namespace TemplateTPCorto
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnModPersona_Click(object sender, EventArgs e)
+        {
+            SupervisorNegocio supNegocio = new SupervisorNegocio();
+            var legajos = supNegocio.getAllLegajos();
+            supNegocio.changePersona(legajos);
+            
+
+        }
+
+        private void btnDesbloquear_Click(object sender, EventArgs e)
+        {
+            SupervisorNegocio supNegocio = new SupervisorNegocio();
+            var legajos = supNegocio.getAllLegajos();
+            supNegocio.desbloquearPersona(legajos);
+        }
+
+        private void btnChangePass_Click(object sender, EventArgs e)
+        {
+            LoginNegocio loginNegocio = new LoginNegocio();
+            var resultChange = loginNegocio.changePassPerfil(laCredencial);
         }
     }
 }

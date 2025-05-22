@@ -10,6 +10,18 @@ namespace Persistencia
 {
     public class UsuarioPersistencia
     {
+        public List<string> getAllLegajos()
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            var response = new List<string>();
+            var rawResult = dataBaseUtils.getAllRegistro("credenciales.csv");
+            foreach(string oneLine in rawResult)
+            {
+                var splitedLine = oneLine.Split(';');
+                response.Add(splitedLine[0]);
+            }
+            return response;
+        }
         public int getPerfilFromLegajo(string legajo)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
@@ -36,6 +48,33 @@ namespace Persistencia
                 credencial = null;
             }
             return credencial;
+        }
+        public void updateCredencial(Credencial theCredencial)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            dataBaseUtils.ModificarRegistro(theCredencial.getRowString(), "credenciales.csv", 0, theCredencial.Legajo);
+        }
+        public Credencial getUserFromLegajo(string legajo)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> registros = dataBaseUtils.BuscarRegistro(legajo, 0, "credenciales.csv");
+            Credencial credencial;
+            if (registros.Count > 0)
+            {
+                credencial = new Credencial(registros[0]);
+            }
+            else
+            {
+                credencial = null;
+            }
+            return credencial;
+        }
+        public void unblockUser(Credencial theCredencial)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            dataBaseUtils.ModificarRegistro(theCredencial.getUnblockedRowString(), "credenciales.csv", 0, theCredencial.Legajo);
+            dataBaseUtils.BorrarRegistro("login_intentos.csv", 0, theCredencial.Legajo);
+            dataBaseUtils.BorrarRegistro("usuario_bloqueado.csv", 0, theCredencial.Legajo);
         }
         public void changeLastLogIn(Credencial theCredencial)
         {
@@ -67,6 +106,18 @@ namespace Persistencia
             {
                 response = true;
             }
+            return response;
+        }
+        public List<string> getAllOpCredenciales()
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            var response = dataBaseUtils.getAllRegistro("operacion_cambio_credencial.csv");
+            return response;
+        }
+        public List<string> getAllOpPersonas()
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            var response = dataBaseUtils.getAllRegistro("operacion_cambio_persona.csv");
             return response;
         }
     }

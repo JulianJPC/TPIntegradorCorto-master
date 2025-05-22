@@ -35,17 +35,18 @@
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(57, 31);
+            this.lblNombre.Location = new System.Drawing.Point(51, 25);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(44, 20);
+            this.lblNombre.Size = new System.Drawing.Size(37, 16);
             this.lblNombre.TabIndex = 0;
             this.lblNombre.Text = "Perfil";
             // 
             // btn_changePass
             // 
-            this.btn_changePass.Location = new System.Drawing.Point(61, 80);
+            this.btn_changePass.Location = new System.Drawing.Point(54, 64);
+            this.btn_changePass.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_changePass.Name = "btn_changePass";
-            this.btn_changePass.Size = new System.Drawing.Size(161, 36);
+            this.btn_changePass.Size = new System.Drawing.Size(258, 29);
             this.btn_changePass.TabIndex = 1;
             this.btn_changePass.Text = "Cambiar contraseña";
             this.btn_changePass.UseVisualStyleBackColor = true;
@@ -53,12 +54,11 @@
             // 
             // FormPerfil
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 562);
+            this.ClientSize = new System.Drawing.Size(373, 172);
             this.Controls.Add(this.btn_changePass);
             this.Controls.Add(this.lblNombre);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FormPerfil";
             this.Text = "FormPerfil";
             this.Load += new System.EventHandler(this.FormPerfil_Load);
