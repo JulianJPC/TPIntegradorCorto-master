@@ -1,5 +1,6 @@
 ﻿using Datos;
 using Persistencia;
+using Persistencia.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,86 @@ namespace Negocio
 {
     public class LoginNegocio
     {
-        public int buscarIdPerfil(string legajo)
+        public string buscarIdPerfil(string legajo)
         {
-            var response = 0;
+            var response = "";
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            response = usuarioPersistencia.getPerfilFromLegajo(legajo);
+            response = usuarioPersistencia.getPerfilByLegajo(legajo);
             return response;
         }
         public bool changePassPerfil(Credencial theCredencial)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             return changePass(theCredencial, usuarioPersistencia);
+        }
+        public Credencial login(string usuario, string password)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            var response = usuarioPersistencia.getCredencialByUsername(usuario);
+            
+            if(response != null)
+            {
+                response = verificationCredencial(response, password, usuarioPersistencia);
+            }
+            return response;   
+        }
+        private Credencial verificationCredencial(Credencial theCredencial, string password, UsuarioPersistencia usuarioP)
+        {
+            Credencial response = null;
+
+            if (theCredencial.Contrasena.Equals(password))
+            {
+                var blocked = isBlocked(theCredencial, usuarioP);
+                var expired = isExpired(theCredencial);
+                var resultChange = true;
+                if (!blocked && (expired || theCredencial.isFirstLogIn))
+                {
+                    resultChange = changePass(theCredencial, usuarioP);
+                }
+                if (!blocked && resultChange)
+                {
+                    theCredencial.FechaUltimoLogin = DateTime.Now;
+                    usuarioP.updateCredencialByLegajo(theCredencial);
+                    response = theCredencial;
+                }
+            }
+            else
+            {
+                var attempts = usuarioP.getLogInAttempsByLegajo(theCredencial);
+                if (attempts >= 3)
+                {
+                    usuarioP.addUsuarioBloqueado(theCredencial);
+                }
+                else
+                {
+                    usuarioP.addLogInIntento(theCredencial);
+                }
+            }
+            return response;
+        }
+        private bool isExpired(Credencial credencial)
+        {
+            var now = DateTime.Now;
+            var fechaUltimoLogin = credencial.FechaUltimoLogin;
+            
+            var diasDesdeUltimoLogin = (now - fechaUltimoLogin).TotalDays;
+
+            if (diasDesdeUltimoLogin >= 30 )
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool isBlocked(Credencial theCredencial, UsuarioPersistencia usuarioP)
+        {
+            var response = false;
+            
+            var resultQuery = usuarioP.getUsuariosBloqueadosByLegajo(theCredencial);
+            if (resultQuery.Count > 0)
+            {
+                response = true;
+            }
+            return response;
         }
         private bool changePass(Credencial credencial, UsuarioPersistencia usuarioP)
         {
@@ -30,77 +100,12 @@ namespace Negocio
             newFormPass.ShowDialog();
             var newPass = newFormPass.contraseñaNueva;
             if (newPass != null)
-            { 
+            {
                 credencial.Contrasena = newPass;
-                usuarioP.changeLastLogIn(credencial);
+                usuarioP.updateCredencialByLegajo(credencial);
                 response = true;
             }
             return response;
-        }
-        public Credencial login(String usuario, String password)
-        {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-
-            Credencial credencial = usuarioPersistencia.login(usuario);
-
-            
-            if(credencial == null)
-            {
-                return null;
-            }
-            else if (credencial.Contrasena.Equals(password))
-            {
-                var isBlocked = usuarioPersistencia.isBlockedTheUser(credencial);
-                if (isBlocked)
-                {
-                    return null;
-                }
-                else
-                {
-                    bool expired = isExpired(credencial);
-                    if (expired || credencial.isFirstLogIn)
-                    {
-                        
-                        var resultChange = changePass(credencial, usuarioPersistencia);
-                        if(!resultChange)
-                        {
-                            return null;
-                        }
-                        
-                    }
-                    credencial.FechaUltimoLogin = DateTime.Now;
-                    usuarioPersistencia.changeLastLogIn(credencial);
-                    return credencial;
-                }
-            }
-            else
-            {
-                var attempts = usuarioPersistencia.getLogInAttemps(credencial);
-                if (attempts >= 3)
-                {
-                    usuarioPersistencia.addBlockedUser(credencial);
-                }
-                else
-                {
-                    usuarioPersistencia.addLogInAttemp(credencial);
-                }
-                return null;
-            }
-            
-        }
-        private bool isExpired(Credencial credencial)
-        {
-            var now = DateTime.Now;
-            var fechaUltimoLogin = credencial.FechaUltimoLogin;
-            
-            var diasDesdeUltimoLogin = (now - fechaUltimoLogin).TotalDays;
-            
-
-            if (diasDesdeUltimoLogin >= 30 )
-            {
-                return true;
-            }
-            return false;
         }
     }
 }

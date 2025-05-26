@@ -32,18 +32,18 @@ namespace Negocio
         {
             var legajo = cmbLegajos.SelectedItem as string;
             var newPass = txtbPass.Text;
-            SupervisorNegocio supNegocio = new SupervisorNegocio();
+            var supNegocio = new SupervisorNegocio();
             supNegocio.changePassAndLogIn(legajo, newPass);
             this.Close();
         }
 
         private void cmbLegajos_DropDownClosed(object sender, EventArgs e)
         {
-            SupervisorNegocio supNegocio = new SupervisorNegocio();
+            var supNegocio = new SupervisorNegocio();
             if (cmbLegajos.SelectedItem is string)
             {
                 var theLegajo = cmbLegajos.SelectedItem as string;
-                Credencial oneCredencial = supNegocio.getCredencial(theLegajo);
+                var oneCredencial = supNegocio.getCredencial(theLegajo);
                 if (oneCredencial != null)
                 {
                     txtbUsuario.Text = oneCredencial.NombreUsuario;

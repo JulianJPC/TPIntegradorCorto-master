@@ -19,18 +19,27 @@ namespace Persistencia.DataBase
             archivoCsv = Path.GetDirectoryName(archivoCsv);
             archivoCsv = Path.GetDirectoryName(archivoCsv);
             archivoCsv = Path.GetDirectoryName(archivoCsv);
-            archivoCsv = Path.Combine( archivoCsv, "Persistencia", "DataBase", "Tablas");
+            archivoCsv = Path.Combine(archivoCsv, "Persistencia", "DataBase", "Tablas");
         }
         
 
 
-        public List<String> BuscarRegistro(string columnValue, int columnToSearch, string nameTable)
+        private bool isTheLine(string line, int columnIndex, string columnValue)
         {
-            List<String> response = new List<String>();
+            var response = false;
+            var lineInParts = line.Split(';').ToList();
+            if (lineInParts[columnIndex] == columnValue)
+            {
+                response = true;
+            }
+            return response;
+        }
+        public List<string> BuscarRegistro(string columnValue, int columnToSearch, string nameTable)
+        {
+            var response = new List<string>();
             var theFile = Path.Combine(archivoCsv, nameTable); // Cambia esta ruta al archivo CSV que deseas leer
             try
             {
-                
                 using (StreamReader sr = new StreamReader(theFile))
                 {
                     string linea;
@@ -38,8 +47,7 @@ namespace Persistencia.DataBase
 
                     while ((linea = sr.ReadLine()) != null)
                     {
-                        var lineInParts = linea.Split(';').ToList();
-                        if (lineInParts[columnToSearch] == columnValue)
+                        if(isTheLine(linea, columnToSearch, columnValue))
                         {
                             response.Add(linea);
                         }
@@ -48,8 +56,7 @@ namespace Persistencia.DataBase
             }
             catch (Exception e)
             {
-                Console.WriteLine("No se pudo leer el archivo:");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("No se pudo leer el archivo:\n" + e.Message);
             }
             return response;
         }

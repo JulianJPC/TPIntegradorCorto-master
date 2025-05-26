@@ -21,23 +21,24 @@ namespace TemplateTPCorto
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            String usuario = txtUsuario.Text;
-            String password = txtPassword.Text;
+            var usuario = txtUsuario.Text;
+            var password = txtPassword.Text;
 
-            LoginNegocio loginNegocio = new LoginNegocio();
-            Credencial credencial = loginNegocio.login(usuario, password);
+            var loginNegocio = new LoginNegocio();
+            var credencial = loginNegocio.login(usuario, password);
             if(credencial != null)
             {
                 MessageBox.Show("Exito logIn!!");
                 var idPerfil = loginNegocio.buscarIdPerfil(credencial.Legajo);
-                if(idPerfil == 2)
+
+                if(idPerfil == "2")
                 {
                     FormPerfilSupervisor newPerfilS = new FormPerfilSupervisor(credencial);
                     newPerfilS.FormClosed += (s, args) => Application.Exit();
                     newPerfilS.Show();
                     this.Hide();
                 }
-                else if (idPerfil == 3)
+                else if (idPerfil == "3")
                 {
                     FormPerfilAdministrador newPerfilA = new FormPerfilAdministrador(credencial);
                     newPerfilA.FormClosed += (s, args) => Application.Exit();
@@ -51,9 +52,6 @@ namespace TemplateTPCorto
                     thePerfil.Show();
                     this.Hide();
                 }
-
-
-                
             }
             else if(credencial == null)
             {

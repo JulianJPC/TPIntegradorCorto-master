@@ -10,21 +10,23 @@ namespace Negocio
 {
     public class SupervisorNegocio
     {
-        public List<string> getAllLegajos()
+        private List<string> getAllLegajos()
         {
             var response = new List<string>();
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            response = usuarioPersistencia.getAllLegajos();
+            var usuarioPersistencia = new UsuarioPersistencia();
+            response = usuarioPersistencia.getAllLegajosFromCredenciales();
             return response;
         }
-        public void desbloquearPersona(List<string> legajos)
+        public void desbloquearPersona()
         {
-            FormDesbloquearPass formDesbloquearPersona = new FormDesbloquearPass(legajos);
+            var allLegajos = getAllLegajos();
+            var formDesbloquearPersona = new FormDesbloquearPass(allLegajos);
             formDesbloquearPersona.ShowDialog();
         }
-        public void changePersona(List<string> legajos)
+        public void startFormChangePersona()
         {
-            FormChangePersona formChangePersona = new FormChangePersona(legajos);
+            var allLegajos = getAllLegajos();
+            FormChangePersona formChangePersona = new FormChangePersona(allLegajos);
             formChangePersona.ShowDialog();
         }
         public void changePersona(string legajos, string user, string pass, DateTime fechaAlta, DateTime fechaLastLogIn)
@@ -56,21 +58,21 @@ namespace Negocio
                 Credencial modCredencial = new Credencial(legajos, user, pass, fechaAlta, fechaLastLogIn);
                 if (modCredencial.passValueTest())
                 {
-                    usuarioPersistencia.updateCredencial(modCredencial);
+                    usuarioPersistencia.updateCredencialByLegajo(modCredencial);
                 }
             }
         }
         public Credencial getCredencial(string legajo)
         {
             Credencial response = null;
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            response = usuarioPersistencia.getUserFromLegajo(legajo);
+            var usuarioPersistencia = new UsuarioPersistencia();
+            response = usuarioPersistencia.getCredencialByLegajo(legajo);
             return response;
         }
         public void changePassAndLogIn(string legajo, string newPass)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            Credencial theCredencial = usuarioPersistencia.getUserFromLegajo(legajo);
+            var usuarioPersistencia = new UsuarioPersistencia();
+            var theCredencial = usuarioPersistencia.getCredencialByLegajo(legajo);
             theCredencial.Contrasena = newPass;
             if (theCredencial.passValueTest())
             {

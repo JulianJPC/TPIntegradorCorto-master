@@ -24,9 +24,9 @@ namespace Datos
         public bool isFirstLogIn { get => _isFirstLogIn; set => _isFirstLogIn = value; }
 
 
-        public Credencial(String registro)
+        public Credencial(string registro)
         {
-            String[] datos = registro.Split(';');
+            var datos = registro.Split(';');
             this._legajo = datos[0];
             this._nombreUsuario = datos[1];
             this._contrasena = datos[2];
@@ -87,6 +87,11 @@ namespace Datos
         public string getUnblockedRowString()
         {
             var response = String.Join(";", _legajo, _nombreUsuario, _contrasena, _fechaAlta.ToString("d/M/yyyy"), ";");
+            return response;
+        }
+        public string getLogInAttempRowString()
+        {
+            var response = String.Join(";", _legajo, DateTime.Now.ToString("d/M/yyyy"));
             return response;
         }
     }

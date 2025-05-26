@@ -30,17 +30,13 @@ namespace TemplateTPCorto
         private void btnModPersona_Click(object sender, EventArgs e)
         {
             SupervisorNegocio supNegocio = new SupervisorNegocio();
-            var legajos = supNegocio.getAllLegajos();
-            supNegocio.changePersona(legajos);
-            
-
+            supNegocio.startFormChangePersona();
         }
 
         private void btnDesbloquear_Click(object sender, EventArgs e)
         {
             SupervisorNegocio supNegocio = new SupervisorNegocio();
-            var legajos = supNegocio.getAllLegajos();
-            supNegocio.desbloquearPersona(legajos);
+            supNegocio.desbloquearPersona();
         }
 
         private void btnChangePass_Click(object sender, EventArgs e)
