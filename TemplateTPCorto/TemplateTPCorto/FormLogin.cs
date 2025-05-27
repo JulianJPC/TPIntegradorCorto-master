@@ -29,29 +29,10 @@ namespace TemplateTPCorto
             if(credencial != null)
             {
                 MessageBox.Show("Exito logIn!!");
-                var idPerfil = loginNegocio.buscarIdPerfil(credencial.Legajo);
-
-                if(idPerfil == "2")
-                {
-                    FormPerfilSupervisor newPerfilS = new FormPerfilSupervisor(credencial);
-                    newPerfilS.FormClosed += (s, args) => Application.Exit();
-                    newPerfilS.Show();
-                    this.Hide();
-                }
-                else if (idPerfil == "3")
-                {
-                    FormPerfilAdministrador newPerfilA = new FormPerfilAdministrador(credencial);
-                    newPerfilA.FormClosed += (s, args) => Application.Exit();
-                    newPerfilA.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    FormPerfil thePerfil = new FormPerfil(credencial);
-                    thePerfil.FormClosed += (s, args) => Application.Exit();
-                    thePerfil.Show();
-                    this.Hide();
-                }
+                FormPerfiles newFormPerfil = new FormPerfiles(credencial);
+                newFormPerfil.FormClosed += (s, args) => Application.Exit();
+                newFormPerfil.Show();
+                this.Hide();
             }
             else if(credencial == null)
             {

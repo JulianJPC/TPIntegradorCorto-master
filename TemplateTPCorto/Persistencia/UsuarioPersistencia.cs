@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Login;
 using Persistencia.DataBase;
 using System;
 using System.Collections.Generic;
@@ -98,6 +99,36 @@ namespace Persistencia
             }
             return aCredencial;
         }
+        public Persona getPersonaByLegajo(string legajo)
+        {
+            Persona aPersona = null;
+            var rawResponse = getRowsFromTable(tablePersona, legajo, 0);
+            if (rawResponse.Count > 0)
+            {
+                aPersona = new Persona(rawResponse[0]);
+            }
+            return aPersona;
+        }
+        public OperacionCambioCredencial getOperacionCByIdOp(string idOp)
+        {
+            OperacionCambioCredencial aOperacion = null;
+            var rawResponse = getRowsFromTable(tableOpCambioCredencial, idOp, 0);
+            if (rawResponse.Count > 0)
+            {
+                aOperacion = new OperacionCambioCredencial(rawResponse[0]);
+            }
+            return aOperacion;
+        }
+        public OperacionCambioPersona getOperacionPByIdOp(string idOp)
+        {
+            OperacionCambioPersona aOperacion = null;
+            var rawResponse = getRowsFromTable(tableOpCambioCredencial, idOp, 0);
+            if (rawResponse.Count > 0)
+            {
+                aOperacion = new OperacionCambioPersona(rawResponse[0]);
+            }
+            return aOperacion;
+        }
         public string getPerfilByLegajo(string legajo)
         {
             var response = "";
@@ -106,6 +137,17 @@ namespace Persistencia
             {
                 var idPerfilString = responseQuery[0].Split(';')[1];
                 response = idPerfilString;
+            }
+            return response;
+        }
+        public string getPerfilByIdPerfil(string idPerfil)
+        {
+            var response = "";
+            var responseQuery = getRowsFromTable(tablePerfil, idPerfil, 0);
+            if (responseQuery.Count > 0)
+            {
+                var descPerfilString = responseQuery[0].Split(';')[1];
+                response = descPerfilString;
             }
             return response;
         }
@@ -121,10 +163,30 @@ namespace Persistencia
 
             return response;
         }
+        public List<string> getAllIdOpCredenciales()
+        {
+            var response = new List<string>();
+            var resultQuery = getRowsFromTable(tableOpCambioCredencial);
+            foreach (string oneLine in resultQuery)
+            {
+                var splitedLine = oneLine.Split(';');
+                response.Add(splitedLine[0]);
+            }
+            return response;
+        }
+        public List<string> getAllOpPersonas()
+        {
+            var resultQuery = getRowsFromTable(tableOpCambioPersona);
+            return resultQuery;
+        }
         // UPDATE
         public void updateCredencialByLegajo(Credencial aCredencial)
         {
             updateRowTable(tableCredenciales, aCredencial.Legajo, 0, aCredencial.getRowString());
+        }
+        public void updatePersonaByLegajo(Persona aPersona)
+        {
+            updateRowTable(tableCredenciales, aPersona.Legajo, 0, aPersona.getRowString());
         }
         // ADD
         public void addUsuarioBloqueado(Credencial aCredencial)
@@ -135,27 +197,56 @@ namespace Persistencia
         {
             addRowToTable(tableLogInIntentos, aCredencial.getLogInAttempRowString());
         }
+        public void addOpPersona(Persona aPersona)
+        {
+            var allOperaciones = getRowsFromTable(tableOpCambioPersona);
+            var idOpNew = 0;
+            
+            foreach(var row in allOperaciones)
+            {
+                var idOp = row.Split(';')[0];
+                var idOpInt = Int32.Parse(idOp);
+                if(idOpInt > idOpNew)
+                {
+                    idOpNew = idOpInt;
+                }
+            }
+            idOpNew++;
+            var newOp = new OperacionCambioPersona(aPersona, idOpNew.ToString());
+            addRowToTable(tableOpCambioPersona, newOp.getRowString());
+        }
+        public void addOpCredencial(Credencial aCredencial)
+        {
+            var allOperaciones = getRowsFromTable(tableOpCambioCredencial);
+            var idOpNew = 0;
+            var idPerfil = getPerfilByLegajo(aCredencial.Legajo);
+            foreach (var row in allOperaciones)
+            {
+                var idOp = row.Split(';')[0];
+                var idOpInt = Int32.Parse(idOp);
+                if (idOpInt > idOpNew)
+                {
+                    idOpNew = idOpInt;
+                }
+            }
+            idOpNew++;
+            var newOp = new OperacionCambioCredencial(aCredencial, idOpNew.ToString(), idPerfil);
+            addRowToTable(tableOpCambioCredencial, newOp.getRowString());
+        }
         // DELETE
-
-
-
         public void unblockUser(Credencial theCredencial)
         {
             updateCredencialByLegajo(theCredencial);
             DeleteRowTable(tableLogInIntentos, theCredencial.Legajo, 0);
             DeleteRowTable(tableUsuarioBloqueado, theCredencial.Legajo, 0);
         }   
-        public List<string> getAllOpCredenciales()
+        public void deleteOpCredencialById(string id)
         {
-            DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            var response = dataBaseUtils.getAllRegistro("operacion_cambio_credencial.csv");
-            return response;
+            DeleteRowTable(tableOpCambioCredencial, id, 0);
         }
-        public List<string> getAllOpPersonas()
+        public void deleteOpPersonaById(string id)
         {
-            DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            var response = dataBaseUtils.getAllRegistro("operacion_cambio_persona.csv");
-            return response;
+            DeleteRowTable(tableOpCambioPersona, id, 0);
         }
     }
 }

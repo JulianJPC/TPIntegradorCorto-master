@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Login;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,13 +35,13 @@ namespace Negocio
             if(cmbLegajos.SelectedItem is string)
             {
                 var theLegajo = cmbLegajos.SelectedItem as string;
-                Credencial oneCredencial = supNegocio.getCredencial(theLegajo);
-                if (oneCredencial != null)
+                Persona onePersona = supNegocio.getPersona(theLegajo);
+                if (onePersona != null)
                 {
-                    txtbNombre.Text = oneCredencial.NombreUsuario;
-                    txtbPassowrd.Text = oneCredencial.Contrasena;
-                    dtpFechaAlta.Value = oneCredencial.FechaAlta;
-                    dtpUltimoLogIn.Value = oneCredencial.FechaUltimoLogin;
+                    txtbNombre.Text = onePersona.Nombre;
+                    txtbApellido.Text = onePersona.Apellido;
+                    txtbDNI.Text = onePersona.DNI;
+                    dtpFechaIngreso.Value = onePersona.FechaIngreso;
                 }
                 else
                 {
@@ -58,11 +59,11 @@ namespace Negocio
         {
             var legajo = cmbLegajos.SelectedItem as string;
             var nombre = txtbNombre.Text;
-            var pass = txtbPassowrd.Text;
-            var fechaA = dtpFechaAlta.Value;
-            var fechaL = dtpUltimoLogIn.Value;
+            var apellido = txtbApellido.Text;
+            var dni = txtbDNI.Text;
+            var fechaI = dtpFechaIngreso.Value;
             SupervisorNegocio supNegocio = new SupervisorNegocio();
-            supNegocio.changePersona(legajo, nombre, pass, fechaA, fechaL);
+            supNegocio.createPersonaOp(legajo, nombre, apellido, dni, fechaI);
             this.Close();
         }
     }

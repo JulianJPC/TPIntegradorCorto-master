@@ -19,6 +19,13 @@ namespace Negocio
             response = usuarioPersistencia.getPerfilByLegajo(legajo);
             return response;
         }
+        public string buscarPerfil(string idPerfil)
+        {
+            var response = "";
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            response = usuarioPersistencia.getPerfilByIdPerfil(idPerfil);
+            return response;
+        }
         public bool changePassPerfil(Credencial theCredencial)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();

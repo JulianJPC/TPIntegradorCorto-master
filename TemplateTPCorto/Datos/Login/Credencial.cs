@@ -84,6 +84,11 @@ namespace Datos
             var response = String.Join(";", _legajo, _nombreUsuario, _contrasena, _fechaAlta.ToString("d/M/yyyy"), _fechaUltimoLogin.ToString("d/M/yyyy"));
             return response;
         }
+        public string getRowString(string idPerfil)
+        {
+            var response = String.Join(";", _legajo, _nombreUsuario, _contrasena, idPerfil, _fechaAlta.ToString("d/M/yyyy"), _fechaUltimoLogin.ToString("d/M/yyyy"));
+            return response;
+        }
         public string getUnblockedRowString()
         {
             var response = String.Join(";", _legajo, _nombreUsuario, _contrasena, _fechaAlta.ToString("d/M/yyyy"), ";");

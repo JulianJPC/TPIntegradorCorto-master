@@ -33,13 +33,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtbNombre = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtbPassowrd = new System.Windows.Forms.TextBox();
+            this.txtbApellido = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.dtpFechaAlta = new System.Windows.Forms.DateTimePicker();
-            this.dtpUltimoLogIn = new System.Windows.Forms.DateTimePicker();
+            this.dtpFechaIngreso = new System.Windows.Forms.DateTimePicker();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtbDNI = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // cmbLegajos
@@ -64,11 +64,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 77);
+            this.label2.Location = new System.Drawing.Point(69, 77);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(106, 16);
+            this.label2.Size = new System.Drawing.Size(56, 16);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Nombre Usuario";
+            this.label2.Text = "Nombre";
             // 
             // txtbNombre
             // 
@@ -80,50 +80,34 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(49, 112);
+            this.label3.Location = new System.Drawing.Point(69, 109);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 16);
+            this.label3.Size = new System.Drawing.Size(57, 16);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Contraseña";
+            this.label3.Text = "Apellido";
             // 
-            // txtbPassowrd
+            // txtbApellido
             // 
-            this.txtbPassowrd.Location = new System.Drawing.Point(131, 106);
-            this.txtbPassowrd.Name = "txtbPassowrd";
-            this.txtbPassowrd.Size = new System.Drawing.Size(286, 22);
-            this.txtbPassowrd.TabIndex = 5;
+            this.txtbApellido.Location = new System.Drawing.Point(131, 106);
+            this.txtbApellido.Name = "txtbApellido";
+            this.txtbApellido.Size = new System.Drawing.Size(286, 22);
+            this.txtbApellido.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(54, 144);
+            this.label4.Location = new System.Drawing.Point(33, 174);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(71, 16);
+            this.label4.Size = new System.Drawing.Size(93, 16);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Fecha Alta";
+            this.label4.Text = "Fecha Ingreso";
             // 
-            // label5
+            // dtpFechaIngreso
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(0, 170);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(125, 16);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Fecha Ultimo Log In";
-            // 
-            // dtpFechaAlta
-            // 
-            this.dtpFechaAlta.Location = new System.Drawing.Point(131, 138);
-            this.dtpFechaAlta.Name = "dtpFechaAlta";
-            this.dtpFechaAlta.Size = new System.Drawing.Size(286, 22);
-            this.dtpFechaAlta.TabIndex = 8;
-            // 
-            // dtpUltimoLogIn
-            // 
-            this.dtpUltimoLogIn.Location = new System.Drawing.Point(132, 163);
-            this.dtpUltimoLogIn.Name = "dtpUltimoLogIn";
-            this.dtpUltimoLogIn.Size = new System.Drawing.Size(285, 22);
-            this.dtpUltimoLogIn.TabIndex = 9;
+            this.dtpFechaIngreso.Location = new System.Drawing.Point(131, 169);
+            this.dtpFechaIngreso.Name = "dtpFechaIngreso";
+            this.dtpFechaIngreso.Size = new System.Drawing.Size(286, 22);
+            this.dtpFechaIngreso.TabIndex = 8;
             // 
             // btnAceptar
             // 
@@ -145,18 +129,34 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(96, 142);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(30, 16);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "DNI";
+            // 
+            // txtbDNI
+            // 
+            this.txtbDNI.Location = new System.Drawing.Point(131, 136);
+            this.txtbDNI.Name = "txtbDNI";
+            this.txtbDNI.Size = new System.Drawing.Size(286, 22);
+            this.txtbDNI.TabIndex = 13;
+            // 
             // FormChangePersona
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(447, 285);
+            this.Controls.Add(this.txtbDNI);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
-            this.Controls.Add(this.dtpUltimoLogIn);
-            this.Controls.Add(this.dtpFechaAlta);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.dtpFechaIngreso);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtbPassowrd);
+            this.Controls.Add(this.txtbApellido);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtbNombre);
             this.Controls.Add(this.label2);
@@ -176,12 +176,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtbNombre;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtbPassowrd;
+        private System.Windows.Forms.TextBox txtbApellido;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DateTimePicker dtpFechaAlta;
-        private System.Windows.Forms.DateTimePicker dtpUltimoLogIn;
+        private System.Windows.Forms.DateTimePicker dtpFechaIngreso;
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtbDNI;
     }
 }

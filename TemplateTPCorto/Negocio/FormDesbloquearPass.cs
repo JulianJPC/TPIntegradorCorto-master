@@ -33,7 +33,7 @@ namespace Negocio
             var legajo = cmbLegajos.SelectedItem as string;
             var newPass = txtbPass.Text;
             var supNegocio = new SupervisorNegocio();
-            supNegocio.changePassAndLogIn(legajo, newPass);
+            supNegocio.createCredOp(legajo, newPass);
             this.Close();
         }
 

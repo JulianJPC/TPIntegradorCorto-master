@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Datos.Login;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,18 +17,69 @@ namespace Negocio
         {
             InitializeComponent();
             AdministradorNegocio adminN = new AdministradorNegocio();
-            var rawOperaciones = adminN.getAllOpPersonas();
-            foreach (var op in rawOperaciones)
+            var idOperaciones = adminN.getAllIdOpCredenciales();
+            foreach (var op in idOperaciones)
             {
-                var listValues = op.Split(';').ToList();
-                dataGridView1.Rows.Add(listValues[0], listValues[1], listValues[2], listValues[3], listValues[4], listValues[5]);
+                cmbIdOperaciones.Items.Add(op.ToString());
             }
-            dataGridView1.ReadOnly = true;
+            cmbIdOperaciones.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cmbIdOperaciones_DropDownClosed(object sender, EventArgs e)
+        {
+            var admNegocio = new AdministradorNegocio();
+            if (cmbIdOperaciones.SelectedItem is string)
+            {
+                var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
+                OperacionCambioPersona oneOp = admNegocio.getOperacionPersona(theIdOperacion);
+                if (oneOp != null)
+                {
+                    txtbLegajo.Text = oneOp.Persona.Legajo;
+                    txtbNombre.Text = oneOp.Persona.Nombre;
+                    txtbApellido.Text = oneOp.Persona.Apellido;
+                    txtbDNI.Text = oneOp.Persona.DNI;
+                    dtpFechaIngreso.Value = oneOp.Persona.FechaIngreso;
+                }
+                else
+                {
+                    MessageBox.Show("Error numero de legajo");
+                }
+            }
+        }
+
+        private void btnRechazar_Click(object sender, EventArgs e)
+        {
+            var adminNegocio = new AdministradorNegocio();
+            if (cmbIdOperaciones.SelectedItem is string)
+            {
+                var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
+                adminNegocio.deleteOpPersona(theIdOperacion);
+            }
+            else
+            {
+                MessageBox.Show("Error numero de legajo");
+            }
+        }
+
+        private void btnAutorizar_Click(object sender, EventArgs e)
+        {
+            var adminNegocio = new AdministradorNegocio();
+            if (cmbIdOperaciones.SelectedItem is string)
+            {
+                var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
+                var theOp = adminNegocio.getOperacionPersona(theIdOperacion);
+
+                adminNegocio.autoPersona(theOp);
+            }
+            else
+            {
+                MessageBox.Show("Error numero de legajo");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Datos.Login;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,13 +17,12 @@ namespace Negocio
         {
             InitializeComponent();
             AdministradorNegocio adminN = new AdministradorNegocio();
-            var rawOperaciones = adminN.getAllOpCredenciales();
-            foreach ( var op in rawOperaciones)
+            var idOperaciones = adminN.getAllIdOpCredenciales();
+            foreach ( var op in idOperaciones)
             {
-                var listValues = op.Split(';').ToList();
-                dataGridView1.Rows.Add(listValues[0], listValues[1], listValues[2], listValues[3], listValues[4], listValues[5], listValues[6]);
+                cmbIdOperaciones.Items.Add(op.ToString());
             }
-            dataGridView1.ReadOnly = true;
+            cmbIdOperaciones.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -30,9 +30,62 @@ namespace Negocio
             this.Close();
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+
+        private void cmbIdOperaciones_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmbIdOperaciones_DropDownClosed(object sender, EventArgs e)
+        {
+            var admNegocio = new AdministradorNegocio();
+            if (cmbIdOperaciones.SelectedItem is string)
+            {
+                var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
+                OperacionCambioCredencial oneOp = admNegocio.getOperacionCredencial(theIdOperacion);
+                if (oneOp != null)
+                {
+                    txtbLegajo.Text = oneOp.Credencial.Legajo;
+                    txtbUsuario.Text = oneOp.Credencial.NombreUsuario;
+                    txtbPass.Text = oneOp.Credencial.Contrasena;
+                    dtpFechaAlta.Value = oneOp.Credencial.FechaAlta;
+                    dtpUltimoLogIn.Value = oneOp.Credencial.FechaUltimoLogin;
+                }
+                else
+                {
+                    MessageBox.Show("Error numero de legajo");
+                }
+            }
+        }
+
+        private void btnRechazar_Click(object sender, EventArgs e)
+        {
+            var adminNegocio = new AdministradorNegocio();
+            if (cmbIdOperaciones.SelectedItem is string)
+            {
+                var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
+                adminNegocio.deleteOpCredencial(theIdOperacion);
+            }
+            else
+            {
+                MessageBox.Show("Error numero de legajo");
+            }
+        }
+
+        private void btnAutorizar_Click(object sender, EventArgs e)
+        {
+            var adminNegocio = new AdministradorNegocio();
+            if (cmbIdOperaciones.SelectedItem is string)
+            {
+                var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
+                var theOp = adminNegocio.getOperacionCredencial(theIdOperacion);
+
+                adminNegocio.autoCredencial(theOp);
+            }
+            else
+            {
+                MessageBox.Show("Error numero de legajo");
+            }
         }
     }
 }

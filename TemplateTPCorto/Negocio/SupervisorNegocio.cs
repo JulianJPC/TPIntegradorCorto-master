@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Login;
 using Persistencia;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Negocio
             response = usuarioPersistencia.getAllLegajosFromCredenciales();
             return response;
         }
-        public void desbloquearPersona()
+        public void startFormDesCredencial()
         {
             var allLegajos = getAllLegajos();
             var formDesbloquearPersona = new FormDesbloquearPass(allLegajos);
@@ -29,7 +30,8 @@ namespace Negocio
             FormChangePersona formChangePersona = new FormChangePersona(allLegajos);
             formChangePersona.ShowDialog();
         }
-        public void changePersona(string legajos, string user, string pass, DateTime fechaAlta, DateTime fechaLastLogIn)
+        
+        public void createPersonaOp(string legajos, string nombre, string apellido, string DNI, DateTime fechaIngreso)
         {
             var response = true;
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
@@ -37,28 +39,28 @@ namespace Negocio
             {
                 response = false;
             }
-            if(user == null || user == "")
+            if(nombre == null || nombre == "")
             {
                 response = false;
             }
-            if(pass == null || pass == "")
+            if(apellido == null || apellido == "")
             {
                 response = false;
             }
-            if(fechaAlta == null)
+            if (DNI == null || DNI == "")
             {
                 response = false;
             }
-            if(fechaLastLogIn == null)
+            if (fechaIngreso == null)
             {
                 response = false;
             }
             if (response)
             {
-                Credencial modCredencial = new Credencial(legajos, user, pass, fechaAlta, fechaLastLogIn);
-                if (modCredencial.passValueTest())
+                Persona modPersona = new Persona(legajos, nombre, apellido, DNI, fechaIngreso);
+                if (modPersona.passValueTest())
                 {
-                    usuarioPersistencia.updateCredencialByLegajo(modCredencial);
+                    usuarioPersistencia.addOpPersona(modPersona);
                 }
             }
         }
@@ -69,14 +71,21 @@ namespace Negocio
             response = usuarioPersistencia.getCredencialByLegajo(legajo);
             return response;
         }
-        public void changePassAndLogIn(string legajo, string newPass)
+        public Persona getPersona(string legajo)
+        {
+            Persona response = null;
+            var usuarioPersistencia = new UsuarioPersistencia();
+            response = usuarioPersistencia.getPersonaByLegajo(legajo);
+            return response;
+        }
+        public void createCredOp(string legajo, string newPass)
         {
             var usuarioPersistencia = new UsuarioPersistencia();
             var theCredencial = usuarioPersistencia.getCredencialByLegajo(legajo);
             theCredencial.Contrasena = newPass;
             if (theCredencial.passValueTest())
             {
-               usuarioPersistencia.unblockUser(theCredencial);
+               usuarioPersistencia.addOpCredencial(theCredencial);
             }
         }
 
