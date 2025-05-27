@@ -128,7 +128,7 @@ namespace Persistencia.DataBase
                 {
                     string linea;
                     var firstLine = sr.ReadLine();//salta primera linea
-                    newText += firstLine;
+                    newText += firstLine + "\n";
                     while ((linea = sr.ReadLine()) != null)
                     {
                         var newLine = linea;

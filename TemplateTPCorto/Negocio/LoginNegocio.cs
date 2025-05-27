@@ -64,14 +64,11 @@ namespace Negocio
             }
             else
             {
+                usuarioP.addLogInIntento(theCredencial);
                 var attempts = usuarioP.getLogInAttempsByLegajo(theCredencial);
                 if (attempts >= 3)
                 {
                     usuarioP.addUsuarioBloqueado(theCredencial);
-                }
-                else
-                {
-                    usuarioP.addLogInIntento(theCredencial);
                 }
             }
             return response;

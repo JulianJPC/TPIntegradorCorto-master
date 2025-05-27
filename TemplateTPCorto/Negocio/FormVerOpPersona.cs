@@ -59,6 +59,7 @@ namespace Negocio
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
                 adminNegocio.deleteOpPersona(theIdOperacion);
+                this.Close();
             }
             else
             {
@@ -75,6 +76,7 @@ namespace Negocio
                 var theOp = adminNegocio.getOperacionPersona(theIdOperacion);
 
                 adminNegocio.autoPersona(theOp);
+                this.Close();
             }
             else
             {
