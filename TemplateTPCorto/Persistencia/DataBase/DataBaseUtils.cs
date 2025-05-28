@@ -105,7 +105,10 @@ namespace Persistencia.DataBase
                         {
                             newLine = newRow;
                         }
-                        newText += newLine + "\n";
+                        if (newLine.Replace(";", "").Replace(" ", "").Length > 0)
+                        {
+                            newText += newLine + "\n";
+                        }
                     }
                 }
                 File.Delete(theFile);
@@ -137,7 +140,10 @@ namespace Persistencia.DataBase
                         {
                             newLine = "";
                         }
-                        newText += newLine + "\n";
+                        if(newLine.Replace(";", "").Replace(" ", "").Length > 0)
+                        {
+                            newText += newLine + "\n";
+                        }
                     }
                 }
                 File.Delete(theFile);

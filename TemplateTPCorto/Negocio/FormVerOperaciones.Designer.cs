@@ -132,6 +132,7 @@
             // 
             // txtbLegajo
             // 
+            this.txtbLegajo.Enabled = false;
             this.txtbLegajo.Location = new System.Drawing.Point(141, 83);
             this.txtbLegajo.Name = "txtbLegajo";
             this.txtbLegajo.Size = new System.Drawing.Size(243, 22);
@@ -139,6 +140,7 @@
             // 
             // txtbUsuario
             // 
+            this.txtbUsuario.Enabled = false;
             this.txtbUsuario.Location = new System.Drawing.Point(141, 112);
             this.txtbUsuario.Name = "txtbUsuario";
             this.txtbUsuario.Size = new System.Drawing.Size(243, 22);
@@ -146,6 +148,7 @@
             // 
             // txtbPass
             // 
+            this.txtbPass.Enabled = false;
             this.txtbPass.Location = new System.Drawing.Point(141, 144);
             this.txtbPass.Name = "txtbPass";
             this.txtbPass.Size = new System.Drawing.Size(243, 22);
@@ -153,6 +156,7 @@
             // 
             // txtbIdPerfil
             // 
+            this.txtbIdPerfil.Enabled = false;
             this.txtbIdPerfil.Location = new System.Drawing.Point(141, 172);
             this.txtbIdPerfil.Name = "txtbIdPerfil";
             this.txtbIdPerfil.Size = new System.Drawing.Size(243, 22);
@@ -160,6 +164,7 @@
             // 
             // dtpFechaAlta
             // 
+            this.dtpFechaAlta.Enabled = false;
             this.dtpFechaAlta.Location = new System.Drawing.Point(141, 203);
             this.dtpFechaAlta.Name = "dtpFechaAlta";
             this.dtpFechaAlta.Size = new System.Drawing.Size(243, 22);
@@ -167,6 +172,7 @@
             // 
             // dtpUltimoLogIn
             // 
+            this.dtpUltimoLogIn.Enabled = false;
             this.dtpUltimoLogIn.Location = new System.Drawing.Point(141, 247);
             this.dtpUltimoLogIn.Name = "dtpUltimoLogIn";
             this.dtpUltimoLogIn.Size = new System.Drawing.Size(243, 22);

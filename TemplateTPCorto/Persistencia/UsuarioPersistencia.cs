@@ -122,7 +122,7 @@ namespace Persistencia
         public OperacionCambioPersona getOperacionPByIdOp(string idOp)
         {
             OperacionCambioPersona aOperacion = null;
-            var rawResponse = getRowsFromTable(tableOpCambioCredencial, idOp, 0);
+            var rawResponse = getRowsFromTable(tableOpCambioPersona, idOp, 0);
             if (rawResponse.Count > 0)
             {
                 aOperacion = new OperacionCambioPersona(rawResponse[0]);
@@ -170,7 +170,25 @@ namespace Persistencia
             foreach (string oneLine in resultQuery)
             {
                 var splitedLine = oneLine.Split(';');
-                response.Add(splitedLine[0]);
+                if (splitedLine[0].Length > 0)
+                {
+                    response.Add(splitedLine[0]);
+                }
+            }
+            return response;
+        }
+        public List<string> getAllIdOpPersonas()
+        {
+            var response = new List<string>();
+            var resultQuery = getRowsFromTable(tableOpCambioPersona);
+            foreach (string oneLine in resultQuery)
+            {
+                var splitedLine = oneLine.Split(';');
+                if (splitedLine[0].Length > 0)
+                {
+                    response.Add(splitedLine[0]);
+                }
+                
             }
             return response;
         }
@@ -186,7 +204,7 @@ namespace Persistencia
         }
         public void updatePersonaByLegajo(Persona aPersona)
         {
-            updateRowTable(tableCredenciales, aPersona.Legajo, 0, aPersona.getRowString());
+            updateRowTable(tablePersona, aPersona.Legajo, 0, aPersona.getRowString());
         }
         // ADD
         public void addUsuarioBloqueado(Credencial aCredencial)
@@ -199,16 +217,32 @@ namespace Persistencia
         }
         public void addOpPersona(Persona aPersona)
         {
-            var allOperaciones = getRowsFromTable(tableOpCambioPersona);
+            var allOperacionesPers = getRowsFromTable(tableOpCambioPersona);
             var idOpNew = 0;
             
-            foreach(var row in allOperaciones)
+            foreach(var row in allOperacionesPers)
             {
                 var idOp = row.Split(';')[0];
-                var idOpInt = Int32.Parse(idOp);
-                if(idOpInt > idOpNew)
+                if(Int32.TryParse(idOp, out int placeHolder))
                 {
-                    idOpNew = idOpInt;
+                    var idOpInt = Int32.Parse(idOp);
+                    if (idOpInt > idOpNew)
+                    {
+                        idOpNew = idOpInt;
+                    }
+                }
+            }
+            var allOperacionesCred = getRowsFromTable(tableOpCambioCredencial);
+            foreach (var row in allOperacionesPers)
+            {
+                var idOp = row.Split(';')[0];
+                if (Int32.TryParse(idOp, out int placeHolder))
+                {
+                    var idOpInt = Int32.Parse(idOp);
+                    if (idOpInt > idOpNew)
+                    {
+                        idOpNew = idOpInt;
+                    }
                 }
             }
             idOpNew++;
@@ -217,16 +251,32 @@ namespace Persistencia
         }
         public void addOpCredencial(Credencial aCredencial)
         {
-            var allOperaciones = getRowsFromTable(tableOpCambioCredencial);
+            var allOperacionesCred = getRowsFromTable(tableOpCambioCredencial);
             var idOpNew = 0;
             var idPerfil = getPerfilByLegajo(aCredencial.Legajo);
-            foreach (var row in allOperaciones)
+            foreach (var row in allOperacionesCred)
             {
                 var idOp = row.Split(';')[0];
-                var idOpInt = Int32.Parse(idOp);
-                if (idOpInt > idOpNew)
+                if (Int32.TryParse(idOp, out int placeHolder))
                 {
-                    idOpNew = idOpInt;
+                    var idOpInt = Int32.Parse(idOp);
+                    if (idOpInt > idOpNew)
+                    {
+                        idOpNew = idOpInt;
+                    }
+                }
+            }
+            var allOperacionesPers = getRowsFromTable(tableOpCambioPersona);
+            foreach (var row in allOperacionesCred)
+            {
+                var idOp = row.Split(';')[0];
+                if (Int32.TryParse(idOp, out int placeHolder))
+                {
+                    var idOpInt = Int32.Parse(idOp);
+                    if (idOpInt > idOpNew)
+                    {
+                        idOpNew = idOpInt;
+                    }
                 }
             }
             idOpNew++;

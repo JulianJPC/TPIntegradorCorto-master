@@ -17,7 +17,7 @@ namespace Negocio
         {
             InitializeComponent();
             AdministradorNegocio adminN = new AdministradorNegocio();
-            var idOperaciones = adminN.getAllIdOpCredenciales();
+            var idOperaciones = adminN.getAllIdOpPersonas();
             foreach (var op in idOperaciones)
             {
                 cmbIdOperaciones.Items.Add(op.ToString());

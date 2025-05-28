@@ -120,6 +120,7 @@
             // 
             // txtbNombre
             // 
+            this.txtbNombre.Enabled = false;
             this.txtbNombre.Location = new System.Drawing.Point(129, 103);
             this.txtbNombre.Name = "txtbNombre";
             this.txtbNombre.Size = new System.Drawing.Size(255, 22);
@@ -127,6 +128,7 @@
             // 
             // txtbLegajo
             // 
+            this.txtbLegajo.Enabled = false;
             this.txtbLegajo.Location = new System.Drawing.Point(129, 72);
             this.txtbLegajo.Name = "txtbLegajo";
             this.txtbLegajo.Size = new System.Drawing.Size(255, 22);
@@ -134,6 +136,7 @@
             // 
             // txtbApellido
             // 
+            this.txtbApellido.Enabled = false;
             this.txtbApellido.Location = new System.Drawing.Point(129, 138);
             this.txtbApellido.Name = "txtbApellido";
             this.txtbApellido.Size = new System.Drawing.Size(255, 22);
@@ -141,6 +144,7 @@
             // 
             // txtbDNI
             // 
+            this.txtbDNI.Enabled = false;
             this.txtbDNI.Location = new System.Drawing.Point(129, 175);
             this.txtbDNI.Name = "txtbDNI";
             this.txtbDNI.Size = new System.Drawing.Size(255, 22);
@@ -148,6 +152,7 @@
             // 
             // dtpFechaIngreso
             // 
+            this.dtpFechaIngreso.Enabled = false;
             this.dtpFechaIngreso.Location = new System.Drawing.Point(129, 209);
             this.dtpFechaIngreso.Name = "dtpFechaIngreso";
             this.dtpFechaIngreso.Size = new System.Drawing.Size(255, 22);

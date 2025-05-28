@@ -11,6 +11,13 @@ namespace Negocio
 {
     public class AdministradorNegocio
     {
+        public List<string> getAllIdOpPersonas()
+        {
+            var response = new List<string>();
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            response = usuarioPersistencia.getAllIdOpPersonas();
+            return response;
+        }
         public List<string> getAllIdOpCredenciales()
         {
             var response = new List<string>();
@@ -53,6 +60,8 @@ namespace Negocio
             UsuarioPersistencia usuarioP = new UsuarioPersistencia();
             usuarioP.updatePersonaByLegajo(operacion.Persona);
             usuarioP.deleteOpPersonaById(operacion.IdOperacion);
+            
+            //usuarioP.addAuto();
         }
         public List<string> getAllOpPersonas()
         {

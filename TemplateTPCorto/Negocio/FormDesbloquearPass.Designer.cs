@@ -67,6 +67,7 @@
             // 
             // txtbUsuario
             // 
+            this.txtbUsuario.Enabled = false;
             this.txtbUsuario.Location = new System.Drawing.Point(138, 70);
             this.txtbUsuario.Name = "txtbUsuario";
             this.txtbUsuario.Size = new System.Drawing.Size(161, 22);

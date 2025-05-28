@@ -31,11 +31,11 @@ namespace Negocio
             formChangePersona.ShowDialog();
         }
         
-        public void createPersonaOp(string legajos, string nombre, string apellido, string DNI, DateTime fechaIngreso)
+        public void createPersonaOp(string legajo, string nombre, string apellido, string DNI, DateTime fechaIngreso)
         {
             var response = true;
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            if (legajos == null || legajos == "")
+            if (legajo == null || legajo == "")
             {
                 response = false;
             }
@@ -57,7 +57,7 @@ namespace Negocio
             }
             if (response)
             {
-                Persona modPersona = new Persona(legajos, nombre, apellido, DNI, fechaIngreso);
+                Persona modPersona = new Persona(legajo, nombre, apellido, DNI, fechaIngreso);
                 if (modPersona.passValueTest())
                 {
                     usuarioPersistencia.addOpPersona(modPersona);

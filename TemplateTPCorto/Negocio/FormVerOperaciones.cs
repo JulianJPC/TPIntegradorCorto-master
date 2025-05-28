@@ -48,6 +48,7 @@ namespace Negocio
                     txtbLegajo.Text = oneOp.Credencial.Legajo;
                     txtbUsuario.Text = oneOp.Credencial.NombreUsuario;
                     txtbPass.Text = oneOp.Credencial.Contrasena;
+                    txtbIdPerfil.Text = oneOp.IdPerfil;
                     dtpFechaAlta.Value = oneOp.Credencial.FechaAlta;
                     dtpUltimoLogIn.Value = oneOp.Credencial.FechaUltimoLogin;
                 }
@@ -65,6 +66,7 @@ namespace Negocio
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
                 adminNegocio.deleteOpCredencial(theIdOperacion);
+                this.Close();
             }
             else
             {
@@ -81,6 +83,7 @@ namespace Negocio
                 var theOp = adminNegocio.getOperacionCredencial(theIdOperacion);
 
                 adminNegocio.autoCredencial(theOp);
+                this.Close();
             }
             else
             {

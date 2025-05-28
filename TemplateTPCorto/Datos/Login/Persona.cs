@@ -69,7 +69,7 @@ namespace Datos.Login
         }
         public string getRowString()
         {
-            var response = String.Join(";", _legajo, _nombre, _apellido,_dni, _fechaIngreso.ToString("d/M/yyyy"));
+            var response = String.Join(";", _legajo, _nombre, _apellido, _dni, _fechaIngreso.ToString("d/M/yyyy"));
             return response;
         }
     }
