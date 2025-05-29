@@ -17,6 +17,7 @@ namespace TemplateTPCorto
         public FormLogin()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
@@ -30,9 +31,11 @@ namespace TemplateTPCorto
             {
                 MessageBox.Show("Exito logIn!!");
                 FormPerfiles newFormPerfil = new FormPerfiles(credencial);
-                newFormPerfil.FormClosed += (s, args) => Application.Exit();
-                newFormPerfil.Show();
                 this.Hide();
+                newFormPerfil.ShowDialog();
+                txtPassword.Text = "";
+                txtUsuario.Text = "";
+                this.Show();
             }
             else if(credencial == null)
             {

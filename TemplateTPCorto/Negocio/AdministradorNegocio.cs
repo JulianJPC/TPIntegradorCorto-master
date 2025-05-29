@@ -1,4 +1,5 @@
-﻿using Datos.Login;
+﻿using Datos;
+using Datos.Login;
 using Persistencia;
 using System;
 using System.Collections.Generic;
@@ -49,19 +50,25 @@ namespace Negocio
             UsuarioPersistencia usuarioP = new UsuarioPersistencia();
             usuarioP.deleteOpPersonaById(id);
         }
-        public void autoCredencial(OperacionCambioCredencial operacion)
+        public void autoCredencial(OperacionCambioCredencial operacion, bool aproved)
         {
             UsuarioPersistencia usuarioP = new UsuarioPersistencia();
-            usuarioP.updateCredencialByLegajo(operacion.Credencial);
+            if (aproved)
+            {
+                usuarioP.updateCredencialByLegajo(operacion.Credencial);
+            }
             usuarioP.deleteOpCredencialById(operacion.IdOperacion);
+            usuarioP.addAuto(operacion);
         }
-        public void autoPersona(OperacionCambioPersona operacion)
+        public void autoPersona(OperacionCambioPersona operacion, bool aproved)
         {
             UsuarioPersistencia usuarioP = new UsuarioPersistencia();
-            usuarioP.updatePersonaByLegajo(operacion.Persona);
+            if (aproved)
+            {
+                usuarioP.updatePersonaByLegajo(operacion.Persona);
+            }
             usuarioP.deleteOpPersonaById(operacion.IdOperacion);
-            
-            //usuarioP.addAuto();
+            usuarioP.addAuto(operacion);
         }
         public List<string> getAllOpPersonas()
         {
@@ -70,15 +77,29 @@ namespace Negocio
             response = usuarioPersistencia.getAllOpPersonas();
             return response;
         }
-        public void startFormVerOperaciones()
+        public void startFormVerOperaciones(Credencial aCredencial)
         {
-            var formVerOp = new FormVerOperaciones();
-            formVerOp.ShowDialog();
+            var formVerOp = new FormVerOperaciones(aCredencial);
+            if (formVerOp.closeWindow)
+            {
+                formVerOp.Close();
+            }
+            else
+            {
+                formVerOp.ShowDialog();
+            }
         }
-        public void startFormVerOpPersona()
+        public void startFormVerOpPersona(Credencial aCredencial)
         {
-            var formVerOp = new FormVerOpPersona();
-            formVerOp.ShowDialog();
+            var formVerOp = new FormVerOpPersona(aCredencial);
+            if (formVerOp.closeWindow)
+            {
+                formVerOp.Close();
+            }
+            else
+            {
+                formVerOp.ShowDialog();
+            }
         }
     }
 }

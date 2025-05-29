@@ -31,38 +31,49 @@ namespace Negocio
             formChangePersona.ShowDialog();
         }
         
-        public void createPersonaOp(string legajo, string nombre, string apellido, string DNI, DateTime fechaIngreso)
+        public string createPersonaOp(string legajo, string nombre, string apellido, string DNI, DateTime fechaIngreso)
         {
-            var response = true;
+            var response = "";
+            var itsOkValues = true;
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             if (legajo == null || legajo == "")
             {
-                response = false;
+                itsOkValues = false;
             }
             if(nombre == null || nombre == "")
             {
-                response = false;
+                itsOkValues = false;
             }
             if(apellido == null || apellido == "")
             {
-                response = false;
+                itsOkValues = false;
             }
             if (DNI == null || DNI == "")
             {
-                response = false;
+                itsOkValues = false;
             }
             if (fechaIngreso == null)
             {
-                response = false;
+                itsOkValues = false;
             }
-            if (response)
+            if (itsOkValues)
             {
                 Persona modPersona = new Persona(legajo, nombre, apellido, DNI, fechaIngreso);
                 if (modPersona.passValueTest())
                 {
                     usuarioPersistencia.addOpPersona(modPersona);
+                    response = "El cambio fue enviado a autorizar.";
+                }
+                else
+                {
+                    response = "Valores no permitidos en campos";
                 }
             }
+            else
+            {
+                response = "Valores nulos o vacios";
+            }
+            return response;
         }
         public Credencial getCredencial(string legajo)
         {

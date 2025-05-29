@@ -1,1 +1,8 @@
 idOperacion;tipoOperacion;estado;legajoSolicitante;fechaSolicitud;legajoAutorizador;fechaAutorizacion
+;;;;;;
+1;Desbloqueo;Rechazado;2191;29/5/2025;5343;29/5/2025
+2;ModPersona;Aprobado;2448;29/5/2025;5343;29/5/2025
+3;ModPersona;Rechazado;2316;29/5/2025;5343;29/5/2025
+6;ModPersona;Rechazado;2316;29/5/2025;5343;29/5/2025
+4;Desbloqueo;Aprobado;2448;29/5/2025;5343;29/5/2025
+5;Desbloqueo;Rechazado;2191;29/5/2025;5343;29/5/2025

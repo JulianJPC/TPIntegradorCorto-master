@@ -85,7 +85,6 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Formchangepassword";
             this.Text = "Formchangepassword";
-            this.Load += new System.EventHandler(this.Formchangepassword_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

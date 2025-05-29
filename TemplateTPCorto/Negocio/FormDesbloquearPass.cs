@@ -13,9 +13,12 @@ namespace Negocio
 {
     public partial class FormDesbloquearPass : Form
     {
+        private SupervisorNegocio supNegocio { get; set; }
         public FormDesbloquearPass(List<string> legajos)
         {
             InitializeComponent();
+            supNegocio = new SupervisorNegocio();
+            this.StartPosition = FormStartPosition.CenterScreen;
             foreach (string oneLegajo in legajos)
             {
                 cmbLegajos.Items.Add(oneLegajo);
@@ -32,14 +35,13 @@ namespace Negocio
         {
             var legajo = cmbLegajos.SelectedItem as string;
             var newPass = txtbPass.Text;
-            var supNegocio = new SupervisorNegocio();
             supNegocio.createCredOp(legajo, newPass);
+            MessageBox.Show("El desbloqueo fue enviado a autorizar.");
             this.Close();
         }
 
         private void cmbLegajos_DropDownClosed(object sender, EventArgs e)
         {
-            var supNegocio = new SupervisorNegocio();
             if (cmbLegajos.SelectedItem is string)
             {
                 var theLegajo = cmbLegajos.SelectedItem as string;

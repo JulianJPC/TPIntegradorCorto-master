@@ -1,3 +1,1 @@
-idOperacion;legajo;nombreUuario;contrasena;idPerfil;fechaAlta;fechaUltimoLogin
-1;2191;Sean111;123456789;2;4/9/2022;6/9/2017
-2;2376;brandon.morrison;h9HH$hs0*3;2;8/12/2021;16/9/2024
+idOperacion;legajo;nombreUuario;contrasena;idPerfil;fechaAlta;fechaUltimoLogin;fechaSolicitud

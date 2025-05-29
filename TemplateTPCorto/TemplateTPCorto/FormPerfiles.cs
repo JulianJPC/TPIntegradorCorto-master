@@ -18,6 +18,7 @@ namespace TemplateTPCorto
         public FormPerfiles(Credencial unaCredencial)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             laCredencial = unaCredencial;
             var loginN = new LoginNegocio();
             var idPerfil = loginN.buscarIdPerfil(laCredencial.Legajo);
@@ -66,13 +67,13 @@ namespace TemplateTPCorto
         private void btnAutoPersona_Click(object sender, EventArgs e)
         {
             var adminNegocio = new AdministradorNegocio();
-            adminNegocio.startFormVerOpPersona();
+            adminNegocio.startFormVerOpPersona(laCredencial);
         }
 
         private void btnAutoCred_Click(object sender, EventArgs e)
         {
             var adminNegocio = new AdministradorNegocio();
-            adminNegocio.startFormVerOperaciones();
+            adminNegocio.startFormVerOperaciones(laCredencial);
         }
     }
 }

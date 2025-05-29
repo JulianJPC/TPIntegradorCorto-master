@@ -22,14 +22,10 @@ namespace TemplateTPCorto
         public Formchangepassword(Credencial credencial)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.contraseñaAnterior = credencial.Contrasena;
         }
 
-
-        private void Formchangepassword_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {

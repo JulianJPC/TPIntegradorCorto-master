@@ -73,7 +73,6 @@
             this.cmbIdOperaciones.Name = "cmbIdOperaciones";
             this.cmbIdOperaciones.Size = new System.Drawing.Size(243, 24);
             this.cmbIdOperaciones.TabIndex = 3;
-            this.cmbIdOperaciones.SelectedIndexChanged += new System.EventHandler(this.cmbIdOperaciones_SelectedIndexChanged);
             this.cmbIdOperaciones.DropDownClosed += new System.EventHandler(this.cmbIdOperaciones_DropDownClosed);
             // 
             // label2

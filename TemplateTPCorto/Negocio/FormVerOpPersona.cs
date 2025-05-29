@@ -1,4 +1,5 @@
-﻿using Datos.Login;
+﻿using Datos;
+using Datos.Login;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,16 +14,30 @@ namespace Negocio
 {
     public partial class FormVerOpPersona : Form
     {
-        public FormVerOpPersona()
+        private Credencial credAdmin { get; set; }
+        public bool closeWindow { get; set; }
+        private AdministradorNegocio adminN { get; set; }
+        public FormVerOpPersona(Credencial aCredencial)
         {
             InitializeComponent();
-            AdministradorNegocio adminN = new AdministradorNegocio();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            credAdmin = aCredencial;
+            adminN = new AdministradorNegocio();
             var idOperaciones = adminN.getAllIdOpPersonas();
             foreach (var op in idOperaciones)
             {
                 cmbIdOperaciones.Items.Add(op.ToString());
             }
             cmbIdOperaciones.DropDownStyle = ComboBoxStyle.DropDownList;
+            if (idOperaciones.Count == 0)
+            {
+                MessageBox.Show("No hay Operaciones");
+                closeWindow = true;
+            }
+            else
+            {
+                closeWindow = false;
+            }
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -32,11 +47,10 @@ namespace Negocio
 
         private void cmbIdOperaciones_DropDownClosed(object sender, EventArgs e)
         {
-            var admNegocio = new AdministradorNegocio();
             if (cmbIdOperaciones.SelectedItem is string)
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
-                OperacionCambioPersona oneOp = admNegocio.getOperacionPersona(theIdOperacion);
+                OperacionCambioPersona oneOp = adminN.getOperacionPersona(theIdOperacion);
                 if (oneOp != null)
                 {
                     txtbLegajo.Text = oneOp.Persona.Legajo;
@@ -54,11 +68,14 @@ namespace Negocio
 
         private void btnRechazar_Click(object sender, EventArgs e)
         {
-            var adminNegocio = new AdministradorNegocio();
             if (cmbIdOperaciones.SelectedItem is string)
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
-                adminNegocio.deleteOpPersona(theIdOperacion);
+                var theOp = adminN.getOperacionPersona(theIdOperacion);
+                theOp.getDataFromPers(theOp.Persona, "Rechazado", credAdmin.Legajo);
+                adminN.autoPersona(theOp, false);
+                adminN.deleteOpPersona(theIdOperacion);
+                MessageBox.Show("La modificación fue rechazada");
                 this.Close();
             }
             else
@@ -69,13 +86,13 @@ namespace Negocio
 
         private void btnAutorizar_Click(object sender, EventArgs e)
         {
-            var adminNegocio = new AdministradorNegocio();
             if (cmbIdOperaciones.SelectedItem is string)
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
-                var theOp = adminNegocio.getOperacionPersona(theIdOperacion);
-
-                adminNegocio.autoPersona(theOp);
+                var theOp = adminN.getOperacionPersona(theIdOperacion);
+                theOp.getDataFromPers(theOp.Persona, "Aprobado", credAdmin.Legajo);
+                adminN.autoPersona(theOp, true);
+                MessageBox.Show("La modificación fue aprobada");
                 this.Close();
             }
             else

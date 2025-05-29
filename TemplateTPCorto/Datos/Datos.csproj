@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Login\Autorizacion.cs" />
     <Compile Include="Login\Credencial.cs" />
+    <Compile Include="Login\Operacion.cs" />
     <Compile Include="Login\OperacionCambioCredencial.cs" />
     <Compile Include="Login\OperacionCambioPersona.cs" />
     <Compile Include="Login\Persona.cs" />

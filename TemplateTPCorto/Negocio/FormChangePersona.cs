@@ -14,24 +14,20 @@ namespace Negocio
 {
     public partial class FormChangePersona : Form
     {
+        private SupervisorNegocio supNegocio { get; set; }
         public FormChangePersona(List<string> legajos)
         {
             InitializeComponent();
-            foreach(string oneLegajo in legajos)
+            supNegocio = new SupervisorNegocio();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            foreach (string oneLegajo in legajos)
             {
                 cmbLegajos.Items.Add(oneLegajo);
             }
             cmbLegajos.DropDownStyle = ComboBoxStyle.DropDownList;
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void cmbLegajos_DropDownClosed(object sender, EventArgs e)
         {
-            SupervisorNegocio supNegocio = new SupervisorNegocio();
             if(cmbLegajos.SelectedItem is string)
             {
                 var theLegajo = cmbLegajos.SelectedItem as string;
@@ -49,12 +45,10 @@ namespace Negocio
                 }
             }
         }
-
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             var legajo = cmbLegajos.SelectedItem as string;
@@ -62,8 +56,8 @@ namespace Negocio
             var apellido = txtbApellido.Text;
             var dni = txtbDNI.Text;
             var fechaI = dtpFechaIngreso.Value;
-            SupervisorNegocio supNegocio = new SupervisorNegocio();
-            supNegocio.createPersonaOp(legajo, nombre, apellido, dni, fechaI);
+            var messageResult = supNegocio.createPersonaOp(legajo, nombre, apellido, dni, fechaI);
+            MessageBox.Show(messageResult);
             this.Close();
         }
     }

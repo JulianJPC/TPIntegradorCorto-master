@@ -207,6 +207,10 @@ namespace Persistencia
             updateRowTable(tablePersona, aPersona.Legajo, 0, aPersona.getRowString());
         }
         // ADD
+        public void addAuto(Operacion op)
+        {
+            addRowToTable(tableAutorizacion, op.getRowAutoString());
+        }
         public void addUsuarioBloqueado(Credencial aCredencial)
         {
             addRowToTable(tableUsuarioBloqueado, aCredencial.Legajo);
@@ -217,71 +221,42 @@ namespace Persistencia
         }
         public void addOpPersona(Persona aPersona)
         {
-            var allOperacionesPers = getRowsFromTable(tableOpCambioPersona);
             var idOpNew = 0;
-            
-            foreach(var row in allOperacionesPers)
-            {
-                var idOp = row.Split(';')[0];
-                if(Int32.TryParse(idOp, out int placeHolder))
-                {
-                    var idOpInt = Int32.Parse(idOp);
-                    if (idOpInt > idOpNew)
-                    {
-                        idOpNew = idOpInt;
-                    }
-                }
-            }
-            var allOperacionesCred = getRowsFromTable(tableOpCambioCredencial);
-            foreach (var row in allOperacionesPers)
-            {
-                var idOp = row.Split(';')[0];
-                if (Int32.TryParse(idOp, out int placeHolder))
-                {
-                    var idOpInt = Int32.Parse(idOp);
-                    if (idOpInt > idOpNew)
-                    {
-                        idOpNew = idOpInt;
-                    }
-                }
-            }
+            idOpNew = getBiggestNumber(tableOpCambioCredencial, 0, idOpNew);
+            idOpNew = getBiggestNumber(tableOpCambioPersona, 0, idOpNew);
+            idOpNew = getBiggestNumber(tableAutorizacion, 0, idOpNew);
             idOpNew++;
             var newOp = new OperacionCambioPersona(aPersona, idOpNew.ToString());
             addRowToTable(tableOpCambioPersona, newOp.getRowString());
         }
         public void addOpCredencial(Credencial aCredencial)
         {
-            var allOperacionesCred = getRowsFromTable(tableOpCambioCredencial);
             var idOpNew = 0;
             var idPerfil = getPerfilByLegajo(aCredencial.Legajo);
-            foreach (var row in allOperacionesCred)
-            {
-                var idOp = row.Split(';')[0];
-                if (Int32.TryParse(idOp, out int placeHolder))
-                {
-                    var idOpInt = Int32.Parse(idOp);
-                    if (idOpInt > idOpNew)
-                    {
-                        idOpNew = idOpInt;
-                    }
-                }
-            }
-            var allOperacionesPers = getRowsFromTable(tableOpCambioPersona);
-            foreach (var row in allOperacionesCred)
-            {
-                var idOp = row.Split(';')[0];
-                if (Int32.TryParse(idOp, out int placeHolder))
-                {
-                    var idOpInt = Int32.Parse(idOp);
-                    if (idOpInt > idOpNew)
-                    {
-                        idOpNew = idOpInt;
-                    }
-                }
-            }
+            idOpNew = getBiggestNumber(tableOpCambioCredencial, 0, idOpNew);
+            idOpNew = getBiggestNumber(tableOpCambioPersona, 0, idOpNew);
+            idOpNew = getBiggestNumber(tableAutorizacion, 0, idOpNew);
             idOpNew++;
             var newOp = new OperacionCambioCredencial(aCredencial, idOpNew.ToString(), idPerfil);
             addRowToTable(tableOpCambioCredencial, newOp.getRowString());
+        }
+        private int getBiggestNumber(string table, int indexNumberColumn, int previousNumber)
+        {
+            var response = previousNumber;
+            var allRowsTable = getRowsFromTable(table);
+            foreach (var row in allRowsTable)
+            {
+                var idOp = row.Split(';')[indexNumberColumn];
+                if (Int32.TryParse(idOp, out int placeHolder))
+                {
+                    var idOpInt = Int32.Parse(idOp);
+                    if (idOpInt > response)
+                    {
+                        response = idOpInt;
+                    }
+                }
+            }
+            return response;
         }
         // DELETE
         public void unblockUser(Credencial theCredencial)
