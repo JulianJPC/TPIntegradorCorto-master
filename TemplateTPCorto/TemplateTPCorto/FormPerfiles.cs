@@ -27,7 +27,7 @@ namespace TemplateTPCorto
             lblPerfilNombre.Text = descPerfil;
             if(idPerfil == "1")
             {
-                btnOperador.Enabled = true;
+                btnCargarVenta.Enabled = true;
             }
             else if(idPerfil == "2")
             {

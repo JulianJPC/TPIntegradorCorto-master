@@ -36,7 +36,7 @@
             this.btnAutoPersona = new System.Windows.Forms.Button();
             this.btnDesbCredencial = new System.Windows.Forms.Button();
             this.btnAutoCred = new System.Windows.Forms.Button();
-            this.btnOperador = new System.Windows.Forms.Button();
+            this.btnCargarVenta = new System.Windows.Forms.Button();
             this.btnCambiarPass = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -122,15 +122,15 @@
             this.btnAutoCred.UseVisualStyleBackColor = true;
             this.btnAutoCred.Click += new System.EventHandler(this.btnAutoCred_Click);
             // 
-            // btnOperador
+            // btnCargarVenta
             // 
-            this.btnOperador.Enabled = false;
-            this.btnOperador.Location = new System.Drawing.Point(42, 208);
-            this.btnOperador.Name = "btnOperador";
-            this.btnOperador.Size = new System.Drawing.Size(238, 23);
-            this.btnOperador.TabIndex = 8;
-            this.btnOperador.Text = "Operador";
-            this.btnOperador.UseVisualStyleBackColor = true;
+            this.btnCargarVenta.Enabled = false;
+            this.btnCargarVenta.Location = new System.Drawing.Point(42, 208);
+            this.btnCargarVenta.Name = "btnCargarVenta";
+            this.btnCargarVenta.Size = new System.Drawing.Size(238, 23);
+            this.btnCargarVenta.TabIndex = 8;
+            this.btnCargarVenta.Text = "Cargar Venta";
+            this.btnCargarVenta.UseVisualStyleBackColor = true;
             // 
             // btnCambiarPass
             // 
@@ -159,7 +159,7 @@
             this.ClientSize = new System.Drawing.Size(306, 347);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnCambiarPass);
-            this.Controls.Add(this.btnOperador);
+            this.Controls.Add(this.btnCargarVenta);
             this.Controls.Add(this.btnAutoCred);
             this.Controls.Add(this.btnDesbCredencial);
             this.Controls.Add(this.btnAutoPersona);
@@ -185,7 +185,7 @@
         private System.Windows.Forms.Button btnAutoPersona;
         private System.Windows.Forms.Button btnDesbCredencial;
         private System.Windows.Forms.Button btnAutoCred;
-        private System.Windows.Forms.Button btnOperador;
+        private System.Windows.Forms.Button btnCargarVenta;
         private System.Windows.Forms.Button btnCambiarPass;
         private System.Windows.Forms.Button btnSalir;
     }
