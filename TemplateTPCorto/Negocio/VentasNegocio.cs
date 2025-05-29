@@ -1,10 +1,12 @@
-﻿using Datos.Ventas;
+﻿using Datos;
+using Datos.Ventas;
 using Persistencia;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TemplateTPCorto;
 
 namespace Negocio
 {
@@ -19,6 +21,21 @@ namespace Negocio
             clientes = clientePersistencia.obtenerClientes();
 
             return clientes;
+        }
+        public string createVenta(List<Venta> listaVentas)
+        {
+            var response = "Exito al realizar las ventas.";
+            var ventPersistente = new VentaPersistencia();
+            var msgResult = ventPersistente.addVentas(listaVentas);
+            if(msgResult.Count > 0)
+            {
+                response = "Error en Ventas:\n";
+                foreach( var oneMsg in msgResult)
+                {
+                    response += oneMsg;
+                }
+            }
+            return response;
         }
 
         public List<CategoriaProductos> obtenerCategoriaProductos()
@@ -41,6 +58,11 @@ namespace Negocio
             categoriaProductos.Add(p5);
 
             return categoriaProductos;
+        }
+        public void startFormVentas(Credencial laCredencial)
+        {
+            var newFormVentas = new FormVentas(laCredencial);
+            newFormVentas.ShowDialog();
         }
 
     }

@@ -75,5 +75,11 @@ namespace TemplateTPCorto
             var adminNegocio = new AdministradorNegocio();
             adminNegocio.startFormVerOperaciones(laCredencial);
         }
+
+        private void btnCargarVenta_Click(object sender, EventArgs e)
+        {
+            var ventasNegocio = new VentasNegocio();
+            ventasNegocio.startFormVentas(laCredencial);
+        }
     }
 }

@@ -131,6 +131,7 @@
             this.btnCargarVenta.TabIndex = 8;
             this.btnCargarVenta.Text = "Cargar Venta";
             this.btnCargarVenta.UseVisualStyleBackColor = true;
+            this.btnCargarVenta.Click += new System.EventHandler(this.btnCargarVenta_Click);
             // 
             // btnCambiarPass
             // 

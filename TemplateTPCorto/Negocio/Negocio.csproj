@@ -62,6 +62,12 @@
     <Compile Include="FormDesbloquearPass.Designer.cs">
       <DependentUpon>FormDesbloquearPass.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVentas.Designer.cs">
+      <DependentUpon>FormVentas.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormVerOperaciones.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormDesbloquearPass.resx">
       <DependentUpon>FormDesbloquearPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormVentas.resx">
+      <DependentUpon>FormVentas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormVerOperaciones.resx">
       <DependentUpon>FormVerOperaciones.cs</DependentUpon>

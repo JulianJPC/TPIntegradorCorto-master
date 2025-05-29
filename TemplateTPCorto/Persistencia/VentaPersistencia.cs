@@ -1,6 +1,11 @@
-﻿using System;
+﻿using Datos.Ventas;
+using Newtonsoft.Json;
+using Persistencia.WebService.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,20 +15,39 @@ namespace Persistencia
     {
         private Guid idUsuario = new Guid("784c07f2-2b26-4973-9235-4064e94832b5");
 
-        /*
-        public bool agregarVenta(venta)
+
+        public List<string> addVentas(List<Venta> listVentas)
         {
-            var jsonRequest = JsonConvert.SerializeObject(venta);
-
-            HttpResponseMessage response = WebHelper.Post("Venta/AgregarVenta", jsonRequest);
-
-            if (response.IsSuccessStatusCode)
+            var listMsg = new List<string>();
+            foreach(var item in listVentas)
             {
-                return true;
+                item.idUsuario = idUsuario;
+                var msgOperation = addVenta(item);
+                if(msgOperation != "OK")
+                {
+                    listMsg.Add(msgOperation + " " + item.ToString());
+                }
             }
-
-            return false;
+            return listMsg;
         }
-        */
+        
+        private string addVenta(Venta unaVenta)
+        {
+            var response = "";
+            var jsonRequest = JsonConvert.SerializeObject(unaVenta);
+
+            HttpResponseMessage responseQuery = WebHelper.Post("/api/Venta/AgregarVenta", jsonRequest);
+
+            if (responseQuery.IsSuccessStatusCode)
+            {
+                response = responseQuery.StatusCode.ToString();
+            }
+            else
+            {
+                response = responseQuery.StatusCode.ToString();
+            }
+            return response;  
+        }
+        
     }
 }

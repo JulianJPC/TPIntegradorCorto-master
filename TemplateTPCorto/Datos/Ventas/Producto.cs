@@ -15,6 +15,7 @@ namespace Datos.Ventas
         DateTime? _fechaBaja;
         int _precio;
         int _stock;
+        int _cantidadElegida;
 
         public Guid Id { get => _id; set => _id = value; }
         public int IdCategoria { get => _idCategoria; set => _idCategoria = value; }
@@ -23,5 +24,16 @@ namespace Datos.Ventas
         public DateTime? FechaBaja { get => _fechaBaja; set => _fechaBaja = value; }
         public int Precio { get => _precio; set => _precio = value; }
         public int Stock { get => _stock; set => _stock = value; }
+        public int CantidadElegida { get => _cantidadElegida; set => _cantidadElegida = value; }
+
+        public override string ToString()
+        {
+            var msg = Nombre;
+            if(_cantidadElegida != 0)
+            {
+                msg = _cantidadElegida.ToString() + ":" + Nombre;
+            } 
+            return msg;
+        }
     }
 }
