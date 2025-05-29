@@ -26,7 +26,12 @@ namespace TemplateTPCorto
             this.contraseñaAnterior = credencial.Contrasena;
         }
 
-
+        /// <summary>
+        /// Si la contraseña escrita tiene mas de 8 caracteres y es diferente a la contraseña anterior
+        /// guarda el valor de la contraseña y cierra el forms.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             string contraseña = txtpassword.Text;

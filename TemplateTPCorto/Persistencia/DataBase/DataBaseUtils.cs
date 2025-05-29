@@ -34,6 +34,16 @@ namespace Persistencia.DataBase
             }
             return response;
         }
+        /// <summary>
+        /// Dada una tabla el numero de columna a buscar y el valor a comparar,
+        /// busca fila por fila, salteandose la primera, si matchea en el numero de columna el valor que se encuentra 
+        /// con el valor de fila dado al principio.
+        /// Crea una lista donde almacene las filas que matchean y devuelve al final esa lista.
+        /// Si no encuentra valor que matche devuleve la lista vacia.
+        /// </summary>
+        /// <param name="columnValue">Valor para ver si matchea</param>
+        /// <param name="columnToSearch">Numero de columna a buscar</param>
+        /// <param name="nameTable">Nombre de la tabla</param>
         public List<string> BuscarRegistro(string columnValue, int columnToSearch, string nameTable)
         {
             var response = new List<string>();
@@ -85,13 +95,14 @@ namespace Persistencia.DataBase
             }
             return response;
         }
-        public void ModificarRegistro(string newRow, String nameTable, int keyColumn, string keyValue)
+        public bool ModificarRegistro(string newRow, String nameTable, int keyColumn, string keyValue)
         {
+            var response = true;
             var theFile = Path.Combine(archivoCsv, nameTable); // Cambia esta ruta al archivo CSV que deseas leer
             var newText = "";
+
             try
             {
-                
                 using (StreamReader sr = new StreamReader(theFile))
                 {
                     string linea;
@@ -117,9 +128,11 @@ namespace Persistencia.DataBase
 
             catch (Exception e)
             {
+                response = false;
                 Console.WriteLine("No se pudo leer el archivo:");
                 Console.WriteLine(e.Message);
             }
+            return response;
         }
         public void BorrarRegistro(String nameTable, int keyColumn, string keyValue)
         {

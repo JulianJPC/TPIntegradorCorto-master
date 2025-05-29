@@ -14,43 +14,49 @@ namespace TemplateTPCorto
 {
     public partial class FormLogin : Form
     {
+        private LoginNegocio loginNegocio { get; set; }
         public FormLogin()
         {
             InitializeComponent();
+            loginNegocio = new LoginNegocio();
             this.StartPosition = FormStartPosition.CenterScreen;
         }
-
+        /// <summary>
+        /// Funcion correspondiente al boton ingresar, hace el login
+        /// </summary>
         private void btnIngresar_Click(object sender, EventArgs e)
         {
+            // Obtiene la credencial a través del usuario
             var usuario = txtUsuario.Text;
             var password = txtPassword.Text;
-
-            var loginNegocio = new LoginNegocio();
-            var credencial = loginNegocio.login(usuario, password);
-            if(credencial != null)
+            var credencialSinVerif = loginNegocio.getCredencialLogIn(usuario);
+            Credencial credencialVerif;
+            var MsgError = "";
+            if(credencialSinVerif == null)
             {
+                MsgError = "Error el Usuario no existe.";
+            }
+            else
+            {
+                //Si el usuario corresponde a una cuenta verifica si la contraseña es correcta
+                MsgError = loginNegocio.verificationCredencial(credencialSinVerif, password);
+            }
+            if(MsgError == "Exito")//si pasa la verificacion
+            {
+                credencialVerif = credencialSinVerif;
                 MessageBox.Show("Exito logIn!!");
-                FormPerfiles newFormPerfil = new FormPerfiles(credencial);
+                FormPerfiles newFormPerfil = new FormPerfiles(credencialVerif);
                 this.Hide();
                 newFormPerfil.ShowDialog();
+                // cuando se cierra el formPerfil muestra este form
                 txtPassword.Text = "";
                 txtUsuario.Text = "";
                 this.Show();
             }
-            else if(credencial == null)
+            else
             {
-                MessageBox.Show("Está mal usuario o contraseña");
+                MessageBox.Show(MsgError);
             }
-        }
-
-        private void FormLogin_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

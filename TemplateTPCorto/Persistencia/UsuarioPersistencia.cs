@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Persistencia
 {
@@ -23,9 +24,11 @@ namespace Persistencia
         private string tableRol { get; set; }
         private string tableUsuarioBloqueado { get; set; }
         private string tableUsuarioPerfil { get; set; }
+        private DataBaseUtils dataBaseUtils { get; set; }
 
         public UsuarioPersistencia()
         {
+            dataBaseUtils = new DataBaseUtils();
             tableAutorizacion = "autorizacion.csv";
             tableCredenciales = "credenciales.csv";
             tableLogInIntentos = "login_intentos.csv";
@@ -44,10 +47,18 @@ namespace Persistencia
             var dataBaseUtils = new DataBaseUtils();
             dataBaseUtils.AgregarRegistro(nameTable, rowToAdd);
         }
+        /// <summary>
+        /// Funcion base para buscar en una tabla las filas  dado un numero de columna y valor sean iguales.
+        /// Si encuentra filas las añade en una List<string> y devuelve.
+        /// Si no encuntra devuelve la lista vacía.
+        /// </summary>
+        /// <param name="nameTable">Nombre de la tabla a buscar</param>
+        /// <param name="valueOfColumn">Valor a matchear</param>
+        /// <param name="indexOfColumn">Numero de columna en que buscar</param>
+        /// <returns></returns>
         private List<string> getRowsFromTable(string nameTable, string valueOfColumn, int indexOfColumn)
         {
             var response = new List<string>();
-            var dataBaseUtils = new DataBaseUtils();
             response = dataBaseUtils.BuscarRegistro(valueOfColumn, indexOfColumn, nameTable);
             return response;
         }
@@ -60,7 +71,6 @@ namespace Persistencia
         }
         private void updateRowTable(string nameTable, string valueOfColumn, int indexOfColumn, string newRow)
         {
-            DataBaseUtils dataBaseUtils = new DataBaseUtils();
             dataBaseUtils.ModificarRegistro(newRow, nameTable, indexOfColumn, valueOfColumn);
         }
         private void DeleteRowTable(string nameTable, string valueOfColumn, int indexOfColumn)
@@ -75,15 +85,30 @@ namespace Persistencia
             var resultQuery = getRowsFromTable(tableLogInIntentos, theCredencial.Legajo, 0);
             return resultQuery.Count;
         }
+
+        /// <summary>
+        /// Dada una credencial busca en la tabla de usuarios bloqueados
+        /// si hay filas con el mismo numero de legajo. Las añade en una lista
+        /// y devuelve.
+        /// Si no encuentra devuelve la lista vacia.
+        /// </summary>
+        /// <param name="aCredencial">Credencial de usuario llena de valores</param>
         public List<string> getUsuariosBloqueadosByLegajo(Credencial aCredencial)
         {
-            return getRowsFromTable(tableUsuarioBloqueado, aCredencial.Legajo, 0);
+            return dataBaseUtils.BuscarRegistro(aCredencial.Legajo, 0, tableUsuarioBloqueado);
         }
+        /// <summary>
+        /// Metodo usuado para buscar en la tabla de Credenciales
+        /// la credencial que tenga el mismo nombre de usuario.
+        /// Si encuentra credenciales con el mismo nombre de usuario devuelve la primera que encuentra
+        /// Si no encuentra credenciales devuelve null
+        /// </summary>
+        /// <param name="username">Nombre de usuario de la credencial</param>
         public Credencial getCredencialByUsername(string username)
         {
             Credencial aCredencial = null;
-            var rawResponse = getRowsFromTable(tableCredenciales, username, 1);
-            if (rawResponse.Count > 0)
+            var rawResponse = dataBaseUtils.BuscarRegistro(username, 1, tableCredenciales);
+            if (rawResponse.Count > 0)// si encuentra credencial devuelve solo la primera que encuentra
             {
                 aCredencial = new Credencial(rawResponse[0]);
             }
@@ -198,9 +223,17 @@ namespace Persistencia
             return resultQuery;
         }
         // UPDATE
-        public void updateCredencialByLegajo(Credencial aCredencial)
+        /// <summary>
+        /// Dada una credencial updatea las tabla de Credenciales en la fila que tenga el mismo numero de 
+        /// legajo que el de la credencial.
+        /// Si lo logra devuelve true.
+        /// Si no devuelve false.
+        /// </summary>
+        /// <param name="aCredencial">Credencial de usuario llena de valores.</param>
+        public bool updateCredencialByLegajo(Credencial aCredencial)
         {
-            updateRowTable(tableCredenciales, aCredencial.Legajo, 0, aCredencial.getRowString());
+            bool result = dataBaseUtils.ModificarRegistro(aCredencial.getRowString(), tableCredenciales, 0, aCredencial.Legajo);
+            return result;
         }
         public void updatePersonaByLegajo(Persona aPersona)
         {

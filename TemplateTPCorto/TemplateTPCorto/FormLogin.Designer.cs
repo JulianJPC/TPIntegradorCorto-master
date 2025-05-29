@@ -86,7 +86,6 @@
             this.label3.Size = new System.Drawing.Size(194, 16);
             this.label3.TabIndex = 5;
             this.label3.Text = "Introducir Usuario y contraseña:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // FormLogin
             // 
@@ -101,7 +100,6 @@
             this.Controls.Add(this.txtUsuario);
             this.Name = "FormLogin";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.FormLogin_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
