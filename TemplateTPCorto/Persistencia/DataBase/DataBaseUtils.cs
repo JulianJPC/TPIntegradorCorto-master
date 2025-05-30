@@ -134,8 +134,9 @@ namespace Persistencia.DataBase
             }
             return response;
         }
-        public void BorrarRegistro(String nameTable, int keyColumn, string keyValue)
+        public bool BorrarRegistro(String nameTable, int keyColumn, string keyValue)
         {
+            var response = true;
             var theFile = Path.Combine(archivoCsv, nameTable); // Cambia esta ruta al archivo CSV que deseas leer
             var newText = "";
             try
@@ -162,12 +163,13 @@ namespace Persistencia.DataBase
                 File.Delete(theFile);
                 File.WriteAllText(theFile, newText.ToString());
             }
-
             catch (Exception e)
             {
+                response = false;
                 Console.WriteLine("No se pudo leer el archivo:");
                 Console.WriteLine(e.Message);
             }
+            return response;
         }
 
         // Método para borrar un registro

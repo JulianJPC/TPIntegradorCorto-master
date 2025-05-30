@@ -292,12 +292,16 @@ namespace Persistencia
             return response;
         }
         // DELETE
-        public void unblockUser(Credencial theCredencial)
+        /// <summary>
+        /// Elimina de la table de log in intentos todos los intentos de un legajo determinado
+        /// por la credencial dada.
+        /// </summary>
+        /// <param name="theCredencial">Credencial de usuario válida</param>
+        public bool deleteAttemptsByLegajo(Credencial theCredencial)
         {
-            updateCredencialByLegajo(theCredencial);
-            DeleteRowTable(tableLogInIntentos, theCredencial.Legajo, 0);
-            DeleteRowTable(tableUsuarioBloqueado, theCredencial.Legajo, 0);
-        }   
+            var result = dataBaseUtils.BorrarRegistro(tableLogInIntentos, 0, theCredencial.Legajo);
+            return result;
+        }
         public void deleteOpCredencialById(string id)
         {
             DeleteRowTable(tableOpCambioCredencial, id, 0);

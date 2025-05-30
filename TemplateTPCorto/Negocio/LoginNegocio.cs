@@ -38,6 +38,20 @@ namespace Negocio
             return changePass(theCredencial);
         }
         /// <summary>
+        /// Remuevo el registro de intentos de log in en la BD de una credencial dada
+        /// </summary>
+        /// <param name="theCredencial">Credencial de usuario valido</param>
+        public string removeAttempts(Credencial theCredencial)
+        {
+            var msgError = "Exito";
+            var result = usuarioPersistencia.deleteAttemptsByLegajo(theCredencial);
+            if (!result)
+            {
+                msgError = "Error al eliminar los intentos de la base de datos";
+            }
+            return msgError;
+        }
+        /// <summary>
         /// Metodo usado en el login, con el usuario y contraseña busca la credencial
         /// De encontrarla la devuelve.
         /// Si no la encuentra lo devuelve null.
@@ -50,8 +64,8 @@ namespace Negocio
         }
         /// <summary>
         /// Funcion que dado una credencial y una contraseña se fija si primero la contraseña dada es la de la credencial.
-        /// Si la contraseña es correcta pasa a ver si esta bloqueada.
-        /// Si no esta bloqueada, se fija si esta expirada o es su primer log in
+        /// Si no esta bloqueada, se fija si la contraseña es correcta
+        /// despues se fija si esta expirada o es su primer log in
         /// de ser eso le pide que cambie la contraseña
         /// de tener exito al cambiar la contraseñá continua
         /// Actualiza la fecha de login da la credencial y la cambia en la base de datos.
@@ -66,15 +80,19 @@ namespace Negocio
         public string verificationCredencial(Credencial theCredencial, string password)
         {
             var msgResult = "Exito";
+            var blocked = isBlocked(theCredencial);
 
-            if (theCredencial.Contrasena.Equals(password))
+            if (blocked)
             {
-                var blocked = isBlocked(theCredencial);
+                msgResult = "Usuario bloqueado";
+            }
+            else if (theCredencial.Contrasena.Equals(password))
+            {
                 var expired = isExpired(theCredencial);
                 var resultChange = true;
                 if (blocked)
                 {
-                    msgResult = "Usuario bloqueado";
+                    
                 }
                 else if (expired || theCredencial.isFirstLogIn)// expirado o primer log in
                 {
@@ -102,7 +120,7 @@ namespace Negocio
                 if (attempts >= 3)
                 {
                     usuarioPersistencia.addUsuarioBloqueado(theCredencial);
-                    msgResult = "La cuenta se bloqueo hubo 3 intentos fallidos";
+                    msgResult = "La cuenta se bloqueo hubo 3 intentos fallidos o mas";
                 }
             }
             return msgResult;

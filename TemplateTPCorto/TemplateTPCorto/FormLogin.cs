@@ -29,23 +29,26 @@ namespace TemplateTPCorto
             // Obtiene la credencial a través del usuario
             var usuario = txtUsuario.Text;
             var password = txtPassword.Text;
-            var credencialSinVerif = loginNegocio.getCredencialLogIn(usuario);
-            Credencial credencialVerif;
+            var credencialDeUsuario = loginNegocio.getCredencialLogIn(usuario);
             var MsgError = "";
-            if(credencialSinVerif == null)
+            if(credencialDeUsuario == null)
             {
                 MsgError = "Error el Usuario no existe.";
             }
             else
             {
                 //Si el usuario corresponde a una cuenta verifica si la contraseña es correcta
-                MsgError = loginNegocio.verificationCredencial(credencialSinVerif, password);
+                MsgError = loginNegocio.verificationCredencial(credencialDeUsuario, password);
             }
-            if(MsgError == "Exito")//si pasa la verificacion
+            if(MsgError == "Exito")
             {
-                credencialVerif = credencialSinVerif;
+                MsgError = loginNegocio.removeAttempts(credencialDeUsuario);//remueve intentos en la BD
+            }
+
+            if(MsgError == "Exito")//si pasa la verificacion y elimina los intentos de log in
+            {
                 MessageBox.Show("Exito logIn!!");
-                FormPerfiles newFormPerfil = new FormPerfiles(credencialVerif);
+                FormPerfiles newFormPerfil = new FormPerfiles(credencialDeUsuario);
                 this.Hide();
                 newFormPerfil.ShowDialog();
                 // cuando se cierra el formPerfil muestra este form
