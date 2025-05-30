@@ -13,7 +13,6 @@ namespace Persistencia
 {
     public class UsuarioPersistencia
     {
-        private string tableAutorizacion { get; set; }
         private string tableCredenciales { get; set; }
         private string tableLogInIntentos { get; set; }
         private string tableOpCambioCredencial { get; set; }
@@ -29,7 +28,6 @@ namespace Persistencia
         public UsuarioPersistencia()
         {
             dataBaseUtils = new DataBaseUtils();
-            tableAutorizacion = "autorizacion.csv";
             tableCredenciales = "credenciales.csv";
             tableLogInIntentos = "login_intentos.csv";
             tableOpCambioCredencial = "operacion_cambio_credencial.csv";
@@ -41,45 +39,9 @@ namespace Persistencia
             tableUsuarioBloqueado = "usuario_bloqueado.csv";
             tableUsuarioPerfil = "usuario_perfil.csv";
         }
-        // BASES
-        private void addRowToTable(string nameTable, string rowToAdd)
-        {
-            var dataBaseUtils = new DataBaseUtils();
-            dataBaseUtils.AgregarRegistro(nameTable, rowToAdd);
-        }
-        /// <summary>
-        /// Funcion base para buscar en una tabla las filas  dado un numero de columna y valor sean iguales.
-        /// Si encuentra filas las añade en una List<string> y devuelve.
-        /// Si no encuntra devuelve la lista vacía.
-        /// </summary>
-        /// <param name="nameTable">Nombre de la tabla a buscar</param>
-        /// <param name="valueOfColumn">Valor a matchear</param>
-        /// <param name="indexOfColumn">Numero de columna en que buscar</param>
-        /// <returns></returns>
-        private List<string> getRowsFromTable(string nameTable, string valueOfColumn, int indexOfColumn)
-        {
-            var response = new List<string>();
-            response = dataBaseUtils.BuscarRegistro(valueOfColumn, indexOfColumn, nameTable);
-            return response;
-        }
-        private List<string> getRowsFromTable(string nameTable)
-        {
-            var response = new List<string>();
-            var dataBaseUtils = new DataBaseUtils();
-            response = dataBaseUtils.getAllRegistro(nameTable);
-            return response;
-        }
-        private void updateRowTable(string nameTable, string valueOfColumn, int indexOfColumn, string newRow)
-        {
-            dataBaseUtils.ModificarRegistro(newRow, nameTable, indexOfColumn, valueOfColumn);
-        }
-        private void DeleteRowTable(string nameTable, string valueOfColumn, int indexOfColumn)
-        {
-            DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            dataBaseUtils.BorrarRegistro(nameTable, indexOfColumn, valueOfColumn);
-        }
 
-        // GET
+        //                                                                               GET
+
         /// <summary>
         /// Obtiene de la table de intentos de log in el numero de veces
         /// que se repite un legajo dado de la credencial que se da
@@ -88,10 +50,9 @@ namespace Persistencia
         /// <returns></returns>
         public int getLogInAttempsByLegajo(Credencial theCredencial)
         {
-            var resultQuery = getRowsFromTable(tableLogInIntentos, theCredencial.Legajo, 0);
+            var resultQuery = dataBaseUtils.BuscarRegistro(theCredencial.Legajo, 0, tableLogInIntentos);
             return resultQuery.Count;
         }
-
         /// <summary>
         /// Dada una credencial busca en la tabla de usuarios bloqueados
         /// si hay filas con el mismo numero de legajo. Las añade en una lista
@@ -120,10 +81,16 @@ namespace Persistencia
             }
             return aCredencial;
         }
+        /// <summary>
+        /// Dado un numero de legajo busca en la table de credenciales las filas con ese mismo
+        /// numero de legajo y arma una lista. De esa lista obtiene la primera y crea una credencial
+        /// y la devuelve. Si no encunetra filas que matchen devuelve null
+        /// </summary>
+        /// <param name="legajo">Numero de legajo valido</param>
         public Credencial getCredencialByLegajo(string legajo)
         {
             Credencial aCredencial = null;
-            var rawResponse = getRowsFromTable(tableCredenciales, legajo, 0);
+            var rawResponse = dataBaseUtils.BuscarRegistro(legajo, 0, tableCredenciales);
             if (rawResponse.Count > 0)
             {
                 aCredencial = new Credencial(rawResponse[0]);
@@ -144,36 +111,6 @@ namespace Persistencia
                 aPersona = new Persona(rawResponse[0]);
             }
             return aPersona;
-        }
-        public OperacionCambioCredencial getOperacionCByIdOp(string idOp)
-        {
-            OperacionCambioCredencial aOperacion = null;
-            var rawResponse = getRowsFromTable(tableOpCambioCredencial, idOp, 0);
-            if (rawResponse.Count > 0)
-            {
-                aOperacion = new OperacionCambioCredencial(rawResponse[0]);
-            }
-            return aOperacion;
-        }
-        public OperacionCambioPersona getOperacionPByIdOp(string idOp)
-        {
-            OperacionCambioPersona aOperacion = null;
-            var rawResponse = getRowsFromTable(tableOpCambioPersona, idOp, 0);
-            if (rawResponse.Count > 0)
-            {
-                aOperacion = new OperacionCambioPersona(rawResponse[0]);
-            }
-            return aOperacion;
-        }
-
-        private List<string> getValueFromResponse(List<string> rawResponse, int indexOfResponse)
-        {
-            var response = new List<string>();
-            if(rawResponse.Count > 0)
-            {
-                response = rawResponse[indexOfResponse].Split(';').ToList();
-            }
-            return response;
         }
         /// <summary>
         /// Dado un numero de legajo busca el perfil asoaciado 
@@ -251,41 +188,8 @@ namespace Persistencia
             }
             return response;
         }
-        public List<string> getAllIdOpCredenciales()
-        {
-            var response = new List<string>();
-            var resultQuery = getRowsFromTable(tableOpCambioCredencial);
-            foreach (string oneLine in resultQuery)
-            {
-                var splitedLine = oneLine.Split(';');
-                if (splitedLine[0].Length > 0)
-                {
-                    response.Add(splitedLine[0]);
-                }
-            }
-            return response;
-        }
-        public List<string> getAllIdOpPersonas()
-        {
-            var response = new List<string>();
-            var resultQuery = getRowsFromTable(tableOpCambioPersona);
-            foreach (string oneLine in resultQuery)
-            {
-                var splitedLine = oneLine.Split(';');
-                if (splitedLine[0].Length > 0)
-                {
-                    response.Add(splitedLine[0]);
-                }
-                
-            }
-            return response;
-        }
-        public List<string> getAllOpPersonas()
-        {
-            var resultQuery = getRowsFromTable(tableOpCambioPersona);
-            return resultQuery;
-        }
-        // UPDATE
+        //                                                                               UPDATE
+
         /// <summary>
         /// Dada una credencial updatea las tabla de Credenciales en la fila que tenga el mismo numero de 
         /// legajo que el de la credencial.
@@ -296,56 +200,24 @@ namespace Persistencia
         public bool updateCredencialByLegajo(Credencial aCredencial)
         {
             bool result = dataBaseUtils.ModificarRegistro(aCredencial.getRowString(), tableCredenciales, 0, aCredencial.Legajo);
+
             return result;
         }
         public void updatePersonaByLegajo(Persona aPersona)
         {
-            updateRowTable(tablePersona, aPersona.Legajo, 0, aPersona.getRowString());
+            dataBaseUtils.ModificarRegistro(aPersona.getRowString(), tablePersona, 0, aPersona.Legajo);
         }
-        // ADD
-        public void addAuto(Operacion op)
-        {
-            addRowToTable(tableAutorizacion, op.getRowAutoString());
-        }
+        //                                                                               ADD
         public void addUsuarioBloqueado(Credencial aCredencial)
         {
-            addRowToTable(tableUsuarioBloqueado, aCredencial.Legajo);
+            dataBaseUtils.AgregarRegistro(tableUsuarioBloqueado, aCredencial.Legajo);
         }
         public void addLogInIntento(Credencial aCredencial)
         {
-            addRowToTable(tableLogInIntentos, aCredencial.getLogInAttempRowString());
+            dataBaseUtils.AgregarRegistro(tableLogInIntentos, aCredencial.getLogInAttempRowString());
         }
-        
-        public void addOpCredencial(Credencial aCredencial)
-        {
-            var idOpNew = 0;
-            var idPerfil = getPerfilByLegajo(aCredencial.Legajo);
-            idOpNew = getBiggestNumber(tableOpCambioCredencial, 0, idOpNew);
-            idOpNew = getBiggestNumber(tableOpCambioPersona, 0, idOpNew);
-            idOpNew = getBiggestNumber(tableAutorizacion, 0, idOpNew);
-            idOpNew++;
-            var newOp = new OperacionCambioCredencial(aCredencial, idOpNew.ToString(), idPerfil.Id);
-            addRowToTable(tableOpCambioCredencial, newOp.getRowString());
-        }
-        private int getBiggestNumber(string table, int indexNumberColumn, int previousNumber)
-        {
-            var response = previousNumber;
-            var allRowsTable = getRowsFromTable(table);
-            foreach (var row in allRowsTable)
-            {
-                var idOp = row.Split(';')[indexNumberColumn];
-                if (Int32.TryParse(idOp, out int placeHolder))
-                {
-                    var idOpInt = Int32.Parse(idOp);
-                    if (idOpInt > response)
-                    {
-                        response = idOpInt;
-                    }
-                }
-            }
-            return response;
-        }
-        // DELETE
+        //                                                           DELETE
+
         /// <summary>
         /// Elimina de la table de log in intentos todos los intentos de un legajo determinado
         /// por la credencial dada.
@@ -356,13 +228,15 @@ namespace Persistencia
             var result = dataBaseUtils.BorrarRegistro(tableLogInIntentos, 0, theCredencial.Legajo);
             return result;
         }
-        public void deleteOpCredencialById(string id)
+        //                                                              AUX
+        private List<string> getValueFromResponse(List<string> rawResponse, int indexOfResponse)
         {
-            DeleteRowTable(tableOpCambioCredencial, id, 0);
-        }
-        public void deleteOpPersonaById(string id)
-        {
-            DeleteRowTable(tableOpCambioPersona, id, 0);
+            var response = new List<string>();
+            if (rawResponse.Count > 0)
+            {
+                response = rawResponse[indexOfResponse].Split(';').ToList();
+            }
+            return response;
         }
     }
 }

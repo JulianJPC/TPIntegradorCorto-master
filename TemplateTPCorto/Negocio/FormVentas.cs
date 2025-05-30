@@ -20,11 +20,13 @@ namespace TemplateTPCorto
         {
             InitializeComponent();
             laCredencial = aCredencial;
+            this.Text = "Ventas";
         }
-
+        /// <summary>
+        /// Cuando carga obtiene los clientes, categorias y inicializa los totales
+        /// </summary>
         private void FormVentas_Load(object sender, EventArgs e)
         {
-
             CargarClientes();
             CargarCategoriasProductos();
             IniciarTotales();
@@ -36,6 +38,9 @@ namespace TemplateTPCorto
             lblTotal.Text = "0.00";
         }
 
+        /// <summary>
+        /// Obtiene las categoriasProductos y las añade al combo de categorias
+        /// </summary>
         private void CargarCategoriasProductos()
         {
             
@@ -49,6 +54,9 @@ namespace TemplateTPCorto
             }
         }
 
+        /// <summary>
+        /// Obtiene los clientes y los añade en el combo de clientes
+        /// </summary>
         private void CargarClientes()
         {
             VentasNegocio ventasNegocio = new VentasNegocio();
@@ -61,6 +69,11 @@ namespace TemplateTPCorto
             }
         }
 
+        /// <summary>
+        /// Cuando se hace click en el boton de listar productos
+        /// obtiene la categoria seleccionada del combo de categeorias y 
+        /// trae todos los productos de la BD y los introduce en el listbox de productos
+        /// </summary>
         private void btnListarProductos_Click(object sender, EventArgs e)
         {
             if(cboCategoriaProductos.SelectedItem is CategoriaProductos)
@@ -75,7 +88,12 @@ namespace TemplateTPCorto
                 MessageBox.Show("No hay categoría seleccionada.");
             }
         }
-
+        /// <summary>
+        /// Al hacer click de agregar el producto seleccionado en la listbox de productos en el carrito
+        /// Se fija si la cantidad introducida y el producto estan bien.
+        /// Despues se fija si hay stock del producto dado la cantidad introducida y la cantidad en el carrito.
+        /// Si pasa eso, crea un producto y le asigna valor a la cantidad elegida y guarda en el carrito.
+        /// </summary>
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             var cantidad = 0;
@@ -105,6 +123,11 @@ namespace TemplateTPCorto
                 MessageBox.Show(messageError);
             }
         }
+        /// <summary>
+        /// Dado un id de producto se fija en el carrito los productos del mismo id
+        /// y devuelve la suma de las cantidades elegidas.
+        /// </summary>
+        /// <param name="idProducto">Id de producto valido</param>
         private int getCantidadesEnCarrito(Guid idProducto)
         {
             var response = 0;
@@ -121,6 +144,9 @@ namespace TemplateTPCorto
             }
             return response;
         }
+        /// <summary>
+        /// Actualiza el subtotal y total dado los items del carrito.
+        /// </summary>
         private void carritoHasChange()
         {
             var total = 0.00;
@@ -142,6 +168,9 @@ namespace TemplateTPCorto
                 lblTotal.Text = total.ToString();
             }
         }
+        /// <summary>
+        /// Elimina un item del carrito seleccionado
+        /// </summary>
         private void btnQuitar_Click(object sender, EventArgs e)
         {
             if (lstCarrito.SelectedItem is Producto)
@@ -154,7 +183,12 @@ namespace TemplateTPCorto
                 MessageBox.Show("No hay item en carrito seleccionado");
             }
         }
-
+        /// <summary>
+        /// Carga las ventas, primero obtiene el Cliente y los productos. Se fija alla productos y el cliente no sea nulo
+        /// Despues crea una lista de objectos ventas y dada la info de los prod y clientes crea las ventas
+        /// y almacena en la lista.
+        /// Al final manda a que se introduzcan en la base de datos y devuelve el mensaje del resultado.
+        /// </summary>
         private void btnCargar_Click(object sender, EventArgs e)
         {
             Cliente elCliente = null;

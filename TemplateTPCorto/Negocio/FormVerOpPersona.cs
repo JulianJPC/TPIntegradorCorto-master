@@ -21,17 +21,18 @@ namespace Negocio
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.Text = "Autorizaciones Personas";
             credAdmin = aCredencial;
             adminN = new AdministradorNegocio();
-            var idOperaciones = adminN.getAllIdOpPersonas();
-            foreach (var op in idOperaciones)
-            {
-                cmbIdOperaciones.Items.Add(op.ToString());
+            var idPendinetes = adminN.getAllAutoIdByEstado("ModPersona");
+            foreach (var id in idPendinetes)
+            {   
+                cmbIdOperaciones.Items.Add(id);
             }
             cmbIdOperaciones.DropDownStyle = ComboBoxStyle.DropDownList;
-            if (idOperaciones.Count == 0)
+            if (idPendinetes.Count == 0)
             {
-                MessageBox.Show("No hay Operaciones");
+                MessageBox.Show("No hay operaciones pendientes de cambio de persona");
                 closeWindow = true;
             }
             else
@@ -44,15 +45,19 @@ namespace Negocio
         {
             this.Close();
         }
-
+        /// <summary>
+        /// Cuand cambia el combo busca la operacion en la base de datos y
+        /// llena el formulario con la info que obtiene.
+        /// </summary>
         private void cmbIdOperaciones_DropDownClosed(object sender, EventArgs e)
         {
             if (cmbIdOperaciones.SelectedItem is string)
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
-                OperacionCambioPersona oneOp = adminN.getOperacionPersona(theIdOperacion);
-                if (oneOp != null)
+                var oneOpRaw = adminN.getOperacion(theIdOperacion);
+                if (oneOpRaw != null)
                 {
+                    var oneOp = (OperacionCambioPersona)oneOpRaw;
                     txtbLegajo.Text = oneOp.Persona.Legajo;
                     txtbNombre.Text = oneOp.Persona.Nombre;
                     txtbApellido.Text = oneOp.Persona.Apellido;
@@ -64,17 +69,23 @@ namespace Negocio
                     MessageBox.Show("Error numero de legajo");
                 }
             }
+            else
+            {
+                MessageBox.Show("Error numero de legajo");
+            }
         }
-
+        /// <summary>
+        /// Si se rechaza la operacion, busca la operacion del id
+        /// obtiene la info del admin y modifica la tabla de autorizaciones para rechazar
+        /// </summary>
         private void btnRechazar_Click(object sender, EventArgs e)
         {
             if (cmbIdOperaciones.SelectedItem is string)
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
-                var theOp = adminN.getOperacionPersona(theIdOperacion);
-                theOp.getDataFromPers(theOp.Persona, "Rechazado", credAdmin.Legajo);
-                adminN.autoPersona(theOp, false);
-                adminN.deleteOpPersona(theIdOperacion);
+                var theOp = (OperacionCambioPersona)adminN.getOperacion(theIdOperacion);
+                theOp.getDataForAuto("Rechazado", credAdmin.Legajo);
+                adminN.autoOperacion(theOp);
                 MessageBox.Show("La modificación fue rechazada");
                 this.Close();
             }
@@ -83,15 +94,19 @@ namespace Negocio
                 MessageBox.Show("Error numero de legajo");
             }
         }
-
+        /// <summary>
+        /// Si se autoriza los cambios a la persona se busca la operacion se la llena de la informacion
+        /// de la persona y el legajo del administrador y se modifica la persona y actualiza
+        /// la autorizacion
+        /// </summary>
         private void btnAutorizar_Click(object sender, EventArgs e)
         {
             if (cmbIdOperaciones.SelectedItem is string)
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
-                var theOp = adminN.getOperacionPersona(theIdOperacion);
-                theOp.getDataFromPers(theOp.Persona, "Aprobado", credAdmin.Legajo);
-                adminN.autoPersona(theOp, true);
+                var theOp = (OperacionCambioPersona)adminN.getOperacion(theIdOperacion);
+                theOp.getDataForAuto("Aprobado", credAdmin.Legajo);
+                adminN.autoOperacion(theOp);
                 MessageBox.Show("La modificación fue aprobada");
                 this.Close();
             }

@@ -23,7 +23,11 @@ namespace Datos
         public DateTime FechaUltimoLogin { get => _fechaUltimoLogin; set => _fechaUltimoLogin = value; }
         public bool isFirstLogIn { get => _isFirstLogIn; set => _isFirstLogIn = value; }
 
-
+        /// <summary>
+        /// Toma la fila de la base de datos sin separar de la tabla de credenciales
+        /// y llena de valores con eso a la Credencial
+        /// </summary>
+        /// <param name="registro">String separado con comas de la fila de la tabla de autorizaciones</param>
         public Credencial(string registro)
         {
             var datos = registro.Split(';');
@@ -41,6 +45,11 @@ namespace Datos
                 _isFirstLogIn = false;
             }
         }
+        /// <summary>
+        /// Si los valores de la credencial son adecuados al contexto de la realidad
+        /// Si lo son devuelve true
+        /// Si no lo son devuleve false
+        /// </summary>
         public bool passValueTest()
         {
             var response = true;
@@ -79,21 +88,30 @@ namespace Datos
             this._fechaUltimoLogin = fechaLogIn;
             this._isFirstLogIn = false;
         }
+        /// <summary>
+        /// Devuleve un string con los valores separados por punto y coma
+        /// para insertar en la BD
+        /// </summary>
         public string getRowString()
         {
             var response = String.Join(";", _legajo, _nombreUsuario, _contrasena, _fechaAlta.ToString("d/M/yyyy"), _fechaUltimoLogin.ToString("d/M/yyyy"));
             return response;
         }
+        /// <summary>
+        /// Devuelve un string con lo valores separados por punto y coma
+        /// para insertar en la BD y se agrega el idPerfil para poder insertar
+        /// en la tabla de operaciones de credenciales
+        /// </summary>
+        /// <param name="idPerfil">IdPerfil asociada a la credencial</param>
         public string getRowString(string idPerfil)
         {
             var response = String.Join(";", _legajo, _nombreUsuario, _contrasena, idPerfil, _fechaAlta.ToString("d/M/yyyy"), _fechaUltimoLogin.ToString("d/M/yyyy"));
             return response;
         }
-        public string getUnblockedRowString()
-        {
-            var response = String.Join(";", _legajo, _nombreUsuario, _contrasena, _fechaAlta.ToString("d/M/yyyy"), ";");
-            return response;
-        }
+        /// <summary>
+        /// Devuelve un string con lo valores separados por punto y coma
+        /// para insertar en la BD en la tabla de login intentos
+        /// </summary>
         public string getLogInAttempRowString()
         {
             var response = String.Join(";", _legajo, DateTime.Now.ToString("d/M/yyyy"));

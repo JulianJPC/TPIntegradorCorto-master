@@ -21,17 +21,18 @@ namespace Negocio
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.Text = "Autorizaciones desbloqueos";
             credAdmin = aCredencial;
             adminN = new AdministradorNegocio();
-            var idOperaciones = adminN.getAllIdOpCredenciales();
-            foreach ( var op in idOperaciones)
+            var idPendinetes = adminN.getAllAutoIdByEstado("Desbloqueo");
+            foreach ( var id in idPendinetes)
             {
-                cmbIdOperaciones.Items.Add(op.ToString());
+                cmbIdOperaciones.Items.Add(id);
             }
             cmbIdOperaciones.DropDownStyle = ComboBoxStyle.DropDownList;
-            if (idOperaciones.Count == 0)
+            if (idPendinetes.Count == 0)
             {
-                MessageBox.Show("No hay Operaciones");
+                MessageBox.Show("No hay operaciones pendientes de desbloqueo de cuentas");
                 closeWindow = true;
             }
             else
@@ -39,21 +40,24 @@ namespace Negocio
                 closeWindow = false;
             }
         }
-
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-
+        /// <summary>
+        /// Cuando cambia el legajo en el combo, busca en la base de datos
+        /// la operacion realacionada con ese id y la devuleve.
+        /// </summary>
         private void cmbIdOperaciones_DropDownClosed(object sender, EventArgs e)
         {
             if (cmbIdOperaciones.SelectedItem is string)
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
-                OperacionCambioCredencial oneOp = adminN.getOperacionCredencial(theIdOperacion);
-                if (oneOp != null)
+                var oneOpRaw = adminN.getOperacion(theIdOperacion);
+                if (oneOpRaw != null)
                 {
+                    var oneOp = (OperacionCambioCredencial)oneOpRaw;
                     txtbLegajo.Text = oneOp.Credencial.Legajo;
                     txtbUsuario.Text = oneOp.Credencial.NombreUsuario;
                     txtbPass.Text = oneOp.Credencial.Contrasena;
@@ -66,17 +70,25 @@ namespace Negocio
                     MessageBox.Show("Error numero de legajo");
                 }
             }
+            else
+            {
+                MessageBox.Show("Error numero de legajo");
+            }
         }
-
+        /// <summary>
+        /// Si se rechaza la operacion, busca la operacion del id
+        /// obtiene la info del admin y modifica la tabla de autorizaciones para rechazar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRechazar_Click(object sender, EventArgs e)
         {
             if (cmbIdOperaciones.SelectedItem is string)
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
-                var theOp = adminN.getOperacionCredencial(theIdOperacion);
-                theOp.getDataFromCred(theOp.Credencial, "Rechazado", credAdmin.Legajo);
-                adminN.autoCredencial(theOp, false);
-                adminN.deleteOpCredencial(theIdOperacion);
+                var theOp = (OperacionCambioCredencial)adminN.getOperacion(theIdOperacion);
+                theOp.getDataForAuto("Rechazado", credAdmin.Legajo);
+                adminN.autoOperacion(theOp);
                 MessageBox.Show("El desbloque fue rechazado");
                 this.Close();
             }
@@ -85,15 +97,14 @@ namespace Negocio
                 MessageBox.Show("Error numero de legajo");
             }
         }
-
         private void btnAutorizar_Click(object sender, EventArgs e)
         {
             if (cmbIdOperaciones.SelectedItem is string)
             {
                 var theIdOperacion = cmbIdOperaciones.SelectedItem as string;
-                var theOp = adminN.getOperacionCredencial(theIdOperacion);
-                theOp.getDataFromCred(theOp.Credencial, "Aprobado", credAdmin.Legajo);
-                adminN.autoCredencial(theOp, true);
+                var theOp = (OperacionCambioCredencial)adminN.getOperacion(theIdOperacion);
+                theOp.getDataForAuto("Aprobado", credAdmin.Legajo);
+                adminN.autoOperacion(theOp);
                 MessageBox.Show("El desbloque fue aprobado");
                 this.Close();
             }

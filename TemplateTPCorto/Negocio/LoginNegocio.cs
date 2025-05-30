@@ -88,11 +88,7 @@ namespace Negocio
             {
                 var expired = isExpired(theCredencial);
                 var resultChange = true;
-                if (blocked)
-                {
-                    
-                }
-                else if (expired || theCredencial.isFirstLogIn)// expirado o primer log in
+                if(expired || theCredencial.isFirstLogIn)// expirado o primer log in
                 {
                     resultChange = changePass(theCredencial);
                 }
@@ -100,7 +96,8 @@ namespace Negocio
                 {
                     msgResult = "Error al cambiar contraseña log in fallido";
                 }
-                else//no bloqueada y cambia de contraseña exitoso
+
+                if(resultChange)//no bloqueada y cambia de contraseña exitoso
                 {
                     theCredencial.FechaUltimoLogin = DateTime.Now;
                     var resultUpdate = usuarioPersistencia.updateCredencialByLegajo(theCredencial);

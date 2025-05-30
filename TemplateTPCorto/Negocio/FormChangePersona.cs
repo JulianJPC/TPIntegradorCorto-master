@@ -19,6 +19,7 @@ namespace Negocio
         public FormChangePersona(List<string> legajos, Persona unSupervisor)
         {
             InitializeComponent();
+            this.Text = "Solicitar cambio persona";
             supNegocio = new SupervisorNegocio();
             this.StartPosition = FormStartPosition.CenterScreen;
             foreach (string oneLegajo in legajos)

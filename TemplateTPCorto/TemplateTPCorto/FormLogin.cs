@@ -20,6 +20,7 @@ namespace TemplateTPCorto
             InitializeComponent();
             loginNegocio = new LoginNegocio();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.Text = "LogIn";
         }
         /// <summary>
         /// Funcion correspondiente al boton ingresar, hace el login

@@ -13,6 +13,11 @@ namespace Persistencia
 {
     public class ClientePersistencia
     {
+        /// <summary>
+        /// Se comunica con la API obtiene los clientes y si estan bien los deserializa 
+        /// y añade a un lista de clientes y devuelve.
+        /// Si hay error devuleve la lista vacia.
+        /// </summary>
         public List<Cliente> obtenerClientes()
         {
             List<Cliente> listaClientes = new List<Cliente>();

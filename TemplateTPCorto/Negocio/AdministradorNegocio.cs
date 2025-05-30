@@ -12,71 +12,63 @@ namespace Negocio
 {
     public class AdministradorNegocio
     {
-        public List<string> getAllIdOpPersonas()
+        private UsuarioPersistencia usuarioPersistencia { get; set; }
+        private OperacionesPersistencia operacionesPersistencia { get; set; }
+        public AdministradorNegocio()
         {
-            var response = new List<string>();
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            response = usuarioPersistencia.getAllIdOpPersonas();
-            return response;
+            operacionesPersistencia = new OperacionesPersistencia();
+            usuarioPersistencia = new UsuarioPersistencia();
         }
-        public List<string> getAllIdOpCredenciales()
+        /// <summary>
+        /// Busca en al tabla de autorizaciones todas las autorizaciones de un estado dado.
+        /// Saca de cada una solo el id y lo devuelve en lista.
+        /// </summary>
+        /// <param name="estado">Estado de autorizacion valido</param>
+        public List<string> getAllAutoIdByEstado(string estado)
         {
-            var response = new List<string>();
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            response = usuarioPersistencia.getAllIdOpCredenciales();
-            return response;
+            return operacionesPersistencia.getAllPendientes(estado);
         }
-        public OperacionCambioCredencial getOperacionCredencial(string id)
+        /// <summary>
+        /// Busca dado un id de operacion, en la tabla operaciones persona la info,
+        /// y en la tabla autorizacion la info para completarla
+        /// </summary>
+        /// <param name="id">Id de operacion valido</param>
+        public Operacion getOperacion(string id)
         {
-            OperacionCambioCredencial opCambio;
-            UsuarioPersistencia usuarioP = new UsuarioPersistencia();
-            opCambio = usuarioP.getOperacionCByIdOp(id);
-            return opCambio;
+            return operacionesPersistencia.getOperacionById(id);
         }
-        public OperacionCambioPersona getOperacionPersona(string id)
+        
+        /// <summary>
+        /// Dada una operacion se fija que tipo de operacion es y si esta es aprobada o rechazada
+        /// realiza el cambio si esta aprobada y modifica la autorizacion.
+        /// Si esta rechazada solo modifica la autorizacion.
+        /// </summary>
+        /// <param name="operacion">Operacion de cambio de persona valida</param>
+        public void autoOperacion(Operacion laOp)
         {
-            OperacionCambioPersona opCambio;
-            UsuarioPersistencia usuarioP = new UsuarioPersistencia();
-            opCambio = usuarioP.getOperacionPByIdOp(id);
-            return opCambio;
-        }
-        public void deleteOpCredencial(string id)
-        {
-            UsuarioPersistencia usuarioP = new UsuarioPersistencia();
-            usuarioP.deleteOpCredencialById(id);
-        }
-        public void deleteOpPersona(string id)
-        {
-            UsuarioPersistencia usuarioP = new UsuarioPersistencia();
-            usuarioP.deleteOpPersonaById(id);
-        }
-        public void autoCredencial(OperacionCambioCredencial operacion, bool aproved)
-        {
-            UsuarioPersistencia usuarioP = new UsuarioPersistencia();
-            if (aproved)
+            if(laOp.TipoOperacion == "Desbloqueo")
             {
-                usuarioP.updateCredencialByLegajo(operacion.Credencial);
+                var laOpCred = (OperacionCambioCredencial)laOp;
+                if(laOp.Estado == "Aprobado")
+                {
+                    usuarioPersistencia.updateCredencialByLegajo(laOpCred.Credencial);
+                }
+                operacionesPersistencia.modAuto(laOpCred);
             }
-            usuarioP.deleteOpCredencialById(operacion.IdOperacion);
-            usuarioP.addAuto(operacion);
-        }
-        public void autoPersona(OperacionCambioPersona operacion, bool aproved)
-        {
-            UsuarioPersistencia usuarioP = new UsuarioPersistencia();
-            if (aproved)
+            else if(laOp.TipoOperacion == "ModPersona")
             {
-                usuarioP.updatePersonaByLegajo(operacion.Persona);
+                var laOpPers = (OperacionCambioPersona)laOp;
+                if(laOp.Estado == "Aprobado")
+                {
+                    usuarioPersistencia.updatePersonaByLegajo(laOpPers.Persona);
+                }
+                operacionesPersistencia.modAuto(laOpPers);
             }
-            usuarioP.deleteOpPersonaById(operacion.IdOperacion);
-            usuarioP.addAuto(operacion);
         }
-        public List<string> getAllOpPersonas()
-        {
-            var response = new List<string>();
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            response = usuarioPersistencia.getAllOpPersonas();
-            return response;
-        }
+        /// <summary>
+        /// Dada la credencial del administrador abre el Form para ver las operaciones de desbloqueo de credenciales
+        /// </summary>
+        /// <param name="aCredencial">Credencial de administrador</param>
         public void startFormVerOperaciones(Credencial aCredencial)
         {
             var formVerOp = new FormVerOperaciones(aCredencial);
@@ -89,6 +81,10 @@ namespace Negocio
                 formVerOp.ShowDialog();
             }
         }
+        /// <summary>
+        /// Dada la credencial del administrador abre el Form para ver las operaciones de cambio de persona
+        /// </summary>
+        /// <param name="aCredencial">Credencial de administrador</param>
         public void startFormVerOpPersona(Credencial aCredencial)
         {
             var formVerOp = new FormVerOpPersona(aCredencial);

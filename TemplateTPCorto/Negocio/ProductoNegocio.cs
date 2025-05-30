@@ -10,6 +10,10 @@ namespace Negocio
 {
     public class ProductoNegocio
     {
+        /// <summary>
+        /// Obtiene desde la API los productos de una categoria dada
+        /// </summary>
+        /// <param name="categoria">Categoria de producto</param>
         public List<Producto> obtenerProductosPorCategoria(CategoriaProductos categoria)
         {
             var prodPersistencia = new ProductoPersistencia();

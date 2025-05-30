@@ -15,7 +15,12 @@ namespace Persistencia
     {
         private Guid idUsuario = new Guid("784c07f2-2b26-4973-9235-4064e94832b5");
 
-
+        /// <summary>
+        /// Toma una lista de Ventas y las manda al api a guardar una por una
+        /// Si hay alguna que salga mal las añade en una lista con el nombre del item
+        /// Al final devuelve la lista de errores
+        /// </summary>
+        /// <param name="listVentas">Listado de ventas a realizar</param>
         public List<string> addVentas(List<Venta> listVentas)
         {
             var listMsg = new List<string>();
@@ -31,6 +36,11 @@ namespace Persistencia
             return listMsg;
         }
         
+        /// <summary>
+        /// Dada una venta la serializa y postea en el Api.
+        /// Devuelve el resultado del proceso
+        /// </summary>
+        /// <param name="unaVenta">Un objeto de venta</param>
         private string addVenta(Venta unaVenta)
         {
             var response = "";
@@ -38,14 +48,7 @@ namespace Persistencia
 
             HttpResponseMessage responseQuery = WebHelper.Post("/api/Venta/AgregarVenta", jsonRequest);
 
-            if (responseQuery.IsSuccessStatusCode)
-            {
-                response = responseQuery.StatusCode.ToString();
-            }
-            else
-            {
-                response = responseQuery.StatusCode.ToString();
-            }
+            response = responseQuery.StatusCode.ToString();
             return response;  
         }
         

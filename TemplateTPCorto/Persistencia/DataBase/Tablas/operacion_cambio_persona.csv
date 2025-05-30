@@ -1,6 +1,9 @@
-idOperacion;legajo;nombre;apellido;dni;fecha_ingreso;fecha_solicitud
+idOperacion;legajo;nombre;apellido;dni;fecha_ingreso;
 ;;;;;;
 ;;;;;;
 ;;;;;;
 ;;;;;;
-7;7976;Michaela111;Banks;32382175;16/6/2022;30/5/2025
+7;7976;Michaela111;Banks;32382175;16/06/2022;
+9;2316;CraigChange2dsa;Haynes;43290476;28/10/2021
+11;2945;MonicaTest1ModPersona;Mitchell;28620597;4/3/2021
+12;3018;JamesTest2ModPersona;Marsh;39308906;11/11/2017

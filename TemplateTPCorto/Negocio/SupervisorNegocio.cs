@@ -26,15 +26,20 @@ namespace Negocio
         {
             return usuarioPersistencia.getAllLegajosFromCredenciales();
         }
-        public void startFormDesCredencial()
+        /// <summary>
+        /// Obtiene todos los legajos de la BD y abre el formDesbloquearPass
+        /// </summary>
+        /// <param name="supervisor">Pesrona que pide el cambio</param>
+        public void startFormDesCredencial(Persona supervisor)
         {
             var allLegajos = getAllLegajos();
-            var formDesbloquearPersona = new FormDesbloquearPass(allLegajos);
+            var formDesbloquearPersona = new FormDesbloquearPass(allLegajos, supervisor);
             formDesbloquearPersona.ShowDialog();
         }
         /// <summary>
         /// Obtiene todos los legajos de la BD y abre el formChangePersona con esos legajos
         /// </summary>
+        /// <param name="supervisor">Pesrona que pide el cambio</param>
         public void startFormChangePersona(Persona supervisor)
         {
             var allLegajos = getAllLegajos();
@@ -54,7 +59,6 @@ namespace Negocio
         /// <param name="DNI">DNI modificado</param>
         /// <param name="fechaIngreso">Fecha de ingreso modificado</param>
         /// <param name="supervisor">Persona supervisor</param>
-        /// <returns></returns>
         public string createPersonaOp(string legajo, string nombre, string apellido, string DNI, DateTime fechaIngreso, Persona supervisor)
         {
             var response = "";
@@ -98,12 +102,13 @@ namespace Negocio
             }
             return response;
         }
+        /// <summary>
+        /// Obtiene la credencial asociado a un legajo
+        /// </summary>
+        /// <param name="legajo">Numero de legajo valido</param>
         public Credencial getCredencial(string legajo)
         {
-            Credencial response = null;
-            var usuarioPersistencia = new UsuarioPersistencia();
-            response = usuarioPersistencia.getCredencialByLegajo(legajo);
-            return response;
+            return usuarioPersistencia.getCredencialByLegajo(legajo);
         }
         /// <summary>
         /// Dado un legajo busca la persona asociada a esta y lo devuelve
@@ -114,14 +119,24 @@ namespace Negocio
         {   
             return usuarioPersistencia.getPersonaByLegajo(legajo);
         }
-        public void createCredOp(string legajo, string newPass)
+        /// <summary>
+        /// Dado un numero de legajo, una contraseña nueva y una persona supervisor,
+        /// Buscal a credencial asociada al legajo y le cambia la contraseña,
+        /// se fija si lo valores the la credencial son validos,
+        /// si son validos añade la operacion en la base de datos y la autorización
+        /// </summary>
+        /// <param name="legajo">Número de legajo valido</param>
+        /// <param name="newPass">Nueva contraseña de la credencial</param>
+        /// <param name="supervisor">Persona que solicita el cambio</param>
+        public void createCredOp(string legajo, string newPass, Persona supervisor)
         {
-            var usuarioPersistencia = new UsuarioPersistencia();
+         
             var theCredencial = usuarioPersistencia.getCredencialByLegajo(legajo);
+            var perfil = usuarioPersistencia.getPerfilByLegajo(theCredencial.Legajo);
             theCredencial.Contrasena = newPass;
             if (theCredencial.passValueTest())
             {
-               usuarioPersistencia.addOpCredencial(theCredencial);
+               operacionesPersistencia.addOpCredencial(theCredencial, perfil.Id, supervisor);
             }
         }
 

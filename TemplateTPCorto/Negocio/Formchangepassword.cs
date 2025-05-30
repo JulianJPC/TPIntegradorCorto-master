@@ -22,6 +22,7 @@ namespace TemplateTPCorto
         public Formchangepassword(Credencial credencial)
         {
             InitializeComponent();
+            this.Text = "Cambiar contraseña";
             this.StartPosition = FormStartPosition.CenterScreen;
             this.contraseñaAnterior = credencial.Contrasena;
         }

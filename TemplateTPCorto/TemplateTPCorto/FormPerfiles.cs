@@ -30,8 +30,11 @@ namespace TemplateTPCorto
             administradorNegocio = new AdministradorNegocio();
             lblUsuario.Text = laCredencial.NombreUsuario;
             lblPerfilNombre.Text = laPersona.Perfil.Descripcion;
-            
-            foreach(var oneRol in laPersona.Perfil.Roles)//Activa opciones dependiendo del rol
+            this.Text = "Acciones";
+
+            btnCambiarPass.Enabled = true;
+            btnCambiarPass.Visible = true;
+            foreach (var oneRol in laPersona.Perfil.Roles)//Activa opciones dependiendo del rol
             {
                 if(oneRol.Id == "1")
                 {
@@ -68,7 +71,7 @@ namespace TemplateTPCorto
 
         private void btnDesbCredencial_Click(object sender, EventArgs e)
         {
-            supervisorNegocio.startFormDesCredencial();
+            supervisorNegocio.startFormDesCredencial(laPersona);
         }
 
         private void btnCambiarPass_Click(object sender, EventArgs e)

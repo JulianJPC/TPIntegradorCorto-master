@@ -32,6 +32,7 @@ namespace Datos.Ventas
         public DateTime? FechaBaja { get => _fechaBaja; set => _fechaBaja = value; }
         public string Host { get => _host; set => _host = value; }
 
+
         public override string ToString()
         {
             return Apellido + ", " + Nombre + "(" + Dni + ")";

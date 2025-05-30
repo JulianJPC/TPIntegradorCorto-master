@@ -12,8 +12,6 @@ namespace Datos.Login
         private Persona _persona;
 
         public Persona Persona { get => _persona; set => _persona = value; }
-        public string IdOperacion { get => _idOperacion; set => _idOperacion = value; }
-        public DateTime FechaSolicitud { get => _fechaSolicitud; set => _fechaSolicitud = value; }
 
         public OperacionCambioPersona(Persona aPersona, string idOp)
         {
@@ -26,12 +24,11 @@ namespace Datos.Login
             var splitedRegistro = registro.Split(';');
             _idOperacion = splitedRegistro[0];
             var fechaIngreso = DateTime.ParseExact(splitedRegistro[5], "d/M/yyyy", CultureInfo.InvariantCulture);
-            _fechaSolicitud = DateTime.ParseExact(splitedRegistro[6], "d/M/yyyy", CultureInfo.InvariantCulture);
             _persona = new Persona(splitedRegistro[1], splitedRegistro[2], splitedRegistro[3], splitedRegistro[4], fechaIngreso);
         }
         public string getRowString()
         {
-            var response = String.Join(";", _idOperacion, _persona.getRowString(), _fechaSolicitud.ToString("d/M/yyyy"));
+            var response = String.Join(";", _idOperacion, _persona.getRowString());
             return response;
         }
     }
