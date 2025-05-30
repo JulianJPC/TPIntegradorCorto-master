@@ -42,9 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Login\Credencial.cs" />
-    <Compile Include="Login\Operacion.cs" />
-    <Compile Include="Login\OperacionCambioCredencial.cs" />
-    <Compile Include="Login\OperacionCambioPersona.cs" />
+    <Compile Include="Operaciones\Operacion.cs" />
+    <Compile Include="Operaciones\OperacionCambioCredencial.cs" />
+    <Compile Include="Operaciones\OperacionCambioPersona.cs" />
     <Compile Include="Login\Perfil.cs" />
     <Compile Include="Login\Persona.cs" />
     <Compile Include="Login\Rol.cs" />

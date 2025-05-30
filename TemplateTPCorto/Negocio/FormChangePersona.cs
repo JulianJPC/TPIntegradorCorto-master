@@ -15,7 +15,8 @@ namespace Negocio
     public partial class FormChangePersona : Form
     {
         private SupervisorNegocio supNegocio { get; set; }
-        public FormChangePersona(List<string> legajos)
+        private Persona supervisor {  get; set; }
+        public FormChangePersona(List<string> legajos, Persona unSupervisor)
         {
             InitializeComponent();
             supNegocio = new SupervisorNegocio();
@@ -25,7 +26,13 @@ namespace Negocio
                 cmbLegajos.Items.Add(oneLegajo);
             }
             cmbLegajos.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.supervisor = unSupervisor;
         }
+        /// <summary>
+        /// Cuando cambia el combo, busca en la BD la persona asociada
+        /// al nuevo legajo seleccionado y llena el formulario con esa info.
+        /// Si no lo encuentra muestra error.
+        /// </summary>
         private void cmbLegajos_DropDownClosed(object sender, EventArgs e)
         {
             if(cmbLegajos.SelectedItem is string)
@@ -45,20 +52,35 @@ namespace Negocio
                 }
             }
         }
+        /// <summary>
+        /// Cierra el formulario
+        /// </summary>
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+        /// <summary>
+        /// Si el combo esta correcto, toma toda la informacion de los demas boxes
+        /// y crea la operacion y autorizacion en las tablas
+        /// </summary>
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            var legajo = cmbLegajos.SelectedItem as string;
-            var nombre = txtbNombre.Text;
-            var apellido = txtbApellido.Text;
-            var dni = txtbDNI.Text;
-            var fechaI = dtpFechaIngreso.Value;
-            var messageResult = supNegocio.createPersonaOp(legajo, nombre, apellido, dni, fechaI);
-            MessageBox.Show(messageResult);
-            this.Close();
+            if(cmbLegajos.SelectedItem is string)
+            {
+                var legajo = cmbLegajos.SelectedItem as string;
+                var nombre = txtbNombre.Text;
+                var apellido = txtbApellido.Text;
+                var dni = txtbDNI.Text;
+                var fechaI = dtpFechaIngreso.Value;
+                var messageResult = supNegocio.createPersonaOp(legajo, nombre, apellido, dni, fechaI, supervisor);
+                MessageBox.Show(messageResult);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Error legajo invalido.");
+            }
+            
         }
     }
 }

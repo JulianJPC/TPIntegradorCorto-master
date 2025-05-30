@@ -230,16 +230,25 @@ namespace Persistencia
             }
             return obtainedPerfil;
         }
+
+        /// <summary>
+        /// Obtiene de la tabla credenciales todos los legajos que encuentra y
+        /// devuelve en un lista
+        /// Si no encuentra devuleve una lista vacia.
+        /// </summary>
         public List<string> getAllLegajosFromCredenciales()
         {
             var response = new List<string>();
-            var rawResult = getRowsFromTable(tableCredenciales);
+            var rawResult = dataBaseUtils.getAllRegistro(tableCredenciales);
+            
             foreach (string oneLine in rawResult)
             {
                 var splitedLine = oneLine.Split(';');
-                response.Add(splitedLine[0]);
+                if (splitedLine.Count() > 0)
+                {
+                    response.Add(splitedLine[0]);
+                }
             }
-
             return response;
         }
         public List<string> getAllIdOpCredenciales()
@@ -306,16 +315,7 @@ namespace Persistencia
         {
             addRowToTable(tableLogInIntentos, aCredencial.getLogInAttempRowString());
         }
-        public void addOpPersona(Persona aPersona)
-        {
-            var idOpNew = 0;
-            idOpNew = getBiggestNumber(tableOpCambioCredencial, 0, idOpNew);
-            idOpNew = getBiggestNumber(tableOpCambioPersona, 0, idOpNew);
-            idOpNew = getBiggestNumber(tableAutorizacion, 0, idOpNew);
-            idOpNew++;
-            var newOp = new OperacionCambioPersona(aPersona, idOpNew.ToString());
-            addRowToTable(tableOpCambioPersona, newOp.getRowString());
-        }
+        
         public void addOpCredencial(Credencial aCredencial)
         {
             var idOpNew = 0;

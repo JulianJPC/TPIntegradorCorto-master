@@ -40,6 +40,11 @@ namespace Datos.Login
             this._dni = d;
             this._fechaIngreso = fI;
         }
+        /// <summary>
+        /// Se fija si los valores de la persona son acordes a una persona real
+        /// Si lo son devuleve true
+        /// Si no los son devuelve false
+        /// </summary>
         public bool passValueTest()
         {
             var response = true;

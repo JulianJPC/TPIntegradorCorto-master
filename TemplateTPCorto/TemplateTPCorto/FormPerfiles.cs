@@ -63,7 +63,7 @@ namespace TemplateTPCorto
 
         private void btnModPersona_Click(object sender, EventArgs e)
         {
-            supervisorNegocio.startFormChangePersona();
+            supervisorNegocio.startFormChangePersona(laPersona);
         }
 
         private void btnDesbCredencial_Click(object sender, EventArgs e)
