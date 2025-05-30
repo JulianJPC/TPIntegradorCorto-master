@@ -95,6 +95,15 @@ namespace Persistencia.DataBase
             }
             return response;
         }
+        /// <summary>
+        /// Dada un nombre de tabla y una columna ver y un valor a buscar
+        /// busca fila por fila en esa columna si esta el valor buscado
+        /// si lo encuentra borra la fila y escribe una nueva fila dada.
+        /// </summary>
+        /// <param name="newRow">Nueva fila a poner</param>
+        /// <param name="nameTable">Nombre de table en que se buscan filas</param>
+        /// <param name="keyColumn">Numero de columna a ver</param>
+        /// <param name="keyValue">Valor buscado en columna</param>
         public bool ModificarRegistro(string newRow, String nameTable, int keyColumn, string keyValue)
         {
             var response = true;
@@ -134,6 +143,15 @@ namespace Persistencia.DataBase
             }
             return response;
         }
+        /// <summary>
+        /// Funcion que busca una tabla dada, un numero de columna tmb dado y 
+        /// mirando esa columna va llendo fila por fila a ver si un valor tmb dado es igual.
+        /// Si el valor es igual no escribe esa linea. Si no es igual escribe la linea en un nuevo texto
+        /// Al final elimina le texto inicial y nombra el nuevo texto con el mismo nombre.
+        /// </summary>
+        /// <param name="nameTable">Nombre de tabla de la BD</param>
+        /// <param name="keyColumn">Numero de columna a ver</param>
+        /// <param name="keyValue">Valor a buscar en la columna</param>
         public bool BorrarRegistro(String nameTable, int keyColumn, string keyValue)
         {
             var response = true;

@@ -48,13 +48,22 @@ namespace TemplateTPCorto
             if(MsgError == "Exito")//si pasa la verificacion y elimina los intentos de log in
             {
                 MessageBox.Show("Exito logIn!!");
-                FormPerfiles newFormPerfil = new FormPerfiles(credencialDeUsuario);
-                this.Hide();
-                newFormPerfil.ShowDialog();
-                // cuando se cierra el formPerfil muestra este form
-                txtPassword.Text = "";
-                txtUsuario.Text = "";
-                this.Show();
+
+                var persona = loginNegocio.buscarPersonaCompleta(credencialDeUsuario);
+                if(persona != null)
+                {
+                    FormPerfiles newFormPerfil = new FormPerfiles(credencialDeUsuario, persona);
+                    this.Hide();
+                    newFormPerfil.ShowDialog();
+                    // cuando se cierra el formPerfil muestra este form
+                    txtPassword.Text = "";
+                    txtUsuario.Text = "";
+                    this.Show();
+                }
+                else
+                {
+                    MsgError = "Error al traer la persona de la BD";
+                }
             }
             else
             {

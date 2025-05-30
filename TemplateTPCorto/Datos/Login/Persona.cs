@@ -14,12 +14,14 @@ namespace Datos.Login
         private String _apellido;
         private String _dni;
         private DateTime _fechaIngreso;
+        private Perfil _perfil;
 
         public string Legajo { get => _legajo; set => _legajo = value; }
         public string Nombre { get => _nombre; set => _nombre = value; }
         public string Apellido { get => _apellido; set => _apellido = value; }
         public string DNI { get => _dni; set => _dni = value; }
         public DateTime FechaIngreso { get => _fechaIngreso; set => _fechaIngreso = value; }
+        public Perfil Perfil { get => _perfil; set => _perfil = value; }
 
         public Persona(string registro)
         {

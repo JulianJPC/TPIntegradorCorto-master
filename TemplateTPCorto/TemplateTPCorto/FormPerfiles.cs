@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Login;
 using Negocio;
 using System;
 using System.Collections.Generic;
@@ -15,48 +16,65 @@ namespace TemplateTPCorto
     public partial class FormPerfiles : Form
     {
         private Credencial laCredencial { get; set; }
-        public FormPerfiles(Credencial unaCredencial)
+        private Persona laPersona { get; set; }
+        private SupervisorNegocio supervisorNegocio { get; set; }
+        private AdministradorNegocio administradorNegocio { get; set; }
+        private VentasNegocio ventasNegocio { get; set; }
+        public FormPerfiles(Credencial unaCredencial, Persona unaPersona)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             laCredencial = unaCredencial;
-            var loginN = new LoginNegocio();
-            var idPerfil = loginN.buscarIdPerfil(laCredencial.Legajo);
-            var descPerfil = loginN.buscarPerfil(idPerfil);
+            laPersona = unaPersona;
+            supervisorNegocio = new SupervisorNegocio();
+            administradorNegocio = new AdministradorNegocio();
             lblUsuario.Text = laCredencial.NombreUsuario;
-            lblPerfilNombre.Text = descPerfil;
-            if(idPerfil == "1")
+            lblPerfilNombre.Text = laPersona.Perfil.Descripcion;
+            
+            foreach(var oneRol in laPersona.Perfil.Roles)//Activa opciones dependiendo del rol
             {
-                btnCargarVenta.Enabled = true;
-            }
-            else if(idPerfil == "2")
-            {
-                btnDesbCredencial.Enabled = true;
-                btnModPersona.Enabled = true;
-            }
-            else if(idPerfil == "3")
-            {
-                btnAutoPersona.Enabled = true;
-                btnAutoCred.Enabled = true;
+                if(oneRol.Id == "1")
+                {
+                    btnModPersona.Enabled = true;
+                    btnModPersona.Visible = true;
+                }
+                else if(oneRol.Id == "2")
+                {
+                    btnAutoPersona.Enabled = true;
+                    btnAutoPersona.Visible = true;
+                }
+                else if(oneRol.Id == "3")
+                {
+                    btnDesbCredencial.Enabled = true;
+                    btnDesbCredencial.Visible = true;
+                }
+                else if(oneRol.Id == "4")
+                {
+                    btnAutoCred.Enabled = true;
+                    btnAutoCred.Visible = true;
+                }
+                else if( oneRol.Id == "5")
+                {
+                    btnCargarVenta.Enabled = true;
+                    btnCargarVenta.Visible = true;
+                }
             }
         }
 
         private void btnModPersona_Click(object sender, EventArgs e)
         {
-            var supNegocio = new SupervisorNegocio();
-            supNegocio.startFormChangePersona();
+            supervisorNegocio.startFormChangePersona();
         }
 
         private void btnDesbCredencial_Click(object sender, EventArgs e)
         {
-            var supNegocio = new SupervisorNegocio();
-            supNegocio.startFormDesCredencial();
+            supervisorNegocio.startFormDesCredencial();
         }
 
         private void btnCambiarPass_Click(object sender, EventArgs e)
         {
             var loginNegocio = new LoginNegocio();
-            loginNegocio.changePassPerfil(laCredencial);
+            loginNegocio.changePass(laCredencial);
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -66,19 +84,16 @@ namespace TemplateTPCorto
 
         private void btnAutoPersona_Click(object sender, EventArgs e)
         {
-            var adminNegocio = new AdministradorNegocio();
-            adminNegocio.startFormVerOpPersona(laCredencial);
+            administradorNegocio.startFormVerOpPersona(laCredencial);
         }
 
         private void btnAutoCred_Click(object sender, EventArgs e)
         {
-            var adminNegocio = new AdministradorNegocio();
-            adminNegocio.startFormVerOperaciones(laCredencial);
+            administradorNegocio.startFormVerOperaciones(laCredencial);
         }
 
         private void btnCargarVenta_Click(object sender, EventArgs e)
         {
-            var ventasNegocio = new VentasNegocio();
             ventasNegocio.startFormVentas(laCredencial);
         }
     }

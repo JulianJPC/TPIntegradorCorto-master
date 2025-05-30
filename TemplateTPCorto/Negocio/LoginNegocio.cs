@@ -1,9 +1,11 @@
 ﻿using Datos;
+using Datos.Login;
 using Persistencia;
 using Persistencia.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using TemplateTPCorto;
@@ -13,29 +15,25 @@ namespace Negocio
     public class LoginNegocio
     {
         private UsuarioPersistencia usuarioPersistencia { get; set; }
-
         public LoginNegocio()
         {
             usuarioPersistencia = new UsuarioPersistencia();
         }
-        public string buscarIdPerfil(string legajo)
+        /// <summary>
+        /// Obtiene una persona dada una credencial.
+        /// Si no la encuentra devuelve null
+        /// </summary>
+        /// <param name="laCredencial">Credencial de usuario valido</param>
+        public Persona buscarPersonaCompleta(Credencial laCredencial)
         {
-            var response = "";
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            response = usuarioPersistencia.getPerfilByLegajo(legajo);
+            Persona response;
+            response = usuarioPersistencia.getPersonaByLegajo(laCredencial.Legajo);
+            if(response != null)// si la persona existe obtiene el perfil
+            {
+                var perfilDePersona = usuarioPersistencia.getPerfilByLegajo(response.Legajo);
+                response.Perfil = perfilDePersona;
+            }
             return response;
-        }
-        public string buscarPerfil(string idPerfil)
-        {
-            var response = "";
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            response = usuarioPersistencia.getPerfilByIdPerfil(idPerfil);
-            return response;
-        }
-        public bool changePassPerfil(Credencial theCredencial)
-        {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            return changePass(theCredencial);
         }
         /// <summary>
         /// Remuevo el registro de intentos de log in en la BD de una credencial dada
@@ -171,7 +169,7 @@ namespace Negocio
         /// </summary>
         /// <param name="credencial"></param>
         /// <returns></returns>
-        private bool changePass(Credencial credencial)
+        public bool changePass(Credencial credencial)
         {
             var response = false;
             var newFormPass = new Formchangepassword(credencial);

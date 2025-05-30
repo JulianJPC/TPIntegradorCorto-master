@@ -80,6 +80,12 @@ namespace Persistencia
         }
 
         // GET
+        /// <summary>
+        /// Obtiene de la table de intentos de log in el numero de veces
+        /// que se repite un legajo dado de la credencial que se da
+        /// </summary>
+        /// <param name="theCredencial">Credencial de usuario valida</param>
+        /// <returns></returns>
         public int getLogInAttempsByLegajo(Credencial theCredencial)
         {
             var resultQuery = getRowsFromTable(tableLogInIntentos, theCredencial.Legajo, 0);
@@ -124,10 +130,15 @@ namespace Persistencia
             }
             return aCredencial;
         }
+        /// <summary>
+        /// Dado un legajo obtiene las personas asociadas en la tabla de personas
+        /// y devuelve la primera.
+        /// </summary>
+        /// <param name="legajo">Legajo de persona valida</param>
         public Persona getPersonaByLegajo(string legajo)
         {
             Persona aPersona = null;
-            var rawResponse = getRowsFromTable(tablePersona, legajo, 0);
+            var rawResponse = dataBaseUtils.BuscarRegistro(legajo, 0, tablePersona);
             if (rawResponse.Count > 0)
             {
                 aPersona = new Persona(rawResponse[0]);
@@ -154,27 +165,70 @@ namespace Persistencia
             }
             return aOperacion;
         }
-        public string getPerfilByLegajo(string legajo)
+
+        private List<string> getValueFromResponse(List<string> rawResponse, int indexOfResponse)
         {
-            var response = "";
-            var responseQuery = getRowsFromTable(tableUsuarioPerfil, legajo, 0);
-            if (responseQuery.Count > 0)
+            var response = new List<string>();
+            if(rawResponse.Count > 0)
             {
-                var idPerfilString = responseQuery[0].Split(';')[1];
-                response = idPerfilString;
+                response = rawResponse[indexOfResponse].Split(';').ToList();
             }
             return response;
         }
-        public string getPerfilByIdPerfil(string idPerfil)
+        /// <summary>
+        /// Dado un numero de legajo busca el perfil asoaciado 
+        /// y devuelve la fila de la tabla perfiles de ese legajo.
+        /// Si no encuentra devuelve una lista vacia.
+        /// </summary>
+        /// <param name="legajo">Numero de legajo asociado a una persona</param>
+        private List<string> getPerfilListRow(string legajo)
         {
-            var response = "";
-            var responseQuery = getRowsFromTable(tablePerfil, idPerfil, 0);
-            if (responseQuery.Count > 0)
+            var response = new List<string>();
+            var responseQuery = dataBaseUtils.BuscarRegistro(legajo, 0, tableUsuarioPerfil);
+            var perfilNumber = getValueFromResponse(responseQuery, 0);//obtengo la fila de usuario-perfil
+            if (perfilNumber.Count > 0)//Si existe la fila de usuario-perfil, busco la fila 
             {
-                var descPerfilString = responseQuery[0].Split(';')[1];
-                response = descPerfilString;
+                var rawPerfiles = dataBaseUtils.BuscarRegistro(perfilNumber[1], 0, tablePerfil);//la fila de perfil
+                response = getValueFromResponse(rawPerfiles, 0);
             }
             return response;
+        }
+        /// <summary>
+        /// Dado un perfil busca los roles de este y los inlculye en el Perfil.
+        /// Si no encuentra da de valor una lista vacia de roles al perfil.
+        /// </summary>
+        /// <param name="unPerfil"></param>
+        private void getRolesPerfil(Perfil unPerfil)
+        {
+            unPerfil.Roles = new List<Rol>();
+            var responseSecondQuery = dataBaseUtils.BuscarRegistro(unPerfil.Id, 0, tablePerfilRol);
+            for (int i = 0; i < responseSecondQuery.Count; i++)// por cada fila raw de perfil-rol
+            {
+                var rowPerfilRol = getValueFromResponse(responseSecondQuery, i);
+                var responseThirdQuery = dataBaseUtils.BuscarRegistro(rowPerfilRol[1], 0, tableRol);
+                var rowRol = getValueFromResponse(responseThirdQuery, 0);
+                if (rowRol.Count > 0)
+                {
+                    var obtainedRol = new Rol(responseThirdQuery[0]);
+                    unPerfil.Roles.Add(obtainedRol);
+                }
+            }
+        }
+        /// <summary>
+        /// Dado un legajo busca el perfil asociado a este y sus roles
+        /// Si no lo encuentra devuelve null
+        /// </summary>
+        /// <param name="legajo">Legajo asociado a persona</param>
+        public Perfil getPerfilByLegajo(string legajo)
+        {
+            Perfil obtainedPerfil = null;
+            var perfilString = getPerfilListRow(legajo);
+            if (perfilString.Count > 0)//si obtuve un perfil
+            {
+                obtainedPerfil = new Perfil(perfilString);
+                getRolesPerfil(obtainedPerfil);
+            }
+            return obtainedPerfil;
         }
         public List<string> getAllLegajosFromCredenciales()
         {
@@ -270,7 +324,7 @@ namespace Persistencia
             idOpNew = getBiggestNumber(tableOpCambioPersona, 0, idOpNew);
             idOpNew = getBiggestNumber(tableAutorizacion, 0, idOpNew);
             idOpNew++;
-            var newOp = new OperacionCambioCredencial(aCredencial, idOpNew.ToString(), idPerfil);
+            var newOp = new OperacionCambioCredencial(aCredencial, idOpNew.ToString(), idPerfil.Id);
             addRowToTable(tableOpCambioCredencial, newOp.getRowString());
         }
         private int getBiggestNumber(string table, int indexNumberColumn, int previousNumber)

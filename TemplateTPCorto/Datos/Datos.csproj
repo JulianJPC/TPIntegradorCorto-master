@@ -45,7 +45,9 @@
     <Compile Include="Login\Operacion.cs" />
     <Compile Include="Login\OperacionCambioCredencial.cs" />
     <Compile Include="Login\OperacionCambioPersona.cs" />
+    <Compile Include="Login\Perfil.cs" />
     <Compile Include="Login\Persona.cs" />
+    <Compile Include="Login\Rol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ventas\CategoriaProductos.cs" />
     <Compile Include="Ventas\Cliente.cs" />

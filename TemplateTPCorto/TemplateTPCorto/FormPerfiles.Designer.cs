@@ -87,6 +87,7 @@
             this.btnModPersona.TabStop = false;
             this.btnModPersona.Text = "Modificar persona";
             this.btnModPersona.UseVisualStyleBackColor = true;
+            this.btnModPersona.Visible = false;
             this.btnModPersona.Click += new System.EventHandler(this.btnModPersona_Click);
             // 
             // btnAutoPersona
@@ -98,6 +99,7 @@
             this.btnAutoPersona.TabIndex = 5;
             this.btnAutoPersona.Text = "Autorizar Modificar Persona";
             this.btnAutoPersona.UseVisualStyleBackColor = true;
+            this.btnAutoPersona.Visible = false;
             this.btnAutoPersona.Click += new System.EventHandler(this.btnAutoPersona_Click);
             // 
             // btnDesbCredencial
@@ -109,6 +111,7 @@
             this.btnDesbCredencial.TabIndex = 6;
             this.btnDesbCredencial.Text = "Desbloquear Credencial";
             this.btnDesbCredencial.UseVisualStyleBackColor = true;
+            this.btnDesbCredencial.Visible = false;
             this.btnDesbCredencial.Click += new System.EventHandler(this.btnDesbCredencial_Click);
             // 
             // btnAutoCred
@@ -120,6 +123,7 @@
             this.btnAutoCred.TabIndex = 7;
             this.btnAutoCred.Text = "Autorizar Desbloquear Credencial";
             this.btnAutoCred.UseVisualStyleBackColor = true;
+            this.btnAutoCred.Visible = false;
             this.btnAutoCred.Click += new System.EventHandler(this.btnAutoCred_Click);
             // 
             // btnCargarVenta
@@ -131,6 +135,7 @@
             this.btnCargarVenta.TabIndex = 8;
             this.btnCargarVenta.Text = "Cargar Venta";
             this.btnCargarVenta.UseVisualStyleBackColor = true;
+            this.btnCargarVenta.Visible = false;
             this.btnCargarVenta.Click += new System.EventHandler(this.btnCargarVenta_Click);
             // 
             // btnCambiarPass
@@ -141,6 +146,7 @@
             this.btnCambiarPass.TabIndex = 9;
             this.btnCambiarPass.Text = "Cambiar Contraseña";
             this.btnCambiarPass.UseVisualStyleBackColor = true;
+            this.btnCambiarPass.Visible = false;
             this.btnCambiarPass.Click += new System.EventHandler(this.btnCambiarPass_Click);
             // 
             // btnSalir
