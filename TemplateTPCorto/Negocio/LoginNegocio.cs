@@ -50,7 +50,7 @@ namespace Negocio
             return msgError;
         }
         /// <summary>
-        /// Metodo usado en el login, con el usuario y contraseña busca la credencial
+        /// Con el usuario y contraseña busca la credencial y 
         /// De encontrarla la devuelve.
         /// Si no la encuentra lo devuelve null.
         /// </summary>
@@ -61,11 +61,9 @@ namespace Negocio
             return usuarioPersistencia.getCredencialByUsername(usuario); 
         }
         /// <summary>
-        /// Funcion que dado una credencial y una contraseña se fija si primero la contraseña dada es la de la credencial.
-        /// Si no esta bloqueada, se fija si la contraseña es correcta
-        /// despues se fija si esta expirada o es su primer log in
-        /// de ser eso le pide que cambie la contraseña
-        /// de tener exito al cambiar la contraseñá continua
+        /// Funcion que dada una credencial y una contraseña se fija si primero la contraseña dada es la de la credencial.
+        /// Si no esta bloqueada, se fija si la contraseña es correcta despues se fija si esta expirada o es su primer log in
+        /// de ser eso le pide que cambie la contraseña de tener exito al cambiar la contraseñá continua
         /// Actualiza la fecha de login da la credencial y la cambia en la base de datos.
         /// De no ser correcta la contraseña añade el intento en la base de datos.
         /// Obtiene todos los intentos de login de esa cuenta y se fija si son mayores o iguales a 3.
@@ -121,8 +119,7 @@ namespace Negocio
             return msgResult;
         }
         /// <summary>
-        /// Dada la credencial se fija si el ultimo log in esta dentro de los 
-        /// ultimos 29 dias.
+        /// Dada la credencial se fija si el ultimo log in esta dentro de los ultimos 29 dias.
         /// Si esta dentro de los 29 días devuelve true.
         /// Si esta entre 30 o mas devuelve false.
         /// </summary>
@@ -159,8 +156,8 @@ namespace Negocio
             return response;
         }
         /// <summary>
-        /// Funcion que dada una credencial abre el forms de cambio de contraseña con esta.
-        /// Si obtiene una contraseña nueva lo cambia en la credencial y  updatea la base de datos.
+        /// Funcion que dada una credencial abre el forms de cambio de contraseña con esta
+        /// Si obtiene una contraseña nueva lo cambia en la credencial y actualiza la base de datos.
         /// Si lo logra cambiar con exito devuelve true.
         /// Si falla devuleve false.
         /// </summary>

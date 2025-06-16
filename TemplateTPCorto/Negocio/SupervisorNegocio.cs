@@ -47,7 +47,7 @@ namespace Negocio
             formChangePersona.ShowDialog();
         }
         /// <summary>
-        /// Dado toda la info del formulario a cambiar de la persona y el supervisor que lo pide,
+        /// Dada toda la info del formulario a cambiar de la persona y el supervisor que lo pide,
         /// primero se fija si lo valores son válidos,
         /// Si lo valores son validos crea un objeto Persona con esos valores nuevos
         /// Se fija en la persona si son valores aceptables,

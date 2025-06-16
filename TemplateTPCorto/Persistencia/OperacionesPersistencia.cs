@@ -27,10 +27,10 @@ namespace Persistencia
         //                                                         GET
 
         /// <summary>
-        /// Dado el id de la operacion busca en el registro
+        /// Dado el id de la operacion busca en el registro y
         /// la autorizacion con el mismo id y cuando lo encuentra
         /// busca en la tabla de tipo de operacion correspondiente el resto de la info
-        /// al final agrega al objeto Operacion creado la info de autorizacion del principio
+        /// al final agrega al objeto Operacion creado, la info de autorizacion del principio
         /// Si no encunetra devuelve null
         /// </summary>
         /// <param name="idOp">Id de una operacion de cambio de persona</param>
@@ -67,7 +67,7 @@ namespace Persistencia
         /// <summary>
         /// Dado el tipo de operacion busca en la tabla de autorizaciones
         /// todas las autorizaciones pendientes
-        /// de esas filtra y se queda con las filas que tengan el mismo tipo de operacion 
+        /// de estas filtra y se queda con las filas que tengan el mismo tipo de operacion 
         /// y devuelve la lista de los id de esas operaciones.
         /// Si no encuentra nada devuelve la lista vacia
         /// </summary>

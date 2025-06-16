@@ -21,12 +21,14 @@ namespace Datos.Login
         public DateTime FechaSolicitud { get => _fechaSolicitud; set => _fechaSolicitud = value; }
         public string Estado { get => _estado; set => _estado = value; }
         public string TipoOperacion { get => _tipoOperacion; set => _tipoOperacion = value; }
+
         /// <summary>
         /// Obtiene el legajo de solicitante, estado de autorizacion, y el tipo de operacion
         /// para insertar en un estado previo a la autorizacion
         /// </summary>
         /// <param name="legajo">Numero de legajo valido</param>
         /// <param name="tipoOp">El tipo de operacion a autorizar</param>
+        
         public void getDataPreAuto(string legajo, string tipoOp)
         {
             _tipoOperacion = tipoOp;
@@ -45,8 +47,7 @@ namespace Datos.Login
             _fechaAuto = DateTime.Now;
         }
         /// <summary>
-        /// Dada una fila de la base de datos de la tabla de autorizaciones
-        /// llena de valores la operacion con estos valores.
+        /// Dada una fila de la base de datos de la tabla de autorizaciones llena de valores la operacion con estos valores.
         /// </summary>
         /// <param name="registro">Fila de la tabla de autorizaciones</param>
         public void getDataFromAuto(string registro)

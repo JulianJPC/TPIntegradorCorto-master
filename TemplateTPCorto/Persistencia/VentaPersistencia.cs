@@ -16,7 +16,7 @@ namespace Persistencia
         private Guid idUsuario = new Guid("784c07f2-2b26-4973-9235-4064e94832b5");
 
         /// <summary>
-        /// Toma una lista de Ventas y las manda al api a guardar una por una
+        /// Toma una lista de Ventas y las manda a la api a guardar, una por una
         /// Si hay alguna que salga mal las añade en una lista con el nombre del item
         /// Al final devuelve la lista de errores
         /// </summary>
@@ -37,7 +37,7 @@ namespace Persistencia
         }
         
         /// <summary>
-        /// Dada una venta la serializa y postea en el Api.
+        /// Dada una venta la serializa y postea en la Api.
         /// Devuelve el resultado del proceso
         /// </summary>
         /// <param name="unaVenta">Un objeto de venta</param>

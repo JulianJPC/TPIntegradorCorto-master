@@ -24,12 +24,13 @@ namespace Negocio
         /// Saca de cada una solo el id y lo devuelve en lista.
         /// </summary>
         /// <param name="estado">Estado de autorizacion valido</param>
+ 
         public List<string> getAllAutoIdByEstado(string estado)
         {
             return operacionesPersistencia.getAllPendientes(estado);
         }
         /// <summary>
-        /// Busca dado un id de operacion, en la tabla operaciones persona la info,
+        /// Busca dado un id de operacion, en la tabla operaciones la info de la persona,
         /// y en la tabla autorizacion la info para completarla
         /// </summary>
         /// <param name="id">Id de operacion valido</param>

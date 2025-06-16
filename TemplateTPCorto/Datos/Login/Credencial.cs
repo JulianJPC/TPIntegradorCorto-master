@@ -24,8 +24,7 @@ namespace Datos
         public bool isFirstLogIn { get => _isFirstLogIn; set => _isFirstLogIn = value; }
 
         /// <summary>
-        /// Toma la fila de la base de datos sin separar de la tabla de credenciales
-        /// y llena de valores con eso a la Credencial
+        /// Toma la fila de la base de datos sin separar de la tabla de credenciales y llena los valores de la Credencial
         /// </summary>
         /// <param name="registro">String separado con comas de la fila de la tabla de autorizaciones</param>
         public Credencial(string registro)
@@ -46,9 +45,9 @@ namespace Datos
             }
         }
         /// <summary>
-        /// Si los valores de la credencial son adecuados al contexto de la realidad
+        /// Si los valores de la credencial son adecuados al contexto
         /// Si lo son devuelve true
-        /// Si no lo son devuleve false
+        /// Si no lo son devuelve false
         /// </summary>
         public bool passValueTest()
         {
@@ -89,8 +88,7 @@ namespace Datos
             this._isFirstLogIn = false;
         }
         /// <summary>
-        /// Devuleve un string con los valores separados por punto y coma
-        /// para insertar en la BD
+        /// Devuleve un string con los valores separados por punto y coma para insertar en la BD
         /// </summary>
         public string getRowString()
         {
@@ -109,8 +107,7 @@ namespace Datos
             return response;
         }
         /// <summary>
-        /// Devuelve un string con lo valores separados por punto y coma
-        /// para insertar en la BD en la tabla de login intentos
+        /// Devuelve un string con lo valores separados por punto y coma para insertar en la BD en la tabla de login intentos
         /// </summary>
         public string getLogInAttempRowString()
         {

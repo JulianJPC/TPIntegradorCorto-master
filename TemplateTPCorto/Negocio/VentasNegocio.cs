@@ -28,7 +28,7 @@ namespace Negocio
         /// <summary>
         /// Dada una lista de ventas las introduce en el API
         /// Si encuentra algun error en alguna devuelve el string con el error
-        /// Si todo bien devuelve que fue un exito
+        /// Si no se encuentra algun error devuelve que fue un exito
         /// </summary>
         /// <param name="listaVentas">Lista de ventas a procesar</param>
         public string createVenta(List<Venta> listaVentas)
@@ -48,7 +48,7 @@ namespace Negocio
         }
         /// <summary>
         /// Obtiene las categorias desde el API, crea objetos categoriaProductos con estos
-        /// y los añade en una lista y devulve
+        /// y los añade en una lista y devuelve
         /// </summary>
         public List<CategoriaProductos> obtenerCategoriaProductos()
         {

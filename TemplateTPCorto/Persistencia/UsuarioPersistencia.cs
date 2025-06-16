@@ -55,8 +55,7 @@ namespace Persistencia
         }
         /// <summary>
         /// Dada una credencial busca en la tabla de usuarios bloqueados
-        /// si hay filas con el mismo numero de legajo. Las añade en una lista
-        /// y devuelve.
+        /// si hay filas con el mismo numero de legajo. Las añade en una lista y devuelve.
         /// Si no encuentra devuelve la lista vacia.
         /// </summary>
         /// <param name="aCredencial">Credencial de usuario llena de valores</param>
@@ -113,7 +112,7 @@ namespace Persistencia
             return aPersona;
         }
         /// <summary>
-        /// Dado un numero de legajo busca el perfil asoaciado 
+        /// Dado un numero de legajo busca el perfil asociado 
         /// y devuelve la fila de la tabla perfiles de ese legajo.
         /// Si no encuentra devuelve una lista vacia.
         /// </summary>
@@ -131,8 +130,8 @@ namespace Persistencia
             return response;
         }
         /// <summary>
-        /// Dado un perfil busca los roles de este y los inlculye en el Perfil.
-        /// Si no encuentra da de valor una lista vacia de roles al perfil.
+        /// Dado un perfil busca los roles de este y los incluye en el Perfil.
+        /// Si no encuentra devuelve de valor una lista vacia de roles al perfil.
         /// </summary>
         /// <param name="unPerfil"></param>
         private void getRolesPerfil(Perfil unPerfil)
@@ -191,7 +190,7 @@ namespace Persistencia
         //                                                                               UPDATE
 
         /// <summary>
-        /// Dada una credencial updatea las tabla de Credenciales en la fila que tenga el mismo numero de 
+        /// Dada una credencial actualiza la tabla de Credenciales en la fila que tenga el mismo numero de 
         /// legajo que el de la credencial.
         /// Si lo logra devuelve true.
         /// Si no devuelve false.
@@ -207,7 +206,7 @@ namespace Persistencia
         {
             dataBaseUtils.ModificarRegistro(aPersona.getRowString(), tablePersona, 0, aPersona.Legajo);
         }
-        //                                                                               ADD
+        //                                                          ADD
         public void addUsuarioBloqueado(Credencial aCredencial)
         {
             dataBaseUtils.AgregarRegistro(tableUsuarioBloqueado, aCredencial.Legajo);
@@ -216,7 +215,7 @@ namespace Persistencia
         {
             dataBaseUtils.AgregarRegistro(tableLogInIntentos, aCredencial.getLogInAttempRowString());
         }
-        //                                                           DELETE
+        //                                                        DELETE
 
         /// <summary>
         /// Elimina de la table de log in intentos todos los intentos de un legajo determinado

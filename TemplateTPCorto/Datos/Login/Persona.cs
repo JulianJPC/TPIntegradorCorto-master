@@ -75,8 +75,7 @@ namespace Datos.Login
             return response;
         }
         /// <summary>
-        /// Devulevo los valores de la persona separados por punto y coma
-        /// para ser insertados en la tabla de persona en la BD
+        /// Devuelve los valores de la persona separados por punto y coma para ser insertados en la tabla de persona en la BD
         /// </summary>
         public string getRowString()
         {
