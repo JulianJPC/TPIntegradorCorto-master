@@ -41,7 +41,11 @@ namespace Negocio
         /// </summary>
         private void btnDesbloquear_Click(object sender, EventArgs e)
         {
-            if (cmbLegajos.SelectedItem is string)
+            if (txtbPass.Text.Contains(';'))
+            {
+                MessageBox.Show("No puede tener ';' la contraseña.");
+            }
+            else if (cmbLegajos.SelectedItem is string)
             {
                 var legajo = cmbLegajos.SelectedItem as string;
                 var newPass = txtbPass.Text;
@@ -53,7 +57,6 @@ namespace Negocio
             {
                 MessageBox.Show("Número de legajo no valido.");
             }
-                
         }
         /// <summary>
         /// Cuando el combo cambia busca en la base de datos la credencial asociada a ese legajo

@@ -36,9 +36,14 @@ namespace TemplateTPCorto
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             string contraseña = txtpassword.Text;
-            if(contraseña.Length < 8)
+            if (contraseña.Length < 8)
             {
                 MessageBox.Show("La contraseña debe tener al menos 8 caracteres.");
+                return;
+            }
+            else if (contraseña.Contains(';'))
+            {
+                MessageBox.Show("La contraseña no debe de tener ';'.");
                 return;
             }
             else if (contraseña == contraseñaAnterior)
@@ -46,7 +51,7 @@ namespace TemplateTPCorto
                 MessageBox.Show("La nueva contraseña no puede ser igual a la anterior.");
                 return;
             }
-           
+
             else
             {
                 this.contraseñaNueva = contraseña;
@@ -54,6 +59,7 @@ namespace TemplateTPCorto
                 this.Close();
             }
         }
+
 
 
         private void btnCancelar_Click(object sender, EventArgs e)

@@ -63,19 +63,19 @@ namespace Negocio
         {
             var response = "";
             var itsOkValues = true;
-            if (legajo == null || legajo == "")
+            if (legajo == null || legajo == "" || legajo.Contains(';'))
             {
                 itsOkValues = false;
             }
-            if(nombre == null || nombre == "")
+            if (nombre == null || nombre == "" || nombre.Contains(';'))
             {
                 itsOkValues = false;
             }
-            if(apellido == null || apellido == "")
+            if (apellido == null || apellido == "" || apellido.Contains(';'))
             {
                 itsOkValues = false;
             }
-            if (DNI == null || DNI == "")
+            if (DNI == null || DNI == "" || DNI.Contains(';'))
             {
                 itsOkValues = false;
             }
@@ -93,7 +93,7 @@ namespace Negocio
                 }
                 else
                 {
-                    response = "Valores no permitidos en campos";
+                    response = "Valores no permitidos en campos o tienen ';'";
                 }
             }
             else
@@ -102,6 +102,7 @@ namespace Negocio
             }
             return response;
         }
+
         /// <summary>
         /// Obtiene la credencial asociado a un legajo
         /// </summary>
