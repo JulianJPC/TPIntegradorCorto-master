@@ -104,6 +104,10 @@ namespace Negocio
                         msgResult = "Error al actualizar fecha log in";
                     }
                 }
+                else
+                {
+                    msgResult = "Error al establecer nueva contraseña";
+                }
             }
             else// contraseña incorrecta
             {

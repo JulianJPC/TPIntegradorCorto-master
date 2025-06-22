@@ -28,6 +28,7 @@ namespace TemplateTPCorto
             laPersona = unaPersona;
             supervisorNegocio = new SupervisorNegocio();
             administradorNegocio = new AdministradorNegocio();
+            ventasNegocio = new VentasNegocio();
             lblUsuario.Text = laCredencial.NombreUsuario;
             lblPerfilNombre.Text = laPersona.Perfil.Descripcion;
             this.Text = "Acciones";

@@ -6,10 +6,13 @@ idOperacion;tipoOperacion;estado;legajoSolicitante;fechaSolicitud;legajoAutoriza
 4;Desbloqueo;Aprobado;2448;29/05/2025;5343;29/05/2025
 5;Desbloqueo;Rechazado;2191;29/05/2025;5343;29/05/2025
 7;ModPersona;Rechazado;1500;30/5/2025;5343;30/5/2025
-8;Desbloqueo;Pendiente;1500;30/05/2025;;
+8;Desbloqueo;Aprobado;1500;30/5/2025;5343;22/6/2025
 9;ModPersona;Aprobado;1500;30/5/2025;5343;30/5/2025
-10;Desbloqueo;Pendiente;1500;30/05/2025;;
+10;Desbloqueo;Aprobado;1500;30/5/2025;5343;22/6/2025
 11;ModPersona;Rechazado;1500;30/5/2025;5343;30/5/2025
 12;ModPersona;Aprobado;1500;30/5/2025;5343;30/5/2025
 13;Desbloqueo;Rechazado;1500;30/5/2025;5343;30/5/2025
 14;Desbloqueo;Aprobado;1500;30/5/2025;5343;30/5/2025
+15;ModPersona;Aprobado;1500;22/6/2025;5343;22/6/2025
+16;Desbloqueo;Aprobado;1500;22/6/2025;5343;22/6/2025
+17;Desbloqueo;Aprobado;1500;22/6/2025;5343;22/6/2025
